@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { rateLimit } from 'express-rate-limit';
 import crypto from 'crypto';
 import { saveDevis } from '../data/storage.js';
 import { generatePDF } from '../services/pdfService.js';
@@ -7,13 +6,7 @@ import { sendDevisEmails } from '../services/mailService.js';
 
 const router = Router();
 
-const devisLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
-  message: { error: 'Trop de demandes. Veuillez réessayer dans 15 minutes.' }
-});
-
-router.post('/devis', devisLimiter, async (req, res) => {
+router.post('/devis', async (req, res) => {
   try {
     const {
       societe,

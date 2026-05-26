@@ -29,8 +29,10 @@ export async function sendDevisEmails(devis, pdfBuffer) {
     contentType: 'application/pdf'
   };
 
+  const from = process.env.SMTP_FROM;
+
   await transporter.sendMail({
-    from: process.env.SMTP_USER,
+    from,
     to: devis.email,
     subject: `Maison Buna — Confirmation de votre demande de devis`,
     html: clientTemplate(devis),
@@ -39,7 +41,7 @@ export async function sendDevisEmails(devis, pdfBuffer) {
   console.log(`Email client envoyé à ${devis.email}`);
 
   await transporter.sendMail({
-    from: process.env.SMTP_USER,
+    from,
     to: process.env.ADMIN_EMAIL,
     subject: `[Maison Buna] Nouvelle demande de devis — ${devis.societe}`,
     html: adminTemplate(devis),
