@@ -161,6 +161,29 @@ Ils ne savent que ce qui est dans leur prompt.
 Les hooks PostToolUse ne se déclenchent PAS dans les sous-agents.
 Ne pas compter sur eux pour la validation — l'inclure dans le prompt.
 
+## Pipeline multi-agents — ordre obligatoire
+
+Quand on construit une feature, toujours respecter cet ordre :
+
+1. UX Designer    -> crée les templates (reports/dev-report.md : "UX Designer — DONE")
+2. Développeur    -> construit le serveur (reports/dev-report.md : "Développeur — DONE")
+3. Testeur        -> valide les fonctionnalités (reports/test-report.md : "DONE")
+4. Code Reviewer  -> audite la qualité (reports/review-report.md : "APPROUVÉ")
+5. Sécurité       -> audite les vulnérabilités (reports/security-report.md : "SÛR")
+
+En cas d'échec :
+- Testeur FAILED -> retour Développeur avec reports/test-report.md
+- Reviewer BLOQUANT -> retour Développeur avec reports/review-report.md
+- Sécurité BLOQUANT -> retour Développeur avec reports/security-report.md
+
+Fichiers de communication entre agents :
+- reports/dev-report.md      <- UX Designer + Développeur écrivent ici
+- reports/test-report.md     <- Testeur écrit ici
+- reports/review-report.md   <- Reviewer écrit ici
+- reports/security-report.md <- Sécurité écrit ici
+
+---
+
 ## Démarrage de session — OBLIGATOIRE ET PRIORITAIRE
 
 **Ta toute première réponse dans le chat doit TOUJOURS afficher le résumé du handoff.**
