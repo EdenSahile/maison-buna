@@ -1,0 +1,91 @@
+# Hook SessionStart — Limitation et solution
+
+**Date de découverte :** 2026-05-25  
+**Projet :** Maison Buna Devis  
+
+---
+
+## Le problème
+
+Le hook `SessionStart` configuré dans `.claude/settings.json` s'exécute 
+bien en arrière-plan au démarrage de chaque session Claude Code, mais 
+**son output n'est pas affiché dans l'interface Claude Code**.
+
+### Preuve que le hook fonctionne
+
+En lançant manuellement dans un terminal bash :
+```bash
+node .claude/hooks/session-start.js
+```
+Le contenu du dernier handoff s'affiche correctement.
+
+### Mais dans Claude Code
+
+L'output du hook est exécuté silencieusement — Claude ne le voit pas 
+et ne peut pas l'utiliser pour contextualiser la session.
+
+---
+
+## Résumé visuel
+
+| Contexte | Hook SessionStart | Output visible ? |
+|---|---|---|
+| Terminal bash manuel | ✅ s'exécute | ✅ oui |
+| Claude Code au démarrage | ✅ s'exécute | ❌ non |
+
+---
+
+## La solution : instruction dans CLAUDE.md
+
+Puisque Claude lit `CLAUDE.md` **automatiquement et entièrement** 
+à chaque démarrage de session, on y ajoute une instruction de démarrage 
+obligatoire que Claude suit systématiquement.
+
+### Section à ajouter à la fin de `CLAUDE.md`
+
+```markdown
+## Démarrage de session — obligatoire
+
+Au début de chaque session, avant toute action :
+1. Lire le fichier le plus récent dans `handoffs/`
+   (tri alphabétique = le dernier)
+2. Afficher son contenu complet
+3. Résumer l'état du projet et les prochaines étapes
+4. Demander : "Voulez-vous continuer avec la tâche suivante ?"
+```
+
+---
+
+## Pourquoi ça fonctionne
+
+```
+Nouvelle session Claude Code
+        ↓
+Claude lit CLAUDE.md automatiquement ✅
+        ↓
+Voit l'instruction "Démarrage de session"
+        ↓
+Lit et affiche le dernier fichier dans handoffs/
+        ↓
+Résume l'état et propose les prochaines étapes ✅
+```
+
+---
+
+## Ce qu'on garde quand même
+
+Le hook `session-start.js` reste utile pour **d'autres usages** :
+- Vérifications système au démarrage
+- Logs externes
+- Scripts de validation de l'environnement
+
+Mais pour **afficher du contexte à Claude** → toujours passer par `CLAUDE.md`.
+
+---
+
+## Leçon générale
+
+> Les hooks Claude Code s'exécutent en arrière-plan.  
+> Leur output n'est **jamais injecté** dans la conversation.  
+> Pour qu'une information soit vue par Claude au démarrage,  
+> elle doit être dans `CLAUDE.md` ou passée explicitement dans le prompt.
