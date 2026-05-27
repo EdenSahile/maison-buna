@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devis Maison Buna</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    html, body {
+      width: 210mm;
+      min-height: 297mm;
+      background: #FAF7F3;
+      font-family: 'Jost', sans-serif;
+      font-size: 10pt;
+      color: #2e2010;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────── */
+    .header {
+      background: #2e2010;
+      color: #FAF7F3;
+      padding: 32px 48px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .header-monogram svg {
+      width: 52px;
+      height: 52px;
+    }
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .header-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26pt;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #FAF7F3;
+      line-height: 1;
+    }
+
+    .header-tagline {
+      font-family: 'Jost', sans-serif;
+      font-size: 8pt;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #D3C2AC;
+    }
+
+    .header-meta {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .devis-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14pt;
+      font-weight: 500;
+      color: #FAF7F3;
+      letter-spacing: 0.05em;
+    }
+
+    .devis-date {
+      font-family: 'Jost', sans-serif;
+      font-size: 8pt;
+      font-weight: 300;
+      color: #D3C2AC;
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── DIVIDER ─────────────────────────────────────────── */
+    .divider {
+      height: 4px;
+      background: linear-gradient(90deg, #4F3422 0%, #AB9679 60%, #D3C2AC 100%);
+    }
+
+    /* ─── BODY ────────────────────────────────────────────── */
+    .body {
+      padding: 40px 48px 32px;
+    }
+
+    /* ─── INTRO TITLE ─────────────────────────────────────── */
+    .intro-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18pt;
+      font-weight: 400;
+      color: #4F3422;
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+    }
+
+    .intro-subtitle {
+      font-family: 'Jost', sans-serif;
+      font-size: 9pt;
+      font-weight: 300;
+      color: #AB9679;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #D3C2AC;
+    }
+
+    /* ─── TWO COLUMNS ─────────────────────────────────────── */
+    .columns {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 36px;
+    }
+
+    .column {
+      flex: 1;
+    }
+
+    .column-title {
+      font-family: 'Jost', sans-serif;
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #AB9679;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #D3C2AC;
+    }
+
+    /* ─── DATA ROWS ───────────────────────────────────────── */
+    .data-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: baseline;
+    }
+
+    .data-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 7.5pt;
+      font-weight: 500;
+      color: #AB9679;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      min-width: 88px;
+      flex-shrink: 0;
+    }
+
+    .data-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11pt;
+      font-weight: 400;
+      color: #2e2010;
+      line-height: 1.3;
+    }
+
+    .data-value.empty {
+      color: #D3C2AC;
+      font-style: italic;
+      font-size: 9.5pt;
+    }
+
+    /* ─── MOUTURES LIST ───────────────────────────────────── */
+    .moutures-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 3px;
+    }
+
+    .mouture-tag {
+      background: #D3C2AC;
+      color: #2e2010;
+      font-family: 'Jost', sans-serif;
+      font-size: 7.5pt;
+      font-weight: 400;
+      padding: 2px 8px;
+      border-radius: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── MESSAGE SECTION ─────────────────────────────────── */
+    .message-section {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: #FAF7F3;
+      border: 1px solid #D3C2AC;
+      border-left: 3px solid #4F3422;
+    }
+
+    .message-title {
+      font-family: 'Jost', sans-serif;
+      font-size: 7pt;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #AB9679;
+      margin-bottom: 10px;
+    }
+
+    .message-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11pt;
+      font-weight: 400;
+      color: #2e2010;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* ─── NOTICE ──────────────────────────────────────────── */
+    .notice {
+      margin-top: 32px;
+      padding: 16px 20px;
+      background: #FAF7F3;
+      border: 1px solid #D3C2AC;
+      border-radius: 2px;
+    }
+
+    .notice-text {
+      font-family: 'Jost', sans-serif;
+      font-size: 8pt;
+      font-weight: 300;
+      color: #AB9679;
+      line-height: 1.6;
+      text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #2e2010;
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11pt;
+      font-weight: 500;
+      color: #FAF7F3;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-contact {
+      font-family: 'Jost', sans-serif;
+      font-size: 7.5pt;
+      font-weight: 300;
+      color: #D3C2AC;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-separator {
+      color: #AB9679;
+      margin: 0 8px;
+    }
+
+    @media print {
+      .footer {
+        position: fixed;
+        bottom: 0;
+      }
+      .body {
+        padding-bottom: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ─────────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="header-monogram">
+        <!-- Monogramme MB en SVG élégant -->
+        <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="25" stroke="#D3C2AC" stroke-width="1"/>
+          <circle cx="26" cy="26" r="23" stroke="#AB9679" stroke-width="0.5" stroke-dasharray="2 3"/>
+          <text x="26" y="33"
+                font-family="Cormorant Garamond, serif"
+                font-size="18"
+                font-weight="600"
+                fill="#FAF7F3"
+                text-anchor="middle"
+                letter-spacing="1">MB</text>
+        </svg>
+      </div>
+      <div class="header-text">
+        <div class="header-name">Maison Buna</div>
+        <div class="header-tagline">Le berceau du café</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="devis-number">Devis N° {{id}}</div>
+      <div class="devis-date">{{timestamp}}</div>
+    </div>
+  </header>
+
+  <!-- ── DIVIDER ─────────────────────────────────────────── -->
+  <div class="divider"></div>
+
+  <!-- ── BODY ───────────────────────────────────────────── -->
+  <div class="body">
+
+    <div class="intro-title">Demande de devis</div>
+    <div class="intro-subtitle">Document préparé à votre attention</div>
+
+    <!-- ── DEUX COLONNES ──────────────────────────────────── -->
+    <div class="columns">
+
+      <!-- Colonne gauche : Informations client -->
+      <div class="column">
+        <div class="column-title">Informations client</div>
+
+        <div class="data-row">
+          <div class="data-label">Société</div>
+          <div class="data-value">{{societe}}</div>
+        </div>
+
+        <div class="data-row">
+          <div class="data-label">Contact</div>
+          <div class="data-value">{{prenom}} {{nom}}</div>
+        </div>
+
+        <div class="data-row">
+          <div class="data-label">Email</div>
+          <div class="data-value">{{email}}</div>
+        </div>
+
+        {{#if telephone}}
+        <div class="data-row">
+          <div class="data-label">Téléphone</div>
+          <div class="data-value">{{telephone}}</div>
+        </div>
+        {{/if}}
+
+        <div class="data-row">
+          <div class="data-label">Collaborateurs</div>
+          <div class="data-value">{{collaborateurs}}</div>
+        </div>
+
+        {{#if ville}}
+        <div class="data-row">
+          <div class="data-label">Ville</div>
+          <div class="data-value">{{ville}}</div>
+        </div>
+        {{/if}}
+
+        {{#if secteur}}
+        <div class="data-row">
+          <div class="data-label">Secteur</div>
+          <div class="data-value">{{secteur}}</div>
+        </div>
+        {{/if}}
+      </div>
+
+      <!-- Colonne droite : Votre commande -->
+      <div class="column">
+        <div class="column-title">Votre commande</div>
+
+        <div class="data-row">
+          <div class="data-label">Quantité</div>
+          <div class="data-value">{{quantite}}</div>
+        </div>
+
+        {{#if frequence}}
+        <div class="data-row">
+          <div class="data-label">Fréquence</div>
+          <div class="data-value">{{frequence}}</div>
+        </div>
+        {{/if}}
+
+        {{#if moutures}}
+        <div class="data-row">
+          <div class="data-label">Moutures</div>
+          <div class="data-value">
+            <div class="moutures-list">
+              {{#each moutures}}
+              <span class="mouture-tag">{{this}}</span>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+        {{/if}}
+
+      </div>
+    </div>
+
+    <!-- ── MESSAGE LIBRE ──────────────────────────────────── -->
+    {{#if message}}
+    <div class="message-section">
+      <div class="message-title">Message</div>
+      <div class="message-text">{{message}}</div>
+    </div>
+    {{/if}}
+
+    <!-- ── NOTICE ─────────────────────────────────────────── -->
+    <div class="notice">
+      <div class="notice-text">
+        Ce document est une confirmation de réception de votre demande de devis.
+        Notre équipe vous adressera une proposition commerciale personnalisée sous 48 heures ouvrées.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-brand">Maison Buna</div>
+    <div class="footer-contact">
+      contact@maisonbuna.fr
+      <span class="footer-separator">·</span>
+      www.maisonbuna.fr
+    </div>
+  </footer>
+
+</body>
+</html>

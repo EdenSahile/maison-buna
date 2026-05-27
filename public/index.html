@@ -1550,7 +1550,7 @@
   });
 
   // ===== Submit =====
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
     const d = getData();
     const isEnt = d.audience === 'entreprise';
@@ -1592,6 +1592,46 @@
         ? document.getElementById('section-3')
         : document.getElementById('field-' + firstInvalid);
       el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Envoi au serveur
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const submitBtnSpan = submitBtn.querySelector('span');
+    const originalLabel = submitBtnSpan.textContent;
+    submitBtn.disabled = true;
+    submitBtnSpan.textContent = 'Envoi en cours…';
+
+    try {
+      const payload = {
+        societe: isEnt ? d.societe : 'Particulier',
+        prenom: d.prenom,
+        nom: d.nom,
+        email: d.email,
+        telephone: d.tel,
+        collaborateurs: isEnt ? d.collaborateurs : '',
+        secteur: d.secteur,
+        ville: d.ville,
+        quantite: isEnt ? d.quantite : d.quantiteP,
+        frequence: d.frequence,
+        moutures: d.moutures,
+        message: d.message
+      };
+
+      const res = await fetch('/api/devis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Erreur lors de l\'envoi. Veuillez réessayer.');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtnSpan.textContent = originalLabel;
+      alert(err.message);
       return;
     }
 
