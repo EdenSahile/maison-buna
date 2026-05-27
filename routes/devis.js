@@ -55,16 +55,18 @@ router.post('/devis', async (req, res) => {
 
     saveDevis(devis);
 
-    const pdfBuffer = await generatePDF(devis);
-
-    // Envoi email best-effort — ne bloque pas la réponse
-    try {
-      await sendDevisEmails(devis, pdfBuffer);
-    } catch (mailErr) {
-      console.error('Erreur envoi email (non bloquant) :', mailErr.message);
-    }
-
+    // Répondre IMMÉDIATEMENT — ne pas attendre le PDF ni les emails
     res.json({ success: true, id: devis.id });
+
+    // Traitement en arrière-plan (PDF + emails) — ne bloque plus la réponse
+    setImmediate(async () => {
+      try {
+        const pdfBuffer = await generatePDF(devis);
+        await sendDevisEmails(devis, pdfBuffer);
+      } catch (err) {
+        console.error('Erreur traitement arrière-plan :', err.message);
+      }
+    });
   } catch (err) {
     console.error('Erreur /api/devis :', err);
     res.status(500).json({ error: 'Une erreur est survenue. Veuillez réessayer.' });
