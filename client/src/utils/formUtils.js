@@ -5,7 +5,7 @@ export const INITIAL_FORM_DATA = {
   societe: '', secteur: '', collaborateurs: '',
   adresse: '', codepostal: '', ville: '',
   prenom: '', nom: '', email: '', telephone: '',
-  quantite: '', frequence: '', moutures: [],
+  cafes: [], quantite: '', frequence: '', moutures: [],
   message: '',
 }
 
@@ -25,6 +25,7 @@ export function validate(formData, audience) {
   if (!formData.prenom) errors.prenom = 'Veuillez renseigner votre prénom'
   if (!formData.nom) errors.nom = 'Veuillez renseigner votre nom'
   if (!validateEmail(formData.email)) errors.email = 'Email invalide'
+  if (!formData.cafes?.length) errors.cafes = 'Veuillez sélectionner au moins un café'
   if (!formData.quantite) errors.quantite = 'Veuillez sélectionner une quantité indicative'
 
   return errors
@@ -37,7 +38,7 @@ export function computeStepProgress(formData, audience) {
       ? !!(formData.societe && formData.collaborateurs)
       : !!(formData.adresse && validateCP(formData.codepostal) && formData.ville),
     !!(formData.prenom && formData.nom && validateEmail(formData.email)),
-    !!formData.quantite,
+    !!(formData.cafes?.length && formData.quantite),
     true,
   ]
 }
@@ -53,6 +54,7 @@ export function computeProgress(formData, audience) {
       (formData.prenom ? 1 : 0) +
       (formData.nom ? 1 : 0) +
       (validateEmail(formData.email) ? 1 : 0) +
+      (formData.cafes?.length ? 1 : 0) +
       (formData.quantite ? 1 : 0) +
       (formData.frequence ? 0.5 : 0) +
       (formData.moutures.length ? 0.5 : 0) +
@@ -60,7 +62,7 @@ export function computeProgress(formData, audience) {
       (formData.telephone ? 0.3 : 0) +
       (formData.ville ? 0.3 : 0) +
       (formData.message ? 0.6 : 0)
-    total = 1+1+1+1+1+1+0.5+0.5+0.3+0.3+0.3+0.6
+    total = 1+1+1+1+1+1+1+0.5+0.5+0.3+0.3+0.3+0.6
   } else {
     filled =
       (formData.adresse ? 1 : 0) +
@@ -69,12 +71,13 @@ export function computeProgress(formData, audience) {
       (formData.prenom ? 1 : 0) +
       (formData.nom ? 1 : 0) +
       (validateEmail(formData.email) ? 1 : 0) +
+      (formData.cafes?.length ? 1 : 0) +
       (formData.quantite ? 1 : 0) +
       (formData.frequence ? 0.5 : 0) +
       (formData.moutures.length ? 0.5 : 0) +
       (formData.telephone ? 0.3 : 0) +
       (formData.message ? 0.6 : 0)
-    total = 1+1+1+1+1+1+1+0.5+0.5+0.3+0.6
+    total = 1+1+1+1+1+1+1+1+0.5+0.5+0.3+0.6
   }
 
   return Math.min(100, Math.round((filled / total) * 100))
@@ -93,6 +96,7 @@ export function buildPayload(formData, audience) {
     adresse: !isEnt ? formData.adresse : '',
     codepostal: !isEnt ? formData.codepostal : '',
     ville: formData.ville,
+    cafes: formData.cafes,
     quantite: formData.quantite,
     frequence: formData.frequence,
     moutures: formData.moutures,

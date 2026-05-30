@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import SectionHead from './Reusable-ui/SectionHead'
 import ChoiceGrid from './Reusable-ui/ChoiceGrid'
+import CoffeeGrid from './CoffeeGrid'
 
 const Section = styled.section`
   padding-top: 48px;
@@ -63,6 +64,17 @@ export default function SectionCommande({ audience, formData, errors, onChange }
   return (
     <Section id="section-3" data-step="3">
       <SectionHead num="03" title="Votre commande" step="Étape 3 / 4" />
+
+      <FieldBlock id="field-cafes">
+        <FieldLabel>
+          Café(s) souhaité(s) <span className="req">*</span> <span className="opt">plusieurs choix possibles</span>
+        </FieldLabel>
+        <CoffeeGrid
+          value={formData.cafes}
+          onChange={arr => onChange('cafes', arr)}
+          error={errors.cafes}
+        />
+      </FieldBlock>
 
       <div id="field-quantite">
         <FieldLabel>

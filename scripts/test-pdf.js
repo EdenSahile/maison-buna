@@ -30,12 +30,12 @@ const devisTest = {
   frequence: 'Mensuelle',
   moutures: ['Grains entiers', 'Mouture filtre'],
   message: 'Nous souhaitons découvrir vos cafés éthiopiens pour notre espace détente.',
-  pricing: {
-    designation:   'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
-    qte_label:     '1 kg',
-    pu_ttc_fmt:    fmt(52.00),
-    total_ttc_fmt: fmt(52.00),
-  },
+  cafes: ['Limmu', 'Yirgacheffe'],
+  pricing_rows: [
+    { cafe: 'Limmu',       region: 'Région Limmu · Éthiopie',       designation: 'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France', qte_label: '1 kg', pu_ttc_fmt: fmt(52.00), total_ttc_fmt: fmt(52.00) },
+    { cafe: 'Yirgacheffe', region: 'Région Yirgacheffe · Éthiopie', designation: 'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France', qte_label: '1 kg', pu_ttc_fmt: fmt(52.00), total_ttc_fmt: fmt(52.00) },
+  ],
+  grand_total_fmt: fmt(104.00),
   sur_devis: false,
   is_particulier: false,
 };
