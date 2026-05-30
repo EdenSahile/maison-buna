@@ -54,7 +54,7 @@
                       {{timestamp}}
                     </div>
                     <div style="font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:300;color:#D3C2AC;text-align:right;margin-top:4px;letter-spacing:0.06em;">
-                      Réf. {{id}}
+                      {{devis_numero}}
                     </div>
                   </td>
                 </tr>
@@ -118,7 +118,18 @@
                   </td>
                 </tr>
 
-                <!-- Collaborateurs -->
+                <!-- Particulier : adresse de livraison -->
+                {{#if is_particulier}}
+                <tr>
+                  <td width="38%" style="background-color:#FAF7F3;padding:11px 16px;font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;border-right:1px solid #D3C2AC;">
+                    Adresse
+                  </td>
+                  <td style="background-color:#FAF7F3;padding:11px 16px;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:400;color:#2e2010;border-bottom:1px solid #D3C2AC;">
+                    {{adresse}}<br>{{codepostal}} {{ville}}
+                  </td>
+                </tr>
+                {{else}}
+                <!-- Entreprise : collaborateurs + ville + secteur -->
                 <tr>
                   <td width="38%" style="background-color:#FAF7F3;padding:11px 16px;font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;border-right:1px solid #D3C2AC;">
                     Collaborateurs
@@ -127,8 +138,6 @@
                     {{collaborateurs}}
                   </td>
                 </tr>
-
-                <!-- Ville -->
                 <tr>
                   <td width="38%" style="background-color:#ffffff;padding:11px 16px;font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;border-right:1px solid #D3C2AC;">
                     Ville
@@ -137,8 +146,6 @@
                     {{#if ville}}{{ville}}{{else}}<span style="color:#D3C2AC;font-style:italic;">Non renseignée</span>{{/if}}
                   </td>
                 </tr>
-
-                <!-- Secteur -->
                 <tr>
                   <td width="38%" style="background-color:#FAF7F3;padding:11px 16px;font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-right:1px solid #D3C2AC;">
                     Secteur
@@ -147,6 +154,7 @@
                     {{#if secteur}}{{secteur}}{{else}}<span style="color:#D3C2AC;font-style:italic;">Non renseigné</span>{{/if}}
                   </td>
                 </tr>
+                {{/if}}
 
               </table>
 
