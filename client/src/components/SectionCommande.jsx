@@ -28,18 +28,18 @@ const FieldLabel = styled.div`
 `
 
 const ENT_QUANTITE = [
-  { value: '250 g', label: '250 g', sub: '14,99 €' },
-  { value: '500 g – 1 kg', label: '500 g – 1 kg', sub: 'à partir de 28 €' },
-  { value: '1 – 3 kg', label: '1 – 3 kg', sub: 'à partir de 52 €' },
-  { value: '3 – 5 kg', label: '3 – 5 kg', sub: 'à partir de 145 €' },
+  { value: '250 g', label: '250 g', sub: '14,99 € · par café' },
+  { value: '500 g – 1 kg', label: '500 g – 1 kg', sub: 'dès 28 € · par café' },
+  { value: '1 – 3 kg', label: '1 – 3 kg', sub: 'dès 52 € · par café' },
+  { value: '3 – 5 kg', label: '3 – 5 kg', sub: 'dès 145 € · par café' },
   { value: 'À estimer', label: 'À estimer', sub: 'Sur devis' },
 ]
 
 const PART_QUANTITE = [
-  { value: '250 g — Découverte', label: '250 g', sub: '14,99 €' },
-  { value: '500 g — 1 personne', label: '500 g', sub: '26,50 €' },
-  { value: '1 kg — Couple', label: '1 kg', sub: '49,99 €' },
-  { value: '2 kg — Famille', label: '2 kg', sub: '94,99 €' },
+  { value: '250 g — Découverte', label: '250 g', sub: '14,99 € · par café' },
+  { value: '500 g — 1 personne', label: '500 g', sub: '26,50 € · par café' },
+  { value: '1 kg — Couple', label: '1 kg', sub: '49,99 € · par café' },
+  { value: '2 kg — Famille', label: '2 kg', sub: '94,99 € · par café' },
   { value: 'Abonnement découverte', label: 'Abonnement', sub: 'dès 12,99 €/mois' },
   { value: 'Coffret cadeau', label: 'Cadeau', sub: 'à partir de 34,99 €' },
 ]
