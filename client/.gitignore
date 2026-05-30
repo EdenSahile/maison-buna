@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Playground local (non commité)
+src/playground/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
