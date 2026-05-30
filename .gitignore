@@ -2,3 +2,4 @@
 node_modules/
 data/devis.json
 scripts/test-output.pdf
+.playwright-mcp/
