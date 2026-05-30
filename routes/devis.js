@@ -6,21 +6,19 @@ import { sendDevisEmails } from '../services/mailService.js';
 
 const router = Router();
 
-const TVA = 5.5;
-
-// Prix HT par quantité — devis indicatif (à ajuster selon tarifs réels)
+// Prix TTC par quantité — TVA non applicable art. 293 B CGI (franchise en base)
 const PRICING = {
-  '250 g':               { pu_ht: 14.21, qte_label: '250 g',      sur_devis: false },
-  '500 g – 1 kg':        { pu_ht: 25.12, qte_label: '500 g',      sur_devis: false },
-  '1 – 3 kg':            { pu_ht: 47.38, qte_label: '1 kg',       sur_devis: false },
-  '3 – 5 kg':            { pu_ht: 132.69, qte_label: '3 kg',      sur_devis: false },
-  'À estimer':           { pu_ht: 0,     qte_label: '',            sur_devis: true  },
-  '250 g — Découverte':  { pu_ht: 14.21, qte_label: '250 g',      sur_devis: false },
-  '500 g — 1 personne':  { pu_ht: 25.12, qte_label: '500 g',      sur_devis: false },
-  '1 kg — Couple':       { pu_ht: 47.38, qte_label: '1 kg',       sur_devis: false },
-  '2 kg — Famille':      { pu_ht: 90.04, qte_label: '2 kg',       sur_devis: false },
-  'Abonnement découverte': { pu_ht: 11.37, qte_label: '250 g/mois', sur_devis: false },
-  'Coffret cadeau':      { pu_ht: 33.18, qte_label: '1 coffret',  sur_devis: false },
+  '250 g':               { pu_ttc: 14.99, qte_label: '250 g',      sur_devis: false },
+  '500 g – 1 kg':        { pu_ttc: 28.00, qte_label: '500 g',      sur_devis: false },
+  '1 – 3 kg':            { pu_ttc: 52.00, qte_label: '1 kg',       sur_devis: false },
+  '3 – 5 kg':            { pu_ttc: 145.00, qte_label: '3 kg',      sur_devis: false },
+  'À estimer':           { pu_ttc: 0,     qte_label: '',            sur_devis: true  },
+  '250 g — Découverte':  { pu_ttc: 14.99, qte_label: '250 g',      sur_devis: false },
+  '500 g — 1 personne':  { pu_ttc: 26.50, qte_label: '500 g',      sur_devis: false },
+  '1 kg — Couple':       { pu_ttc: 49.99, qte_label: '1 kg',       sur_devis: false },
+  '2 kg — Famille':      { pu_ttc: 94.99, qte_label: '2 kg',       sur_devis: false },
+  'Abonnement découverte': { pu_ttc: 12.99, qte_label: '250 g/mois', sur_devis: false },
+  'Coffret cadeau':      { pu_ttc: 34.99, qte_label: '1 coffret',  sur_devis: false },
 };
 
 function formatDate(d) {
@@ -34,17 +32,11 @@ function fmt(n) {
 function computePricing(quantite) {
   const entry = PRICING[quantite];
   if (!entry || entry.sur_devis) return null;
-  const total_ht  = entry.pu_ht;
-  const tva       = Math.round(total_ht * TVA) / 100;
-  const total_ttc = total_ht + tva;
   return {
-    designation: 'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
-    qte_label:   entry.qte_label,
-    pu_ht_fmt:   fmt(entry.pu_ht),
-    total_ht_fmt: fmt(total_ht),
-    tva_taux:    TVA,
-    tva_fmt:     fmt(tva),
-    total_ttc_fmt: fmt(total_ttc),
+    designation:   'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
+    qte_label:     entry.qte_label,
+    pu_ttc_fmt:    fmt(entry.pu_ttc),
+    total_ttc_fmt: fmt(entry.pu_ttc),
   };
 }
 
@@ -95,10 +87,9 @@ router.post('/devis', async (req, res) => {
       // Commande
       quantite, frequence: frequence || '', moutures: moutures || [], message: message || '',
       // Pricing
-      pricing:      computePricing(quantite),
-      sur_devis:    !computePricing(quantite),
+      pricing:        computePricing(quantite),
+      sur_devis:      !computePricing(quantite),
       is_particulier: isParticulier,
-      tva_taux: TVA,
     };
 
     saveDevis(devis);
