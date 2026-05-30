@@ -480,14 +480,14 @@
 
       <div class="party-block vendeur">
         <div class="party-title">Prestataire</div>
-        <div class="party-name">Maison Buna SAS</div>
+        <div class="party-name">Maison Buna</div>
         <div class="party-line">24 rue du Faubourg Saint-Antoine</div>
         <div class="party-line">75012 Paris, France</div>
         <div class="party-line">contact@maisonbuna.fr</div>
         <div class="party-line">www.maisonbuna.fr</div>
         <div class="party-line muted">
-          SIRET : 987 654 321 00024 (fictif)<br>
-          TVA intracommunautaire : FR 98 987654321
+          SIRET : [À COMPLÉTER]<br>
+          TVA non applicable — art. 293 B du CGI
         </div>
       </div>
 
@@ -526,8 +526,8 @@
           <tr>
             <th style="width:48%">Désignation</th>
             <th>Quantité</th>
-            <th class="right">P.U. HT</th>
-            <th class="right">Montant HT</th>
+            <th class="right">P.U.</th>
+            <th class="right">Montant TTC</th>
           </tr>
         </thead>
         <tbody>
@@ -537,21 +537,16 @@
               <span class="product-detail">Arabica grade 1 · Score SCA 87/100 · Origines : Yirgacheffe, Sidamo, Limu</span>
             </td>
             <td>{{pricing.qte_label}}</td>
-            <td class="right">{{pricing.pu_ht_fmt}}</td>
-            <td class="right">{{pricing.total_ht_fmt}}</td>
+            <td class="right">{{pricing.pu_ttc_fmt}}</td>
+            <td class="right">{{pricing.total_ttc_fmt}}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="totaux">
-      <div class="total-row">
-        <span class="label">Sous-total HT</span>
-        <span class="value">{{pricing.total_ht_fmt}}</span>
-      </div>
-      <div class="total-row">
-        <span class="label">TVA {{pricing.tva_taux}} %</span>
-        <span class="value">{{pricing.tva_fmt}}</span>
+      <div class="total-row muted" style="font-size:10px;color:#AB9679;">
+        <span class="label">TVA non applicable — art. 293 B du CGI</span>
       </div>
       <div class="total-row ttc">
         <span class="label">Total TTC</span>
@@ -609,8 +604,8 @@
       <div class="conditions-title">Conditions générales</div>
       <ul class="conditions-list">
         <li>Ce devis est valable 30 jours à compter de sa date d'émission ({{date_emission}}).</li>
-        <li>Les prix indiqués sont des estimations indicatives hors taxes (HT). Le devis définitif sera confirmé par email sous 48 heures.</li>
-        <li>TVA applicable : 5,5 % (denrée alimentaire — café torréfié, article 278-0 bis CGI).</li>
+        <li>Les prix indiqués sont des estimations indicatives toutes taxes comprises (TTC). Le devis définitif sera confirmé par email sous 48 heures.</li>
+        <li>TVA non applicable — article 293 B du CGI (franchise en base de TVA).</li>
         <li>Livraison en France métropolitaine. Frais de port calculés selon le volume et l'adresse.</li>
         <li>Règlement : virement bancaire à 30 jours date de facture (B2B) ou à réception (B2C).</li>
         {{#if is_particulier}}<li>Droit de rétractation : 14 jours à compter de la réception du produit (art. L.221-18 Code de la consommation).</li>{{/if}}
@@ -620,9 +615,9 @@
 
     <!-- ── MENTIONS LÉGALES ───────────────────────────────── -->
     <div class="legal">
-      Maison Buna SAS — Société par actions simplifiée au capital de 10 000 € — Siège social : 24 rue du Faubourg Saint-Antoine, 75012 Paris —
-      SIRET : 987 654 321 00024 (fictif) — TVA intracommunautaire : FR 98 987654321 —
-      RCS Paris B 987 654 321 — Code APE : 1083Z (Fabrication de thé et de café).
+      Maison Buna — Entreprise individuelle — Siège social : 24 rue du Faubourg Saint-Antoine, 75012 Paris —
+      SIRET : [À COMPLÉTER] — TVA non applicable, art. 293 B du CGI —
+      Code APE : 1083Z (Fabrication de thé et de café).
       Document généré automatiquement et non signé — valeur contractuelle après confirmation écrite.
     </div>
 
