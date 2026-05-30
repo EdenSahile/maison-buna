@@ -74,7 +74,11 @@
 
               <!-- Message principal -->
               <p style="font-family:'Jost',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 12px 0;">
+                {{#if is_particulier}}
+                Nous avons bien reçu votre demande de devis et nous vous en remercions chaleureusement.
+                {{else}}
                 Nous avons bien reçu la demande de devis de <strong style="font-weight:500;">{{societe}}</strong> et nous vous en remercions chaleureusement.
+                {{/if}}
               </p>
               <p style="font-family:'Jost',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 28px 0;">
                 Chez Maison Buna, chaque partenariat est une histoire qui commence autour d'une tasse de café d'exception. Notre équipe examine votre demande avec le plus grand soin et vous adressera une proposition personnalisée dans les meilleurs délais.
@@ -115,13 +119,24 @@
                   </td>
                 </tr>
                 {{/if}}
+                <!-- Adresse (particulier uniquement) -->
+                {{#if is_particulier}}
+                <tr>
+                  <td style="background-color:#ffffff;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
+                    Adresse de livraison
+                  </td>
+                  <td style="background-color:#ffffff;padding:12px 16px;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:400;color:#2e2010;border-bottom:1px solid #D3C2AC;">
+                    {{adresse}}<br>{{codepostal}} {{ville}}
+                  </td>
+                </tr>
+                {{/if}}
                 <!-- Référence -->
                 <tr>
                   <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;">
                     Référence devis
                   </td>
                   <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:400;color:#4F3422;letter-spacing:0.04em;">
-                    {{id}}
+                    {{devis_numero}}
                   </td>
                 </tr>
               </table>
