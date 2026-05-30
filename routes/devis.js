@@ -6,6 +6,12 @@ import { sendDevisEmails } from '../services/mailService.js';
 
 const router = Router();
 
+const CAFES_META = {
+  'Limmu':       { region: 'Région Limmu · Éthiopie' },
+  'Sidamo':      { region: 'Région Sidama · Éthiopie' },
+  'Yirgacheffe': { region: 'Région Yirgacheffe · Éthiopie' },
+};
+
 // Prix TTC par quantité — TVA non applicable art. 293 B CGI (franchise en base)
 const PRICING = {
   '250 g':               { pu_ttc: 14.99, qte_label: '250 g',      sur_devis: false },
@@ -29,15 +35,21 @@ function fmt(n) {
   return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 }
 
-function computePricing(quantite) {
+function computePricing(quantite, cafes) {
   const entry = PRICING[quantite];
-  if (!entry || entry.sur_devis) return null;
-  return {
+  if (!entry || entry.sur_devis) return { pricing_rows: null, grand_total_fmt: null, sur_devis: true };
+
+  const pricing_rows = cafes.map(cafe => ({
+    cafe,
+    region:        CAFES_META[cafe]?.region || '',
     designation:   'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
     qte_label:     entry.qte_label,
     pu_ttc_fmt:    fmt(entry.pu_ttc),
     total_ttc_fmt: fmt(entry.pu_ttc),
-  };
+  }));
+
+  const grand_total = entry.pu_ttc * cafes.length;
+  return { pricing_rows, grand_total_fmt: fmt(grand_total), sur_devis: false };
 }
 
 router.post('/devis', async (req, res) => {
@@ -46,7 +58,7 @@ router.post('/devis', async (req, res) => {
       societe, prenom, nom, email, telephone,
       collaborateurs, secteur,
       adresse, codepostal, ville,
-      quantite, frequence, moutures, message,
+      cafes, quantite, frequence, moutures, message,
     } = req.body;
 
     const isParticulier = societe === 'Particulier';
@@ -55,6 +67,7 @@ router.post('/devis', async (req, res) => {
     if (!prenom?.trim()) return res.status(400).json({ error: 'Champ manquant : prenom' });
     if (!nom?.trim())    return res.status(400).json({ error: 'Champ manquant : nom' });
     if (!email?.includes('@')) return res.status(400).json({ error: 'Email invalide' });
+    if (!Array.isArray(cafes) || cafes.length === 0) return res.status(400).json({ error: 'Champ manquant : cafes' });
     if (!quantite?.trim()) return res.status(400).json({ error: 'Champ manquant : quantite' });
 
     if (!isParticulier) {
@@ -85,10 +98,10 @@ router.post('/devis', async (req, res) => {
       codepostal:    codepostal || '',
       ville:         ville || '',
       // Commande
+      cafes:    cafes,
       quantite, frequence: frequence || '', moutures: moutures || [], message: message || '',
       // Pricing
-      pricing:        computePricing(quantite),
-      sur_devis:      !computePricing(quantite),
+      ...computePricing(quantite, cafes),
       is_particulier: isParticulier,
     };
 

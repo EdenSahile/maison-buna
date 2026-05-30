@@ -519,27 +519,29 @@
     </div>
 
     <!-- ── TABLEAU OU SUR DEVIS ──────────────────────────── -->
-    {{#if pricing}}
+    {{#if pricing_rows}}
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th style="width:48%">Désignation</th>
+            <th style="width:46%">Désignation</th>
             <th>Quantité</th>
             <th class="right">P.U.</th>
             <th class="right">Montant TTC</th>
           </tr>
         </thead>
         <tbody>
+          {{#each pricing_rows}}
           <tr>
             <td>
-              <span class="product-name">{{pricing.designation}}</span>
-              <span class="product-detail">Arabica grade 1 · Score SCA 87/100 · Origines : Yirgacheffe, Sidamo, Limu</span>
+              <span class="product-name">{{cafe}}</span>
+              <span class="product-detail">{{region}} · Arabica grade 1 · Score SCA 87/100</span>
             </td>
-            <td>{{pricing.qte_label}}</td>
-            <td class="right">{{pricing.pu_ttc_fmt}}</td>
-            <td class="right">{{pricing.total_ttc_fmt}}</td>
+            <td>{{qte_label}}</td>
+            <td class="right">{{pu_ttc_fmt}}</td>
+            <td class="right">{{total_ttc_fmt}}</td>
           </tr>
+          {{/each}}
         </tbody>
       </table>
     </div>
@@ -550,7 +552,7 @@
       </div>
       <div class="total-row ttc">
         <span class="label">Total TTC</span>
-        <span class="value">{{pricing.total_ttc_fmt}}</span>
+        <span class="value">{{grand_total_fmt}}</span>
       </div>
     </div>
     {{else}}
@@ -566,6 +568,13 @@
     <!-- ── DÉTAILS COMMANDE ───────────────────────────────── -->
     <div class="details-section">
       <div class="section-title">Détails de la demande</div>
+
+      {{#if cafes.length}}
+      <div class="detail-row">
+        <div class="detail-label">Café(s)</div>
+        <div class="detail-value">{{#each cafes}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</div>
+      </div>
+      {{/if}}
 
       <div class="detail-row">
         <div class="detail-label">Quantité</div>

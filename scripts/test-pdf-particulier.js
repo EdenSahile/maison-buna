@@ -31,12 +31,11 @@ const devisTest = {
   frequence: 'Mensuelle',
   moutures: ['Mouture filtre', 'Grains entiers'],
   message: 'Pour consommer à la maison, nous adorons les cafés éthiopiens.',
-  pricing: {
-    designation:   'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
-    qte_label:     '1 kg',
-    pu_ttc_fmt:    fmt(49.99),
-    total_ttc_fmt: fmt(49.99),
-  },
+  cafes: ['Sidamo'],
+  pricing_rows: [
+    { cafe: 'Sidamo', region: 'Région Sidama · Éthiopie', designation: 'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France', qte_label: '1 kg', pu_ttc_fmt: fmt(49.99), total_ttc_fmt: fmt(49.99) },
+  ],
+  grand_total_fmt: fmt(49.99),
   sur_devis: false,
   is_particulier: true,
 };
