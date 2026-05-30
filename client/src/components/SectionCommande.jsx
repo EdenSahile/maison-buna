@@ -27,21 +27,20 @@ const FieldLabel = styled.div`
 `
 
 const ENT_QUANTITE = [
-  { value: '500 g – 1 kg', label: '500 g – 1 kg', sub: 'Petite équipe' },
-  { value: '1 – 3 kg', label: '1 – 3 kg', sub: 'Équipe moyenne' },
-  { value: '3 – 5 kg', label: '3 – 5 kg', sub: 'Grande équipe' },
-  { value: '5 – 10 kg', label: '5 – 10 kg', sub: 'Volume important' },
-  { value: '10 kg et +', label: '10 kg et +', sub: 'Sur mesure' },
-  { value: 'À estimer ensemble', label: 'À estimer', sub: 'On vous guide' },
+  { value: '250 g', label: '250 g', sub: '14,99 €' },
+  { value: '500 g – 1 kg', label: '500 g – 1 kg', sub: 'à partir de 28 €' },
+  { value: '1 – 3 kg', label: '1 – 3 kg', sub: 'à partir de 52 €' },
+  { value: '3 – 5 kg', label: '3 – 5 kg', sub: 'à partir de 145 €' },
+  { value: 'À estimer', label: 'À estimer', sub: 'Sur devis' },
 ]
 
 const PART_QUANTITE = [
-  { value: '250 g — Découverte', label: '250 g', sub: 'Découverte' },
-  { value: '500 g — 1 personne', label: '500 g', sub: 'Pour 1 personne' },
-  { value: '1 kg — Couple', label: '1 kg', sub: 'Couple / duo' },
-  { value: '2 kg — Famille', label: '2 kg', sub: 'Famille / amis' },
-  { value: 'Abonnement découverte', label: 'Abonnement', sub: 'Sélection mensuelle' },
-  { value: 'Coffret cadeau', label: 'Cadeau', sub: 'Coffret à offrir' },
+  { value: '250 g — Découverte', label: '250 g', sub: '14,99 €' },
+  { value: '500 g — 1 personne', label: '500 g', sub: '26,50 €' },
+  { value: '1 kg — Couple', label: '1 kg', sub: '49,99 €' },
+  { value: '2 kg — Famille', label: '2 kg', sub: '94,99 €' },
+  { value: 'Abonnement découverte', label: 'Abonnement', sub: 'dès 12,99 €/mois' },
+  { value: 'Coffret cadeau', label: 'Cadeau', sub: 'à partir de 34,99 €' },
 ]
 
 const FREQUENCE = [
