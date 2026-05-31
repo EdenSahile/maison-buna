@@ -8,55 +8,57 @@
 
 ## État du build
 
-Serveur : ✅ démarre sur port 3000 · route POST /api/devis opérationnelle
-PDF : ✅ Puppeteer génère scripts/test-output.pdf (212 Ko testé)
-Emails : ⚠️ SMTP Brevo non configuré dans .env (variables manquantes) — logique mailService.js correcte, envoi best-effort
+| Composant | État |
+|-----------|------|
+| Serveur (port 3000) | ✅ opérationnel |
+| Vite dev client (port 5180) | ✅ opérationnel |
+| PDF Puppeteer | ✅ généré et joint en PJ email |
+| Emails Brevo REST API | ✅ client + admin envoyés |
+| Tests Vitest | ✅ 20/20 (à re-confirmer) |
 
 ---
 
-## Features terminées
+## Branche active
 
-- **Infrastructure complète** — serveur, routes, services, templates, scripts de test
-- **Pipeline multi-agents** — 5 agents dans `.claude/agents/`, rapports dans `reports/`
-- **Audit sécurité** — 3 vulnérabilités ÉLEVÉ corrigées (nodemailer, err.message, rate-limit)
+`feature/react-migration`
 
 ---
 
-## Session en cours — Initialisation projet
+## Features terminées (cette branche)
 
-### Checklist tâches
+- **Migration React** — formulaire React complet avec composants (DevisForm, CoffeeGrid, AudienceToggle, BrandPanel, SectionCommande)
+- **Sélection des cafés** — Limmu, Sidamo, Yirgacheffe avec visuels et régions
+- **Audience toggle** — mode Entreprise / Particulier avec tarifs adaptés
+- **Templates email** — audience-aware, numéro de devis `MB-YYYY-XXXXXXXX`, bloc "48h" uniquement pour `sur_devis:true`
+- **mailService.js** — réécriture SMTP → API REST Brevo (fetch), plus de connexions TCP pendantes
+- **Fix bug emails** — nodemon ignorait pas `data/` → redémarrait après chaque save → `setImmediate` tué. Corrigé via `nodemonConfig.ignore: ["data/*"]` dans `package.json`
+
+---
+
+## Tâches restantes
 
 | # | Tâche | Fichier(s) | Statut |
 |---|-------|------------|--------|
-| 1 | Formulaire HTML | `public/index.html` | ✅ |
-| 2 | Serveur Express | `server.js` | ✅ |
-| 3 | Route POST /api/devis | `routes/devis.js` | ✅ |
-| 4 | Validation données | `routes/devis.js` | ✅ |
-| 5 | Stockage JSON | `data/storage.js` | ✅ |
-| 6 | Service PDF | `services/pdfService.js` | ✅ |
-| 7 | Template PDF | `templates/devis-template.html` | ✅ |
-| 8 | Service mail | `services/mailService.js` | ✅ |
-| 9 | Email client | `templates/email-client.html` | ✅ |
-| 10 | Email admin | `templates/email-admin.html` | ✅ |
-| 11 | Hook PostToolUse | `.claude/hooks/post-tool-use.js` | ✅ |
-| 12 | Hook Stop | `.claude/hooks/stop.js` | ✅ |
-| 13 | Scripts de test | `scripts/test-pdf.js` + `scripts/test-mail.js` | ✅ |
+| 1 | Polices KALUFONIA + Classy Vogue | `client/src/assets/fonts/` | ⏳ en attente (fichiers à fournir) |
+| 2 | SIRET dans template PDF | `templates/devis-template.html` | ⏳ info à compléter |
+| 3 | Merger `feature/react-migration` → `main` | — | ⏳ après validation complète |
 
-**Progression : 13/13 tâches cochées**
+---
 
-### Notes techniques
+## Notes techniques
 
-- SMTP : Brevo — variables dans `.env` (jamais committées)
-- PDF : Puppeteer (headless Chrome) → rendu HTML fidèle à la charte
-- Stockage : JSON simple (`data/devis.json`) — pas de BDD pour l'instant
-- Charte : `#2e2010` `#4F3422` `#D3C2AC` `#AB9679` `#FAF7F3`
-- Formulaire déjà finalisé : **ne pas modifier `public/index.html`**
-- `ADMIN_EMAIL` dans `.env` = destinataire des notifications internes
-- Node.js ESM (`"type": "module"`) — utiliser `import/export` partout
+- `SMTP_PASS` dans `.env` = clé API Brevo `xkeysib-...` (89 chars) — utilisée par `mailService.js`
+- `ADMIN_EMAIL` dans `.env` = `REDACTED_EMAIL`
+- Vite dev sur port **5180** (5173 occupé par autre app)
+- Nodemon ignore `data/*` — ne redémarre plus sur changement de `data/devis.json`
+- Flow `sur_devis` : quantité "À estimer" → pas de PDF, email client sans bloc délai, email admin "sur mesure"
+- REST API Brevo : POST `https://api.brevo.com/v3/smtp/email` avec header `api-key: SMTP_PASS`
+- `from.email` dans `mailService.js` : `REDACTED_EMAIL` (domaine validé Brevo)
 
 ---
 
 ## Audit sécurité
+
 Dernier audit : 2026-05-26
 Verdict : ✅ SÛR (3 ÉLEVÉ corrigés — 0 CRITIQUE/ÉLEVÉ restant)
 Points MOYEN restants : helmet.js absent · timeout Puppeteer absent · emails loggés en clair
