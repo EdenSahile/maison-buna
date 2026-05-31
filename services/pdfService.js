@@ -7,8 +7,8 @@ import { dirname, join } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const templatePath = join(__dirname, '../templates/devis-template.html');
 
-const logoPath = join(__dirname, '../client/src/assets/logo-amalivre.jpeg');
-const logoSrc = `data:image/jpeg;base64,${readFileSync(logoPath).toString('base64')}`;
+const logoPath = join(__dirname, '../public/images/logo-buna.png');
+const logoSrc = `data:image/png;base64,${readFileSync(logoPath).toString('base64')}`;
 
 export async function generatePDF(devis) {
   const source = readFileSync(templatePath, 'utf8');
