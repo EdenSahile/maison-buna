@@ -1,0 +1,34 @@
+import styled from 'styled-components'
+import SectionHead from './Reusable-ui/SectionHead'
+import Field, { StyledTextarea } from './Reusable-ui/Field'
+import SummaryRail from './SummaryRail'
+
+const Section = styled.section`
+  padding-top: 48px;
+  margin-bottom: 8px;
+  scroll-margin-top: 24px;
+`
+
+export default function SectionPrecisions({ formData, audience, onChange }) {
+  return (
+    <Section id="section-4" data-step="4">
+      <SectionHead num="04" title="Vos précisions" step="Étape 4 / 4" />
+
+      <Field
+        id="message"
+        label="Informations complémentaires"
+        optional
+        hint="Plus vous nous en dites, plus notre proposition sera précise."
+      >
+        <StyledTextarea
+          id="message"
+          value={formData.message}
+          onChange={e => onChange('message', e.target.value)}
+          placeholder="Préférences d'arômes, équipement (machine espresso, filtre…), budget indicatif, contraintes logistiques…"
+        />
+      </Field>
+
+      <SummaryRail formData={formData} audience={audience} />
+    </Section>
+  )
+}
