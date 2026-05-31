@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import theme from '../theme'
+import logoImg from '../assets/logo-amalivre.jpeg'
 
 const Brand = styled.aside`
   background: #4F3422;
@@ -42,21 +43,21 @@ const BrandHead = styled.div`
 `
 
 const Monogram = styled.div`
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
   box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 6px 18px rgba(0,0,0,0.35);
 
-  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  img { width: 100%; height: 100%; object-fit: contain; display: block; }
 `
 
 const BrandName = styled.div`
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 4px;
+  font-family: 'Cinzel', serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 5px;
   color: ${theme.cream};
   text-transform: uppercase;
   line-height: 1.4;
@@ -73,29 +74,6 @@ const BrandName = styled.div`
   }
 `
 
-const BrandHero = styled.div`
-  margin: 0 0 32px;
-  aspect-ratio: 1 / 1;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #3D2817;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 18px 40px rgba(0,0,0,0.4);
-  position: relative;
-  max-width: 280px;
-
-  img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    box-shadow: inset 0 0 0 1px rgba(232,221,204,0.08);
-    border-radius: inherit;
-    pointer-events: none;
-  }
-
-  @media (max-width: 1024px) { display: none; }
-`
 
 const BrandHeadline = styled.h2`
   font-family: 'Cormorant Garamond', serif;
@@ -195,17 +173,13 @@ export default function BrandPanel({ stepProgress, audience }) {
     <Brand>
       <BrandHead>
         <Monogram>
-          <img src="/assets/monogram-mb.png" alt="Monogramme Maison Buna" />
+          <img src={logoImg} alt="Logo Maison Buna" />
         </Monogram>
         <BrandName>
           Maison Buna
           <small>Le berceau du café</small>
         </BrandName>
       </BrandHead>
-
-      <BrandHero>
-        <img src="/assets/hero-coffee.jpg" alt="Café Maison Buna" />
-      </BrandHero>
 
       <BrandHeadline>
         Un café <em><span style={{ color: '#FBF8F3' }}>de caractère</span></em>, chez vous ou au bureau.

@@ -7,10 +7,13 @@ import { dirname, join } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const templatePath = join(__dirname, '../templates/devis-template.html');
 
+const logoPath = join(__dirname, '../client/src/assets/logo-amalivre.jpeg');
+const logoSrc = `data:image/jpeg;base64,${readFileSync(logoPath).toString('base64')}`;
+
 export async function generatePDF(devis) {
   const source = readFileSync(templatePath, 'utf8');
   const template = Handlebars.compile(source);
-  const html = template(devis);
+  const html = template({ ...devis, logo_src: logoSrc });
 
   const browser = await puppeteer.launch({ headless: true });
   try {

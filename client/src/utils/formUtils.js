@@ -5,7 +5,7 @@ export const INITIAL_FORM_DATA = {
   societe: '', secteur: '', collaborateurs: '',
   adresse: '', codepostal: '', ville: '',
   prenom: '', nom: '', email: '', telephone: '',
-  cafes: [], quantite: '', frequence: '', moutures: [],
+  cafes: [], quantiteParCafe: {}, frequence: '', moutures: [],
   message: '',
 }
 
@@ -26,7 +26,8 @@ export function validate(formData, audience) {
   if (!formData.nom) errors.nom = 'Veuillez renseigner votre nom'
   if (!validateEmail(formData.email)) errors.email = 'Email invalide'
   if (!formData.cafes?.length) errors.cafes = 'Veuillez sélectionner au moins un café'
-  if (!formData.quantite) errors.quantite = 'Veuillez sélectionner une quantité indicative'
+  if (formData.cafes?.length && !formData.cafes.every(c => formData.quantiteParCafe?.[c]))
+    errors.quantiteParCafe = 'Veuillez choisir une quantité pour chaque café sélectionné'
 
   return errors
 }
@@ -38,7 +39,7 @@ export function computeStepProgress(formData, audience) {
       ? !!(formData.societe && formData.collaborateurs)
       : !!(formData.adresse && validateCP(formData.codepostal) && formData.ville),
     !!(formData.prenom && formData.nom && validateEmail(formData.email)),
-    !!(formData.cafes?.length && formData.quantite),
+    !!(formData.cafes?.length && formData.cafes.every(c => formData.quantiteParCafe?.[c])),
     true,
   ]
 }
@@ -55,7 +56,7 @@ export function computeProgress(formData, audience) {
       (formData.nom ? 1 : 0) +
       (validateEmail(formData.email) ? 1 : 0) +
       (formData.cafes?.length ? 1 : 0) +
-      (formData.quantite ? 1 : 0) +
+      (formData.cafes?.length && formData.cafes.every(c => formData.quantiteParCafe?.[c]) ? 1 : 0) +
       (formData.frequence ? 0.5 : 0) +
       (formData.moutures.length ? 0.5 : 0) +
       (formData.secteur ? 0.3 : 0) +
@@ -72,7 +73,7 @@ export function computeProgress(formData, audience) {
       (formData.nom ? 1 : 0) +
       (validateEmail(formData.email) ? 1 : 0) +
       (formData.cafes?.length ? 1 : 0) +
-      (formData.quantite ? 1 : 0) +
+      (formData.cafes?.length && formData.cafes.every(c => formData.quantiteParCafe?.[c]) ? 1 : 0) +
       (formData.frequence ? 0.5 : 0) +
       (formData.moutures.length ? 0.5 : 0) +
       (formData.telephone ? 0.3 : 0) +
@@ -97,7 +98,7 @@ export function buildPayload(formData, audience) {
     codepostal: !isEnt ? formData.codepostal : '',
     ville: formData.ville,
     cafes: formData.cafes,
-    quantite: formData.quantite,
+    quantiteParCafe: formData.quantiteParCafe,
     frequence: formData.frequence,
     moutures: formData.moutures,
     message: formData.message,

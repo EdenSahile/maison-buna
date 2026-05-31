@@ -35,21 +35,49 @@ function fmt(n) {
   return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 }
 
-function computePricing(quantite, cafes) {
-  const entry = PRICING[quantite];
-  if (!entry || entry.sur_devis) return { pricing_rows: null, grand_total_fmt: null, sur_devis: true };
+function computePricing(quantiteParCafe, cafes) {
+  let grand_total = 0;
+  let any_sur_devis = false;
 
-  const pricing_rows = cafes.map(cafe => ({
-    cafe,
-    region:        CAFES_META[cafe]?.region || '',
-    designation:   'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
-    qte_label:     entry.qte_label,
-    pu_ttc_fmt:    fmt(entry.pu_ttc),
-    total_ttc_fmt: fmt(entry.pu_ttc),
-  }));
+  const pricing_rows = cafes.map(cafe => {
+    const quantite = quantiteParCafe?.[cafe];
+    const entry = PRICING[quantite];
 
-  const grand_total = entry.pu_ttc * cafes.length;
+    if (!entry || entry.sur_devis) {
+      any_sur_devis = true;
+      return {
+        cafe,
+        region:        CAFES_META[cafe]?.region || '',
+        designation:   'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
+        qte_label:     'Sur devis',
+        pu_ttc_fmt:    '—',
+        total_ttc_fmt: '—',
+      };
+    }
+
+    grand_total += entry.pu_ttc;
+    return {
+      cafe,
+      region:        CAFES_META[cafe]?.region || '',
+      designation:   'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
+      qte_label:     entry.qte_label,
+      pu_ttc_fmt:    fmt(entry.pu_ttc),
+      total_ttc_fmt: fmt(entry.pu_ttc),
+    };
+  });
+
+  if (any_sur_devis) return { pricing_rows, grand_total_fmt: null, sur_devis: true };
   return { pricing_rows, grand_total_fmt: fmt(grand_total), sur_devis: false };
+}
+
+function buildQuantiteResume(quantiteParCafe, cafes) {
+  return cafes.map(cafe => {
+    const qte = quantiteParCafe?.[cafe];
+    if (!qte) return cafe;
+    const entry = PRICING[qte];
+    if (entry?.sur_devis) return `${cafe} : sur devis`;
+    return `${cafe} : ${entry?.qte_label || qte}`;
+  }).join(' · ');
 }
 
 router.post('/devis', async (req, res) => {
@@ -58,7 +86,7 @@ router.post('/devis', async (req, res) => {
       societe, prenom, nom, email, telephone,
       collaborateurs, secteur,
       adresse, codepostal, ville,
-      cafes, quantite, frequence, moutures, message,
+      cafes, quantiteParCafe, frequence, moutures, message,
     } = req.body;
 
     const isParticulier = societe === 'Particulier';
@@ -68,7 +96,9 @@ router.post('/devis', async (req, res) => {
     if (!nom?.trim())    return res.status(400).json({ error: 'Champ manquant : nom' });
     if (!email?.includes('@')) return res.status(400).json({ error: 'Email invalide' });
     if (!Array.isArray(cafes) || cafes.length === 0) return res.status(400).json({ error: 'Champ manquant : cafes' });
-    if (!quantite?.trim()) return res.status(400).json({ error: 'Champ manquant : quantite' });
+    if (!quantiteParCafe || typeof quantiteParCafe !== 'object') return res.status(400).json({ error: 'Champ manquant : quantiteParCafe' });
+    const missingQte = cafes.find(c => !quantiteParCafe[c]);
+    if (missingQte) return res.status(400).json({ error: `Quantité manquante pour : ${missingQte}` });
 
     if (!isParticulier) {
       if (!societe?.trim()) return res.status(400).json({ error: 'Champ manquant : societe' });
@@ -84,7 +114,6 @@ router.post('/devis', async (req, res) => {
     const devis = {
       id,
       timestamp: now.toISOString(),
-      // Numéro lisible
       devis_numero: `MB-${now.getFullYear()}-${id.slice(0, 8).toUpperCase()}`,
       date_emission: formatDate(now),
       date_validite: formatDate(validite),
@@ -98,23 +127,26 @@ router.post('/devis', async (req, res) => {
       codepostal:    codepostal || '',
       ville:         ville || '',
       // Commande
-      cafes:    cafes,
-      quantite, frequence: frequence || '', moutures: moutures || [], message: message || '',
+      cafes,
+      quantiteParCafe,
+      quantite_resume: buildQuantiteResume(quantiteParCafe, cafes),
+      frequence: frequence || '',
+      moutures: moutures || [],
+      message: message || '',
       // Pricing
-      ...computePricing(quantite, cafes),
+      ...computePricing(quantiteParCafe, cafes),
       is_particulier: isParticulier,
     };
 
     saveDevis(devis);
-
     res.json({ success: true, id: devis.id });
 
     setImmediate(async () => {
       try {
-        const pdfBuffer = await generatePDF(devis);
+        const pdfBuffer = devis.sur_devis ? null : await generatePDF(devis);
         await sendDevisEmails(devis, pdfBuffer);
       } catch (err) {
-        console.error('Erreur traitement arrière-plan :', err.message);
+        console.error(`Erreur background id:${devis.id} :`, err.message);
       }
     });
   } catch (err) {
