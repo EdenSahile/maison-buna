@@ -29,7 +29,7 @@ const devisTest = {
   quantiteParCafe: { Limmu: '1 – 3 kg', Yirgacheffe: '3 – 5 kg' },
   quantite_resume: 'Limmu : 1 kg · Yirgacheffe : 3 kg',
   frequence: 'Mensuelle',
-  moutures: ['Grains entiers', 'Mouture filtre'],
+  moutures: ['Grains entiers'],
   message: 'Nous souhaitons découvrir vos cafés éthiopiens pour notre espace détente.',
   cafes: ['Limmu', 'Yirgacheffe'],
   pricing_rows: [

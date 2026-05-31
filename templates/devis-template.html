@@ -24,8 +24,9 @@
 
     /* ─── HEADER ──────────────────────────────────────────── */
     .header {
-      background: #2e2010;
-      padding: 28px 48px 24px;
+      background: #FAF7F3;
+      border-bottom: 2px solid #D3C2AC;
+      padding: 24px 48px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -33,28 +34,21 @@
 
     .header-brand {
       display: flex;
-      align-items: center;
-      gap: 16px;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .header-monogram img { width: 56px; height: 56px; object-fit: contain; display: block; }
-
-    .header-name {
-      font-family: 'Cinzel', serif;
-      font-size: 20pt;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      color: #FAF7F3;
-      line-height: 1;
+    .header-monogram {
+      flex-shrink: 0;
     }
+    .header-monogram img { width: 88px; height: 88px; object-fit: contain; display: block; border-radius: 6px; }
 
     .header-tagline {
-      font-size: 7.5pt;
+      font-size: 7pt;
       font-weight: 300;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      color: #D3C2AC;
-      margin-top: 4px;
+      color: #AB9679;
     }
 
     .header-doc {
@@ -75,7 +69,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 16pt;
       font-weight: 500;
-      color: #FAF7F3;
+      color: #2e2010;
       letter-spacing: 0.04em;
     }
 
@@ -83,7 +77,7 @@
       margin-top: 6px;
       font-size: 7.5pt;
       font-weight: 300;
-      color: #D3C2AC;
+      color: #4F3422;
       letter-spacing: 0.08em;
       line-height: 1.7;
     }
@@ -144,36 +138,38 @@
 
     /* ─── OBJET DU DEVIS ──────────────────────────────────── */
     .objet-row {
-      background: #4F3422;
-      color: #FAF7F3;
-      padding: 10px 20px;
+      background: #FAF7F3;
+      border: 1px solid #D3C2AC;
+      border-left: 3px solid #4F3422;
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
-      border-radius: 2px;
+      margin-bottom: 24px;
     }
 
     .objet-label {
-      font-size: 7pt;
+      font-size: 6.5pt;
       font-weight: 600;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #D3C2AC;
+      color: #AB9679;
+      margin-bottom: 3px;
     }
 
     .objet-value {
       font-family: 'Cormorant Garamond', serif;
       font-size: 12pt;
       font-weight: 400;
-      color: #FAF7F3;
+      color: #2e2010;
       font-style: italic;
     }
 
     .objet-validite {
       font-size: 7.5pt;
       font-weight: 300;
-      color: #D3C2AC;
+      color: #AB9679;
+      letter-spacing: 0.04em;
     }
 
     /* ─── TABLEAU PRODUITS ────────────────────────────────── */
@@ -185,16 +181,17 @@
     }
 
     thead tr {
-      background: #2e2010;
-      color: #FAF7F3;
+      background: #FAF7F3;
+      border-bottom: 2px solid #4F3422;
     }
 
     thead th {
-      font-size: 6.5pt;
+      font-size: 6pt;
       font-weight: 600;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      padding: 9px 14px;
+      color: #4F3422;
+      padding: 10px 14px;
       text-align: left;
     }
 
@@ -253,11 +250,11 @@
     .total-row .value { font-weight: 500; color: #2e2010; }
 
     .total-row.ttc {
-      background: #2e2010;
+      background: #4F3422;
     }
 
-    .total-row.ttc .label { color: #D3C2AC; font-weight: 500; letter-spacing: 0.1em; font-size: 7.5pt; text-transform: uppercase; }
-    .total-row.ttc .value { color: #FAF7F3; font-family: 'Cormorant Garamond', serif; font-size: 14pt; font-weight: 500; }
+    .total-row.ttc .label { color: #D3C2AC; font-weight: 500; letter-spacing: 0.12em; font-size: 7pt; text-transform: uppercase; }
+    .total-row.ttc .value { color: #FAF7F3; font-family: 'Cormorant Garamond', serif; font-size: 15pt; font-weight: 500; }
 
     /* ─── SUR DEVIS ───────────────────────────────────────── */
     .sur-devis-block {
@@ -327,14 +324,14 @@
     .moutures-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 1px; }
 
     .mouture-tag {
-      background: #D3C2AC;
-      color: #2e2010;
+      background: transparent;
+      border: 1px solid #D3C2AC;
+      color: #4F3422;
       font-family: 'Montserrat', sans-serif;
       font-size: 7pt;
       font-weight: 400;
-      padding: 2px 7px;
-      border-radius: 2px;
-      letter-spacing: 0.04em;
+      padding: 2px 8px;
+      letter-spacing: 0.06em;
     }
 
     /* ─── MESSAGE ─────────────────────────────────────────── */
@@ -406,6 +403,44 @@
       margin-bottom: 16px;
     }
 
+    /* ─── BON POUR ACCORD ────────────────────────────────── */
+    .bpa {
+      display: flex;
+      gap: 32px;
+      margin: 24px 0 20px;
+      break-inside: avoid;
+    }
+
+    .bpa-block {
+      flex: 1;
+      border: 1px solid #D3C2AC;
+      border-radius: 4px;
+      padding: 14px 16px 36px;
+    }
+
+    .bpa-title {
+      font-size: 6.5pt;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #AB9679;
+      margin-bottom: 10px;
+    }
+
+    .bpa-line {
+      font-size: 7.5pt;
+      color: #4F3422;
+      margin-bottom: 6px;
+    }
+
+    .bpa-sign {
+      border-bottom: 1px solid #D3C2AC;
+      margin-top: 20px;
+      padding-bottom: 2px;
+      font-size: 7pt;
+      color: #AB9679;
+    }
+
     /* ─── FOOTER ──────────────────────────────────────────── */
     .footer {
       position: fixed;
@@ -436,6 +471,31 @@
       line-height: 1.7;
     }
 
+    /* ─── PAGE BREAKS ────────────────────────────────────── */
+    .parties,
+    .party-block,
+    .objet-row,
+    .table-wrap,
+    .totaux,
+    .sur-devis-block,
+    .details-section,
+    .message-block,
+    .conditions,
+    .legal {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    tbody tr {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    p, li {
+      orphans: 3;
+      widows: 3;
+    }
+
     @media print {
       .footer { position: fixed; bottom: 0; }
       .body { padding-bottom: 80px; }
@@ -450,10 +510,7 @@
       <div class="header-monogram">
         <img src="{{logo_src}}" alt="Maison Buna" />
       </div>
-      <div>
-        <div class="header-name">Maison Buna</div>
-        <div class="header-tagline">Le berceau du café</div>
-      </div>
+      <div class="header-tagline">Le berceau du café</div>
     </div>
     <div class="header-doc">
       <div class="doc-type">Devis indicatif</div>
@@ -612,9 +669,29 @@
         <li>TVA non applicable — article 293 B du CGI (franchise en base de TVA).</li>
         <li>Livraison en France métropolitaine. Frais de port calculés selon le volume et l'adresse.</li>
         <li>Règlement : virement bancaire à 30 jours date de facture (B2B) ou à réception (B2C).</li>
+        <li>Aucun escompte accordé en cas de paiement anticipé.</li>
+        <li>Tout retard de paiement entraîne l'application de pénalités au taux de 3 fois le taux d'intérêt légal en vigueur, exigibles sans rappel préalable (art. L.441-10 du Code de commerce).</li>
+        <li>Une indemnité forfaitaire de 40 € pour frais de recouvrement est due de plein droit en cas de retard de paiement (décret n° 2012-1115 du 02/10/2012).</li>
         {{#if is_particulier}}<li>Droit de rétractation : 14 jours à compter de la réception du produit (art. L.221-18 Code de la consommation).</li>{{/if}}
         <li>Toute commande validée implique l'acceptation des présentes conditions et de nos CGV disponibles sur www.maisonbuna.fr.</li>
       </ul>
+    </div>
+
+    <!-- ── BON POUR ACCORD ──────────────────────────────────── -->
+    <div class="bpa">
+      <div class="bpa-block">
+        <div class="bpa-title">Bon pour accord — Client</div>
+        <div class="bpa-line">Société : {{societe}}</div>
+        <div class="bpa-line">Nom : {{prenom}} {{nom}}</div>
+        <div class="bpa-sign">Date :</div>
+        <div class="bpa-sign" style="margin-top:16px;">Signature :</div>
+      </div>
+      <div class="bpa-block">
+        <div class="bpa-title">Émis par — Maison Buna</div>
+        <div class="bpa-line">Devis N° {{devis_numero}}</div>
+        <div class="bpa-line">Émis le {{date_emission}}</div>
+        <div class="bpa-sign">Valable jusqu'au {{date_validite}}</div>
+      </div>
     </div>
 
     <!-- ── MENTIONS LÉGALES ───────────────────────────────── -->
