@@ -6,7 +6,7 @@ export const PrimaryButton = styled.button`
   color: ${theme.white};
   border: none;
   padding: 16px 32px;
-  font-family: "Inter", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.3px;
@@ -48,7 +48,7 @@ export const GhostButton = styled.button`
   color: ${theme.brown};
   border: 1px solid ${theme.line};
   padding: 12px 24px;
-  font-family: "Inter", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500;
   font-size: 13px;
   cursor: pointer;

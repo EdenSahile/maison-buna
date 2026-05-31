@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: ${theme.white};
     color: ${theme.dark};
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Montserrat', system-ui, sans-serif;
     font-weight: 400;
     font-size: 15px;
     line-height: 1.5;
