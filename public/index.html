@@ -530,6 +530,52 @@
     box-shadow: 0 0 0 3px rgba(200,117,58,0.25);
   }
 
+  /* Cards avec photo de café */
+  .choice.has-photo label {
+    padding: 0;
+    overflow: hidden;
+    align-items: stretch;
+    min-height: unset;
+  }
+
+  .choice.has-photo label .photo {
+    display: block;
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+  }
+
+  .choice.has-photo label .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .choice.has-photo label:hover .photo img {
+    transform: scale(1.04);
+  }
+
+  .choice.has-photo label .card-body {
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .choice.has-photo label .check {
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.9);
+    border-color: rgba(255,255,255,0.9);
+  }
+
+  .choice.has-photo input:checked + label .check {
+    background: var(--brown);
+    border-color: var(--brown);
+  }
+
   /* Hint and errors */
   .field-hint {
     font-size: 12px;
@@ -1092,28 +1138,37 @@
           <div class="field full ent-only">
             <label>Quantité mensuelle souhaitée <span class="req">*</span></label>
             <div class="choice-grid cols-3">
-              <div class="choice">
+              <div class="choice has-photo">
                 <input type="radio" name="quantite" id="q1" value="250 g">
                 <label for="q1">
+                  <span class="photo"><img src="images/limmu.png" alt="Café Limmu"></span>
                   <span class="check"></span>
-                  <span class="main">250 g</span>
-                  <span class="sub">14,99 €</span>
+                  <div class="card-body">
+                    <span class="main">250 g</span>
+                    <span class="sub">14,99 €</span>
+                  </div>
                 </label>
               </div>
-              <div class="choice">
+              <div class="choice has-photo">
                 <input type="radio" name="quantite" id="q2" value="500 g">
                 <label for="q2">
+                  <span class="photo"><img src="images/sidamo.png" alt="Café Sidamo"></span>
                   <span class="check"></span>
-                  <span class="main">500 g</span>
-                  <span class="sub">28,00 €</span>
+                  <div class="card-body">
+                    <span class="main">500 g</span>
+                    <span class="sub">28,00 €</span>
+                  </div>
                 </label>
               </div>
-              <div class="choice">
+              <div class="choice has-photo">
                 <input type="radio" name="quantite" id="q3" value="Sur mesure">
                 <label for="q3">
+                  <span class="photo"><img src="images/yirgacheffe.png" alt="Café Yirgacheffe"></span>
                   <span class="check"></span>
-                  <span class="main">Sur mesure</span>
-                  <span class="sub">Recontact 48h</span>
+                  <div class="card-body">
+                    <span class="main">Sur mesure</span>
+                    <span class="sub">Devis sous 48 h</span>
+                  </div>
                 </label>
               </div>
             </div>
@@ -1124,28 +1179,37 @@
           <div class="field full part-only">
             <label>Quantité souhaitée <span class="req">*</span></label>
             <div class="choice-grid cols-3">
-              <div class="choice">
+              <div class="choice has-photo">
                 <input type="radio" name="quantite-p" id="qp1" value="250 g">
                 <label for="qp1">
+                  <span class="photo"><img src="images/limmu.png" alt="Café Limmu"></span>
                   <span class="check"></span>
-                  <span class="main">250 g</span>
-                  <span class="sub">14,99 €</span>
+                  <div class="card-body">
+                    <span class="main">250 g</span>
+                    <span class="sub">14,99 €</span>
+                  </div>
                 </label>
               </div>
-              <div class="choice">
+              <div class="choice has-photo">
                 <input type="radio" name="quantite-p" id="qp2" value="500 g">
                 <label for="qp2">
+                  <span class="photo"><img src="images/sidamo.png" alt="Café Sidamo"></span>
                   <span class="check"></span>
-                  <span class="main">500 g</span>
-                  <span class="sub">28,00 €</span>
+                  <div class="card-body">
+                    <span class="main">500 g</span>
+                    <span class="sub">28,00 €</span>
+                  </div>
                 </label>
               </div>
-              <div class="choice">
+              <div class="choice has-photo">
                 <input type="radio" name="quantite-p" id="qp3" value="Sur mesure">
                 <label for="qp3">
+                  <span class="photo"><img src="images/yirgacheffe.png" alt="Café Yirgacheffe"></span>
                   <span class="check"></span>
-                  <span class="main">Sur mesure</span>
-                  <span class="sub">Recontact 48h</span>
+                  <div class="card-body">
+                    <span class="main">Sur mesure</span>
+                    <span class="sub">Devis sous 48 h</span>
+                  </div>
                 </label>
               </div>
             </div>
