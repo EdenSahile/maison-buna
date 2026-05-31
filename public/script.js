@@ -7,8 +7,7 @@
   audToggle.addEventListener('click', (e) => {
     const btn = e.target.closest('.aud-opt');
     if (!btn) return;
-    const aud = btn.dataset.aud;
-    setAudience(aud);
+    setAudience(btn.dataset.aud);
   });
 
   function setAudience(aud) {
@@ -19,7 +18,6 @@
       b.setAttribute('aria-checked', active ? 'true' : 'false');
     });
     stepLabel1.textContent = aud === 'entreprise' ? 'Votre entreprise' : 'Votre livraison';
-    // Clear any "invalid" flags on now-hidden fields
     document.querySelectorAll('.field.invalid').forEach(f => {
       if (getComputedStyle(f).display === 'none') f.classList.remove('invalid');
     });
@@ -33,11 +31,10 @@
   const setInvalid = (id) => document.getElementById('field-' + id)?.classList.add('invalid');
   const currentAud = () => formView.dataset.audience;
 
-  // ===== Live validation =====
+  // ===== Live validation — text fields =====
   ['societe','prenom','nom','adresse','codepostal','ville'].forEach(id => {
     document.getElementById(id)?.addEventListener('input', () => {
-      const v = document.getElementById(id).value.trim();
-      if (v) setValid(id);
+      if (document.getElementById(id).value.trim()) setValid(id);
       updateProgress();
     });
   });
@@ -52,16 +49,52 @@
     document.getElementById(id)?.addEventListener('change', updateProgress);
   });
 
-  document.querySelectorAll('input[name="quantite"], input[name="quantite-p"], input[name="frequence"], input[name="mouture"]').forEach(el => {
-    el.addEventListener('change', () => {
-      if (el.name === 'quantite') document.getElementById('quantite-error').style.display = 'none';
-      if (el.name === 'quantite-p') document.getElementById('quantite-p-error').style.display = 'none';
-      updateProgress();
+  document.querySelectorAll('input[name="frequence"], input[name="mouture"]').forEach(el => {
+    el.addEventListener('change', updateProgress);
+  });
+
+  // ===== Café cards + chips =====
+  document.querySelectorAll('.cafe-card').forEach(card => {
+    card.querySelectorAll('.qty-chip').forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const alreadyActive = chip.classList.contains('is-active');
+
+        // Deselect all chips in this card
+        card.querySelectorAll('.qty-chip').forEach(c => c.classList.remove('is-active'));
+
+        if (alreadyActive) {
+          // Toggle off: deselect the whole card
+          card.classList.remove('is-selected');
+        } else {
+          // Select this chip and mark card as selected
+          chip.classList.add('is-active');
+          card.classList.add('is-selected');
+        }
+
+        document.getElementById('cafes-error').style.display = 'none';
+        updateProgress();
+      });
     });
   });
 
-  // ===== Progress + stepper =====
+  // ===== Data collection =====
+  function getCafeSelections() {
+    const cafes = [];
+    const quantiteParCafe = {};
+    document.querySelectorAll('.cafe-card').forEach(card => {
+      const activeChip = card.querySelector('.qty-chip.is-active');
+      if (activeChip) {
+        const cafe = card.dataset.cafe;
+        cafes.push(cafe);
+        quantiteParCafe[cafe] = activeChip.dataset.value;
+      }
+    });
+    return { cafes, quantiteParCafe };
+  }
+
   function getData() {
+    const { cafes, quantiteParCafe } = getCafeSelections();
     return {
       audience: currentAud(),
       societe: document.getElementById('societe').value.trim(),
@@ -74,25 +107,25 @@
       adresse: document.getElementById('adresse').value.trim(),
       codepostal: document.getElementById('codepostal').value.trim(),
       ville: document.getElementById('ville').value.trim(),
-      quantite: document.querySelector('input[name="quantite"]:checked')?.value || '',
-      quantiteP: document.querySelector('input[name="quantite-p"]:checked')?.value || '',
+      cafes,
+      quantiteParCafe,
       frequence: document.querySelector('input[name="frequence"]:checked')?.value || '',
       moutures: [...document.querySelectorAll('input[name="mouture"]:checked')].map(el => el.value),
       message: document.getElementById('message').value.trim()
     };
   }
 
+  // ===== Progress + stepper =====
   function stepProgress(d) {
     const isEnt = d.audience === 'entreprise';
     const step1 = isEnt
       ? !!(d.societe && d.collaborateurs)
       : !!(d.adresse && validateCP(d.codepostal) && d.ville);
-    const step3 = isEnt ? !!d.quantite : !!d.quantiteP;
     return [
       step1,
       !!(d.prenom && d.nom && validateEmail(d.email)),
-      step3,
-      true /* précisions: optional */
+      d.cafes.length > 0,
+      true
     ];
   }
 
@@ -119,14 +152,16 @@
     if (isEnt) {
       if (d.societe) bits.push(`<strong>${escapeHtml(d.societe)}</strong>`);
       if (d.collaborateurs) bits.push(`${escapeHtml(d.collaborateurs)} collab.`);
-      if (d.quantite) bits.push(`${escapeHtml(d.quantite)} / mois`);
-      if (d.frequence) bits.push(`livraison ${d.frequence.toLowerCase()}`);
     } else {
       if (d.prenom || d.nom) bits.push(`<strong>${escapeHtml((d.prenom + ' ' + d.nom).trim())}</strong>`);
-      if (d.ville) bits.push(`${escapeHtml(d.ville)}`);
-      if (d.quantiteP) bits.push(`${escapeHtml(d.quantiteP)}`);
-      if (d.frequence) bits.push(`livraison ${d.frequence.toLowerCase()}`);
+      if (d.ville) bits.push(escapeHtml(d.ville));
     }
+
+    if (d.cafes.length) {
+      const cafeStr = d.cafes.map(c => `${escapeHtml(c)} ${escapeHtml(d.quantiteParCafe[c])}`).join(', ');
+      bits.push(cafeStr);
+    }
+    if (d.frequence) bits.push(`livraison ${d.frequence.toLowerCase()}`);
 
     if (bits.length >= 2) {
       rail.classList.remove('is-empty');
@@ -144,8 +179,7 @@
   // Click stepper -> scroll to section
   document.querySelectorAll('.step').forEach(step => {
     step.addEventListener('click', () => {
-      const n = step.dataset.step;
-      const target = document.getElementById('section-' + n);
+      const target = document.getElementById('section-' + step.dataset.step);
       target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
@@ -178,18 +212,17 @@
     check(!!d.nom, 'nom');
     check(validateEmail(d.email), 'email');
 
-    if (isEnt) {
-      const qErr = document.getElementById('quantite-error');
-      if (!d.quantite) { qErr.style.display = 'flex'; valid = false; if (!firstInvalid) firstInvalid = 'quantite-error'; }
-      else qErr.style.display = 'none';
+    const cafesErr = document.getElementById('cafes-error');
+    if (d.cafes.length === 0) {
+      cafesErr.style.display = 'flex';
+      valid = false;
+      if (!firstInvalid) firstInvalid = 'cafes-error';
     } else {
-      const qErr = document.getElementById('quantite-p-error');
-      if (!d.quantiteP) { qErr.style.display = 'flex'; valid = false; if (!firstInvalid) firstInvalid = 'quantite-p-error'; }
-      else qErr.style.display = 'none';
+      cafesErr.style.display = 'none';
     }
 
     if (!valid) {
-      const el = (firstInvalid === 'quantite-error' || firstInvalid === 'quantite-p-error')
+      const el = firstInvalid === 'cafes-error'
         ? document.getElementById('section-3')
         : document.getElementById('field-' + firstInvalid);
       el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -205,18 +238,21 @@
 
     try {
       const payload = {
-        societe: isEnt ? d.societe : 'Particulier',
-        prenom: d.prenom,
-        nom: d.nom,
-        email: d.email,
-        telephone: d.tel,
+        societe:       isEnt ? d.societe : 'Particulier',
+        prenom:        d.prenom,
+        nom:           d.nom,
+        email:         d.email,
+        telephone:     d.tel,
         collaborateurs: isEnt ? d.collaborateurs : '',
-        secteur: d.secteur,
-        ville: d.ville,
-        quantite: isEnt ? d.quantite : d.quantiteP,
-        frequence: d.frequence,
-        moutures: d.moutures,
-        message: d.message
+        secteur:       d.secteur,
+        adresse:       d.adresse,
+        codepostal:    d.codepostal,
+        ville:         d.ville,
+        cafes:         d.cafes,
+        quantiteParCafe: d.quantiteParCafe,
+        frequence:     d.frequence,
+        moutures:      d.moutures,
+        message:       d.message
       };
 
       const res = await fetch('/api/devis', {
@@ -236,7 +272,7 @@
       return;
     }
 
-    // Build summary
+    // Build success summary
     const body = document.getElementById('summary-box-body');
     const rows = [];
     if (isEnt) {
@@ -245,14 +281,13 @@
       rows.push(['Email', escapeHtml(d.email) + (d.tel ? ` · <span style="color:var(--sand)">${escapeHtml(d.tel)}</span>` : '')]);
       rows.push(['Équipe', escapeHtml(d.collaborateurs) + ' collaborateurs']);
       if (d.ville) rows.push(['Livraison', escapeHtml(d.ville)]);
-      rows.push(['Quantité', escapeHtml(d.quantite) + ' / mois']);
     } else {
       rows.push(['Type', '<span style="color:var(--sand)">Particulier</span>']);
       rows.push(['Contact', `${escapeHtml(d.prenom)} ${escapeHtml(d.nom)}`]);
       rows.push(['Email', escapeHtml(d.email) + (d.tel ? ` · <span style="color:var(--sand)">${escapeHtml(d.tel)}</span>` : '')]);
       rows.push(['Livraison', `${escapeHtml(d.adresse)}<br><span style="color:var(--sand)">${escapeHtml(d.codepostal)} ${escapeHtml(d.ville)}</span>`]);
-      rows.push(['Commande', escapeHtml(d.quantiteP)]);
     }
+    rows.push(['Cafés', d.cafes.map(c => `${escapeHtml(c)} · <span style="color:var(--sand)">${escapeHtml(d.quantiteParCafe[c])}</span>`).join('<br>')]);
     if (d.frequence) rows.push(['Fréquence', escapeHtml(d.frequence)]);
     if (d.moutures.length) rows.push(['Mouture', d.moutures.map(escapeHtml).join(', ')]);
     if (d.message) rows.push(['Précisions', escapeHtml(d.message)]);
@@ -270,8 +305,11 @@
   document.getElementById('btn-new').addEventListener('click', () => {
     form.reset();
     document.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
-    document.getElementById('quantite-error').style.display = 'none';
-    document.getElementById('quantite-p-error').style.display = 'none';
+    document.querySelectorAll('.cafe-card').forEach(card => {
+      card.classList.remove('is-selected');
+      card.querySelectorAll('.qty-chip').forEach(c => c.classList.remove('is-active'));
+    });
+    document.getElementById('cafes-error').style.display = 'none';
     document.getElementById('success-view').classList.remove('show');
     document.getElementById('form-view').style.display = 'block';
     updateProgress();

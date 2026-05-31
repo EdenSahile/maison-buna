@@ -530,22 +530,69 @@
     box-shadow: 0 0 0 3px rgba(200,117,58,0.25);
   }
 
-  /* Cards avec photo de café */
-  .choice.has-photo label {
-    padding: 0;
-    overflow: hidden;
-    align-items: stretch;
-    min-height: unset;
+  /* Grille cafés */
+  .cafe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
 
-  .choice.has-photo label .photo {
+  .cafe-card {
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--white);
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .cafe-card:hover { border-color: var(--sand); }
+
+  .cafe-card.is-selected {
+    border-color: var(--brown);
+    background: var(--cream-soft);
+    box-shadow: 0 0 0 3px rgba(61,40,23,0.06);
+  }
+
+  .cafe-card__check {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.88);
+    border: 1.5px solid rgba(255,255,255,0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .cafe-card.is-selected .cafe-card__check {
+    background: var(--brown);
+    border-color: var(--brown);
+  }
+
+  .cafe-card.is-selected .cafe-card__check::after {
+    content: '';
     display: block;
+    width: 5px;
+    height: 9px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+
+  .cafe-card__photo {
     width: 100%;
-    height: 140px;
+    height: 200px;
     overflow: hidden;
   }
 
-  .choice.has-photo label .photo img {
+  .cafe-card__photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -553,27 +600,81 @@
     transition: transform 0.35s ease;
   }
 
-  .choice.has-photo label:hover .photo img {
-    transform: scale(1.04);
+  .cafe-card:hover .cafe-card__photo img { transform: scale(1.04); }
+
+  .cafe-card__info {
+    padding: 18px 18px 14px;
   }
 
-  .choice.has-photo label .card-body {
-    padding: 14px 16px 16px;
+  .cafe-card__name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--brown);
+    margin-bottom: 5px;
+    letter-spacing: -0.2px;
+  }
+
+  .cafe-card__region {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--sand);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .cafe-card__notes {
+    font-size: 13px;
+    color: var(--dark);
+  }
+
+  .cafe-card__divider {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 0 18px;
+  }
+
+  .cafe-card__qty-section { padding: 14px 18px 18px; }
+
+  .cafe-card__qty-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--sand);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .cafe-card__qty-chips {
     display: flex;
-    flex-direction: column;
-    gap: 3px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  .choice.has-photo label .check {
-    top: 10px;
-    right: 10px;
-    background: rgba(255,255,255,0.9);
-    border-color: rgba(255,255,255,0.9);
+  .qty-chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: var(--white);
+    font-size: 13px;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1.4;
   }
 
-  .choice.has-photo input:checked + label .check {
-    background: var(--brown);
+  .qty-chip:hover { border-color: var(--sand); background: var(--cream-soft); }
+
+  .qty-chip.is-active {
     border-color: var(--brown);
+    background: var(--brown);
+    color: #fff;
+  }
+
+  @media (max-width: 700px) {
+    .cafe-grid { grid-template-columns: 1fr; }
   }
 
   /* Hint and errors */
@@ -1134,86 +1235,76 @@
             <span class="meta">Étape 3 / 4</span>
           </div>
 
-          <!-- Quantité ENTREPRISE -->
-          <div class="field full ent-only">
-            <label>Quantité mensuelle souhaitée <span class="req">*</span></label>
-            <div class="choice-grid cols-3">
-              <div class="choice has-photo">
-                <input type="radio" name="quantite" id="q1" value="250 g">
-                <label for="q1">
-                  <span class="photo"><img src="images/limmu.png" alt="Café Limmu"></span>
-                  <span class="check"></span>
-                  <div class="card-body">
-                    <span class="main">250 g</span>
-                    <span class="sub">14,99 €</span>
-                  </div>
-                </label>
-              </div>
-              <div class="choice has-photo">
-                <input type="radio" name="quantite" id="q2" value="500 g">
-                <label for="q2">
-                  <span class="photo"><img src="images/sidamo.png" alt="Café Sidamo"></span>
-                  <span class="check"></span>
-                  <div class="card-body">
-                    <span class="main">500 g</span>
-                    <span class="sub">28,00 €</span>
-                  </div>
-                </label>
-              </div>
-              <div class="choice has-photo">
-                <input type="radio" name="quantite" id="q3" value="Sur mesure">
-                <label for="q3">
-                  <span class="photo"><img src="images/yirgacheffe.png" alt="Café Yirgacheffe"></span>
-                  <span class="check"></span>
-                  <div class="card-body">
-                    <span class="main">Sur mesure</span>
-                    <span class="sub">Devis sous 48 h</span>
-                  </div>
-                </label>
-              </div>
-            </div>
-            <div class="error-msg" id="quantite-error">Veuillez sélectionner une quantité indicative</div>
-          </div>
+          <!-- Sélection cafés + quantité -->
+          <div class="field full" id="field-cafes">
+            <label>Café(s) souhaité(s) <span class="req">*</span> <span class="opt">sélectionnez et choisissez la quantité</span></label>
+            <div class="cafe-grid" id="cafe-grid">
 
-          <!-- Quantité PARTICULIER -->
-          <div class="field full part-only">
-            <label>Quantité souhaitée <span class="req">*</span></label>
-            <div class="choice-grid cols-3">
-              <div class="choice has-photo">
-                <input type="radio" name="quantite-p" id="qp1" value="250 g">
-                <label for="qp1">
-                  <span class="photo"><img src="images/limmu.png" alt="Café Limmu"></span>
-                  <span class="check"></span>
-                  <div class="card-body">
-                    <span class="main">250 g</span>
-                    <span class="sub">14,99 €</span>
+              <div class="cafe-card" data-cafe="Limmu">
+                <span class="cafe-card__check"></span>
+                <div class="cafe-card__photo">
+                  <img src="images/limmu.png" alt="Café Limmu">
+                </div>
+                <div class="cafe-card__info">
+                  <h3 class="cafe-card__name">Limmu</h3>
+                  <p class="cafe-card__region">Région Limmu · Éthiopie</p>
+                  <p class="cafe-card__notes">Floral, bergamote, jasmin</p>
+                </div>
+                <hr class="cafe-card__divider">
+                <div class="cafe-card__qty-section">
+                  <p class="cafe-card__qty-label">Quantité</p>
+                  <div class="cafe-card__qty-chips">
+                    <button type="button" class="qty-chip" data-value="250 g">250 g</button>
+                    <button type="button" class="qty-chip" data-value="500 g">500 g</button>
+                    <button type="button" class="qty-chip" data-value="Sur mesure">Sur mesure</button>
                   </div>
-                </label>
+                </div>
               </div>
-              <div class="choice has-photo">
-                <input type="radio" name="quantite-p" id="qp2" value="500 g">
-                <label for="qp2">
-                  <span class="photo"><img src="images/sidamo.png" alt="Café Sidamo"></span>
-                  <span class="check"></span>
-                  <div class="card-body">
-                    <span class="main">500 g</span>
-                    <span class="sub">28,00 €</span>
+
+              <div class="cafe-card" data-cafe="Sidamo">
+                <span class="cafe-card__check"></span>
+                <div class="cafe-card__photo">
+                  <img src="images/sidamo.png" alt="Café Sidamo">
+                </div>
+                <div class="cafe-card__info">
+                  <h3 class="cafe-card__name">Sidamo</h3>
+                  <p class="cafe-card__region">Région Sidama · Éthiopie</p>
+                  <p class="cafe-card__notes">Fruité, pêche, agrumes</p>
+                </div>
+                <hr class="cafe-card__divider">
+                <div class="cafe-card__qty-section">
+                  <p class="cafe-card__qty-label">Quantité</p>
+                  <div class="cafe-card__qty-chips">
+                    <button type="button" class="qty-chip" data-value="250 g">250 g</button>
+                    <button type="button" class="qty-chip" data-value="500 g">500 g</button>
+                    <button type="button" class="qty-chip" data-value="Sur mesure">Sur mesure</button>
                   </div>
-                </label>
+                </div>
               </div>
-              <div class="choice has-photo">
-                <input type="radio" name="quantite-p" id="qp3" value="Sur mesure">
-                <label for="qp3">
-                  <span class="photo"><img src="images/yirgacheffe.png" alt="Café Yirgacheffe"></span>
-                  <span class="check"></span>
-                  <div class="card-body">
-                    <span class="main">Sur mesure</span>
-                    <span class="sub">Devis sous 48 h</span>
+
+              <div class="cafe-card" data-cafe="Yirgacheffe">
+                <span class="cafe-card__check"></span>
+                <div class="cafe-card__photo">
+                  <img src="images/yirgacheffe.png" alt="Café Yirgacheffe">
+                </div>
+                <div class="cafe-card__info">
+                  <h3 class="cafe-card__name">Yirgacheffe</h3>
+                  <p class="cafe-card__region">Région Yirgacheffe · Éthiopie</p>
+                  <p class="cafe-card__notes">Thé, citron, fleur blanche</p>
+                </div>
+                <hr class="cafe-card__divider">
+                <div class="cafe-card__qty-section">
+                  <p class="cafe-card__qty-label">Quantité</p>
+                  <div class="cafe-card__qty-chips">
+                    <button type="button" class="qty-chip" data-value="250 g">250 g</button>
+                    <button type="button" class="qty-chip" data-value="500 g">500 g</button>
+                    <button type="button" class="qty-chip" data-value="Sur mesure">Sur mesure</button>
                   </div>
-                </label>
+                </div>
               </div>
+
             </div>
-            <div class="error-msg" id="quantite-p-error">Veuillez sélectionner une option</div>
+            <div class="error-msg" id="cafes-error">Veuillez sélectionner au moins un café et une quantité</div>
           </div>
 
           <div class="field full" style="margin-top: 28px;">
