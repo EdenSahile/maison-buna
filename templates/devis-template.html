@@ -336,11 +336,14 @@
 
     /* ─── MESSAGE ─────────────────────────────────────────── */
     .message-block {
+      margin-top: 36px;
       margin-bottom: 24px;
       padding: 16px 20px;
       background: #FAF7F3;
       border: 1px solid #D3C2AC;
       border-left: 3px solid #4F3422;
+      break-before: page;
+      page-break-before: always;
     }
 
     .message-text {
@@ -513,7 +516,7 @@
       <div class="header-tagline">Le berceau du café</div>
     </div>
     <div class="header-doc">
-      <div class="doc-type">Devis indicatif</div>
+      <div class="doc-type">Devis</div>
       <div class="doc-number">{{devis_numero}}</div>
       <div class="doc-dates">
         Émis le {{date_emission}}<br>
@@ -533,12 +536,13 @@
       <div class="party-block vendeur">
         <div class="party-title">Prestataire</div>
         <div class="party-name">Maison Buna</div>
+        <div class="party-line">Mélissa Sahilé EI — Micro-entreprise</div>
         <div class="party-line">24 rue du Faubourg Saint-Antoine</div>
         <div class="party-line">75012 Paris, France</div>
         <div class="party-line">contact@maisonbuna.fr</div>
         <div class="party-line">www.maisonbuna.fr</div>
         <div class="party-line muted">
-          SIRET : [À COMPLÉTER]<br>
+          SIRET : 999 382 484 00015<br>
           TVA non applicable — art. 293 B du CGI
         </div>
       </div>
@@ -578,8 +582,8 @@
           <tr>
             <th style="width:46%">Désignation</th>
             <th>Quantité</th>
-            <th class="right">P.U.</th>
-            <th class="right">Montant TTC</th>
+            <th class="right">{{#if is_particulier}}P.U. TTC{{else}}P.U. HT{{/if}}</th>
+            <th class="right">{{#if is_particulier}}Montant TTC{{else}}Montant HT{{/if}}</th>
           </tr>
         </thead>
         <tbody>
@@ -603,7 +607,7 @@
         <span class="label">TVA non applicable — art. 293 B du CGI</span>
       </div>
       <div class="total-row ttc">
-        <span class="label">Total TTC</span>
+        <span class="label">{{#if is_particulier}}Total TTC{{else}}Total HT{{/if}}</span>
         <span class="value">{{grand_total_fmt}}</span>
       </div>
     </div>
@@ -665,14 +669,19 @@
       <div class="conditions-title">Conditions générales</div>
       <ul class="conditions-list">
         <li>Ce devis est valable 30 jours à compter de sa date d'émission ({{date_emission}}).</li>
-        <li>Les prix indiqués sont des estimations indicatives toutes taxes comprises (TTC). Le devis définitif sera confirmé par email sous 48 heures.</li>
-        <li>TVA non applicable — article 293 B du CGI (franchise en base de TVA).</li>
+        <li>{{#if is_particulier}}Les prix indiqués sont toutes taxes comprises (TTC). TVA non applicable — aucune TVA n'est facturée (art. 293 B du CGI).{{else}}Les prix indiqués sont hors taxes (HT). TVA non applicable — aucune TVA n'est facturée (art. 293 B du CGI).{{/if}}</li>
         <li>Livraison en France métropolitaine. Frais de port calculés selon le volume et l'adresse.</li>
-        <li>Règlement : virement bancaire à 30 jours date de facture (B2B) ou à réception (B2C).</li>
+        {{#if is_particulier}}
+        <li>Règlement : virement bancaire ou paiement à réception de la facture.</li>
+        <li>Droit de rétractation : conformément à l'article L.221-18 du Code de la consommation, le client dispose d'un délai de 14 jours à compter de la réception de la commande pour exercer son droit de rétractation. Conformément à l'article L.221-28, ce droit ne peut être exercé pour les produits descellés après livraison ou préparés/torréfiés spécifiquement sur demande du client.</li>
+        <li>Médiation de la consommation : en cas de litige, vous pouvez recourir gratuitement à un médiateur de la consommation (art. L.616-1 et R.616-1 du Code de la consommation). Médiateur compétent : CNPM — Médiation Consommation — www.cnpm-mediation-consommation.eu</li>
+        {{else}}
+        <li>Règlement : virement bancaire à 30 jours date de facture.</li>
+        <li>Les dispositions relatives au droit de rétractation prévues par le Code de la consommation ne s'appliquent pas aux professionnels.</li>
         <li>Aucun escompte accordé en cas de paiement anticipé.</li>
         <li>Tout retard de paiement entraîne l'application de pénalités au taux de 3 fois le taux d'intérêt légal en vigueur, exigibles sans rappel préalable (art. L.441-10 du Code de commerce).</li>
         <li>Une indemnité forfaitaire de 40 € pour frais de recouvrement est due de plein droit en cas de retard de paiement (décret n° 2012-1115 du 02/10/2012).</li>
-        {{#if is_particulier}}<li>Droit de rétractation : 14 jours à compter de la réception du produit (art. L.221-18 Code de la consommation).</li>{{/if}}
+        {{/if}}
         <li>Toute commande validée implique l'acceptation des présentes conditions et de nos CGV disponibles sur www.maisonbuna.fr.</li>
       </ul>
     </div>
@@ -681,7 +690,7 @@
     <div class="bpa">
       <div class="bpa-block">
         <div class="bpa-title">Bon pour accord — Client</div>
-        <div class="bpa-line">Société : {{societe}}</div>
+        {{#unless is_particulier}}<div class="bpa-line">Société : {{societe}}</div>{{/unless}}
         <div class="bpa-line">Nom : {{prenom}} {{nom}}</div>
         <div class="bpa-sign">Date :</div>
         <div class="bpa-sign" style="margin-top:16px;">Signature :</div>
@@ -696,10 +705,10 @@
 
     <!-- ── MENTIONS LÉGALES ───────────────────────────────── -->
     <div class="legal">
-      Maison Buna — Entreprise individuelle — Siège social : 24 rue du Faubourg Saint-Antoine, 75012 Paris —
-      SIRET : [À COMPLÉTER] — TVA non applicable, art. 293 B du CGI —
+      Maison Buna — Mélissa Sahilé EI — Micro-entreprise — Siège social : 24 rue du Faubourg Saint-Antoine, 75012 Paris —
+      SIRET : 999 382 484 00015 — TVA non applicable, art. 293 B du CGI —
       Code APE : 1083Z (Fabrication de thé et de café).
-      Document généré automatiquement et non signé — valeur contractuelle après confirmation écrite.
+      Document généré automatiquement et non signé.
     </div>
 
   </div>

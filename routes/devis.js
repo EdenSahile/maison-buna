@@ -1,8 +1,25 @@
 import { Router } from 'express';
 import crypto from 'crypto';
+import { readFileSync, writeFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import { saveDevis } from '../data/storage.js';
 import { generatePDF } from '../services/pdfService.js';
 import { sendDevisEmails } from '../services/mailService.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const counterPath = join(__dirname, '../data/counter.json');
+
+function nextDevisNumero(isParticulier) {
+  const data = JSON.parse(readFileSync(counterPath, 'utf8'));
+  data.counter += 1;
+  writeFileSync(counterPath, JSON.stringify(data));
+  const prefix = isParticulier ? 'MBP' : 'MBE';
+  const now = new Date();
+  const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+  const seq = String(data.counter).padStart(5, '0');
+  return `${prefix}-${date}-${seq}`;
+}
 
 const router = Router();
 
@@ -116,7 +133,7 @@ router.post('/devis', async (req, res) => {
     const devis = {
       id,
       timestamp: now.toISOString(),
-      devis_numero: `MB-${now.getFullYear()}-${id.slice(0, 8).toUpperCase()}`,
+      devis_numero: nextDevisNumero(isParticulier),
       date_emission: formatDate(now),
       date_validite: formatDate(validite),
       // Client
