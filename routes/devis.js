@@ -75,7 +75,7 @@ function buildQuantiteResume(quantiteParCafe, cafes) {
     const qte = quantiteParCafe?.[cafe];
     if (!qte) return cafe;
     const entry = PRICING[qte];
-    if (entry?.sur_devis) return `${cafe} : sur devis`;
+    if (entry?.sur_devis) return `${cafe} : sur mesure`;
     return `${cafe} : ${entry?.qte_label || qte}`;
   }).join(' · ');
 }
@@ -136,6 +136,7 @@ router.post('/devis', async (req, res) => {
       // Pricing
       ...computePricing(quantiteParCafe, cafes),
       is_particulier: isParticulier,
+      base_url: process.env.BASE_URL || 'http://localhost:3000',
     };
 
     saveDevis(devis);
