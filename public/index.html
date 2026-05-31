@@ -261,26 +261,6 @@
     text-transform: uppercase;
   }
 
-  .form-meta-progress {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .progress-bar {
-    width: 120px;
-    height: 2px;
-    background: var(--line);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    background: var(--brown);
-    width: 0%;
-    transition: width 0.5s cubic-bezier(.4,0,.2,1);
-  }
 
   h1.page-title {
     font-family: 'Cormorant Garamond', serif;
@@ -960,10 +940,6 @@
     <div id="form-view" data-audience="entreprise">
       <div class="form-meta">
         <span>Demande de devis</span>
-        <span class="form-meta-progress">
-          <span id="progress-text">0%</span>
-          <span class="progress-bar"><span class="progress-bar-fill" id="progress-fill"></span></span>
-        </span>
       </div>
 
       <h1 class="page-title">Parlons de votre <em>café</em>.</h1>
@@ -1359,8 +1335,7 @@
   </main>
 </div>
 
-<script>
-  const form = document.getElementById('devisForm');
+<script src="script.js" defer>
   const formView = document.getElementById('form-view');
   const audToggle = document.getElementById('audience-toggle');
   const stepLabel1 = document.getElementById('step-1-label');
@@ -1492,13 +1467,6 @@
           (d.message ? 0.6 : 0)
         );
 
-    const total = isEnt
-      ? 1+1+1+1+1+1+0.5+0.5+0.3+0.3+0.3+0.6
-      : 1+1+1+1+1+1+1+0.5+0.5+0.3+0.6;
-
-    const pct = Math.min(100, Math.round((filled / total) * 100));
-    document.getElementById('progress-fill').style.width = pct + '%';
-    document.getElementById('progress-text').textContent = pct + '%';
 
     document.querySelectorAll('.step').forEach((step, i) => {
       step.classList.remove('is-done', 'is-active');
@@ -1678,9 +1646,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Initial state
-  updateProgress();
-</script>
 
 </body>
 </html>
