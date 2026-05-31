@@ -6,59 +6,109 @@ import { sendDevisEmails } from '../services/mailService.js';
 
 const router = Router();
 
+const CAFES_META = {
+  'Limmu':       { region: 'Région Limmu · Éthiopie' },
+  'Sidamo':      { region: 'Région Sidama · Éthiopie' },
+  'Yirgacheffe': { region: 'Région Yirgacheffe · Éthiopie' },
+};
+
+// Prix TTC par quantité — TVA non applicable art. 293 B CGI (franchise en base)
+const PRICING = {
+  '250 g':               { pu_ttc: 14.99, qte_label: '250 g',      sur_devis: false },
+  '500 g – 1 kg':        { pu_ttc: 28.00, qte_label: '500 g',      sur_devis: false },
+  '1 – 3 kg':            { pu_ttc: 52.00, qte_label: '1 kg',       sur_devis: false },
+  '3 – 5 kg':            { pu_ttc: 145.00, qte_label: '3 kg',      sur_devis: false },
+  'À estimer':           { pu_ttc: 0,     qte_label: '',            sur_devis: true  },
+  '250 g — Découverte':  { pu_ttc: 14.99, qte_label: '250 g',      sur_devis: false },
+  '500 g — 1 personne':  { pu_ttc: 26.50, qte_label: '500 g',      sur_devis: false },
+  '1 kg — Couple':       { pu_ttc: 49.99, qte_label: '1 kg',       sur_devis: false },
+  '2 kg — Famille':      { pu_ttc: 94.99, qte_label: '2 kg',       sur_devis: false },
+  'Abonnement découverte': { pu_ttc: 12.99, qte_label: '250 g/mois', sur_devis: false },
+  'Coffret cadeau':      { pu_ttc: 34.99, qte_label: '1 coffret',  sur_devis: false },
+};
+
+function formatDate(d) {
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+}
+
+function fmt(n) {
+  return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+
+function computePricing(quantite, cafes) {
+  const entry = PRICING[quantite];
+  if (!entry || entry.sur_devis) return { pricing_rows: null, grand_total_fmt: null, sur_devis: true };
+
+  const pricing_rows = cafes.map(cafe => ({
+    cafe,
+    region:        CAFES_META[cafe]?.region || '',
+    designation:   'Café arabica de spécialité — Éthiopien grade 1, torréfié artisanalement en France',
+    qte_label:     entry.qte_label,
+    pu_ttc_fmt:    fmt(entry.pu_ttc),
+    total_ttc_fmt: fmt(entry.pu_ttc),
+  }));
+
+  const grand_total = entry.pu_ttc * cafes.length;
+  return { pricing_rows, grand_total_fmt: fmt(grand_total), sur_devis: false };
+}
+
 router.post('/devis', async (req, res) => {
   try {
     const {
-      societe,
-      prenom,
-      nom,
-      email,
-      collaborateurs,
-      quantite,
-      secteur,
-      telephone,
-      ville,
-      frequence,
-      moutures,
-      message
+      societe, prenom, nom, email, telephone,
+      collaborateurs, secteur,
+      adresse, codepostal, ville,
+      cafes, quantite, frequence, moutures, message,
     } = req.body;
 
-    // Validation champs obligatoires
-    const champsObligatoires = { societe, prenom, nom, email, collaborateurs, quantite };
-    for (const [champ, valeur] of Object.entries(champsObligatoires)) {
-      if (!valeur || String(valeur).trim() === '') {
-        return res.status(400).json({ error: `Champ manquant : ${champ}` });
-      }
+    const isParticulier = societe === 'Particulier';
+
+    // Validation
+    if (!prenom?.trim()) return res.status(400).json({ error: 'Champ manquant : prenom' });
+    if (!nom?.trim())    return res.status(400).json({ error: 'Champ manquant : nom' });
+    if (!email?.includes('@')) return res.status(400).json({ error: 'Email invalide' });
+    if (!Array.isArray(cafes) || cafes.length === 0) return res.status(400).json({ error: 'Champ manquant : cafes' });
+    if (!quantite?.trim()) return res.status(400).json({ error: 'Champ manquant : quantite' });
+
+    if (!isParticulier) {
+      if (!societe?.trim()) return res.status(400).json({ error: 'Champ manquant : societe' });
+      if (!collaborateurs?.trim()) return res.status(400).json({ error: 'Champ manquant : collaborateurs' });
+    } else {
+      if (!adresse?.trim()) return res.status(400).json({ error: 'Champ manquant : adresse' });
     }
 
-    // Validation email basique
-    if (!email.includes('@') || !email.includes('.')) {
-      return res.status(400).json({ error: 'Email invalide' });
-    }
+    const now = new Date();
+    const validite = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const id = crypto.randomUUID();
 
     const devis = {
-      id: crypto.randomUUID(),
-      timestamp: new Date().toISOString(),
-      societe,
-      prenom,
-      nom,
-      email,
-      collaborateurs,
-      quantite,
-      secteur: secteur || '',
-      telephone: telephone || '',
-      ville: ville || '',
-      frequence: frequence || '',
-      moutures: moutures || [],
-      message: message || ''
+      id,
+      timestamp: now.toISOString(),
+      // Numéro lisible
+      devis_numero: `MB-${now.getFullYear()}-${id.slice(0, 8).toUpperCase()}`,
+      date_emission: formatDate(now),
+      date_validite: formatDate(validite),
+      // Client
+      societe:       isParticulier ? 'Particulier' : societe,
+      prenom, nom, email,
+      telephone:     telephone || '',
+      collaborateurs: collaborateurs || '',
+      secteur:       secteur || '',
+      adresse:       adresse || '',
+      codepostal:    codepostal || '',
+      ville:         ville || '',
+      // Commande
+      cafes:    cafes,
+      quantite, frequence: frequence || '', moutures: moutures || [], message: message || '',
+      // Pricing
+      ...computePricing(quantite, cafes),
+      is_particulier: isParticulier,
     };
 
     saveDevis(devis);
 
-    // Répondre IMMÉDIATEMENT — ne pas attendre le PDF ni les emails
     res.json({ success: true, id: devis.id });
 
-    // Traitement en arrière-plan (PDF + emails) — ne bloque plus la réponse
     setImmediate(async () => {
       try {
         const pdfBuffer = await generatePDF(devis);

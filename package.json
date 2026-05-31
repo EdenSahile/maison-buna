@@ -2,10 +2,13 @@
   "name": "maison-buna-devis",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js",
+    "dev": "node server.js",
+    "dev:client": "cd client && npm run dev",
+    "start": "NODE_ENV=production node server.js",
+    "build": "cd client && npm run build",
     "pdf:test": "node scripts/test-pdf.js",
-    "mail:test": "node scripts/test-mail.js"
+    "mail:test": "node scripts/test-mail.js",
+    "test": "cd client && npm test"
   },
   "dependencies": {
     "dotenv": "^16.0.0",
