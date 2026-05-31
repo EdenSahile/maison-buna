@@ -136,6 +136,7 @@ router.post('/devis', async (req, res) => {
       // Pricing
       ...computePricing(quantiteParCafe, cafes),
       is_particulier: isParticulier,
+      base_url: process.env.BASE_URL || 'http://localhost:3000',
     };
 
     saveDevis(devis);
