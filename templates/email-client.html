@@ -15,7 +15,7 @@
   </noscript>
   <![endif]-->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap');
     body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
     table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
     img { -ms-interpolation-mode: bicubic; border: 0; }
@@ -23,7 +23,7 @@
     a { color: #4F3422; text-decoration: underline; }
   </style>
 </head>
-<body style="margin:0;padding:0;background-color:#FAF7F3;font-family:'Jost',Arial,sans-serif;">
+<body style="margin:0;padding:0;background-color:#FAF7F3;font-family:'Montserrat',Arial,sans-serif;">
 
   <!-- ── WRAPPER ─────────────────────────────────────────── -->
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#FAF7F3;margin:0;padding:0;">
@@ -52,7 +52,7 @@
               <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:600;color:#FAF7F3;letter-spacing:0.08em;line-height:1;margin-bottom:6px;">
                 Maison Buna
               </div>
-              <div style="font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:300;color:#D3C2AC;letter-spacing:0.25em;text-transform:uppercase;">
+              <div style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:300;color:#D3C2AC;letter-spacing:0.25em;text-transform:uppercase;">
                 Le berceau du café
               </div>
             </td>
@@ -73,54 +73,69 @@
               </p>
 
               <!-- Message principal -->
-              <p style="font-family:'Jost',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 12px 0;">
+              {{#if sur_devis}}
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 12px 0;">
+                {{#if is_particulier}}
+                Nous avons bien reçu votre demande et nous vous en remercions.
+                {{else}}
+                Nous avons bien reçu la demande de <strong style="font-weight:500;">{{societe}}</strong> et nous vous en remercions.
+                {{/if}}
+              </p>
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 28px 0;">
+                Votre demande nécessite une offre entièrement personnalisée. Un membre de notre équipe prendra contact avec vous dans les meilleurs délais pour échanger sur votre projet et vous proposer une solution adaptée.
+              </p>
+              {{else}}
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 12px 0;">
                 {{#if is_particulier}}
                 Nous avons bien reçu votre demande de devis et nous vous en remercions chaleureusement.
                 {{else}}
                 Nous avons bien reçu la demande de devis de <strong style="font-weight:500;">{{societe}}</strong> et nous vous en remercions chaleureusement.
                 {{/if}}
               </p>
-              <p style="font-family:'Jost',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 28px 0;">
-                Chez Maison Buna, chaque partenariat est une histoire qui commence autour d'une tasse de café d'exception. Notre équipe examine votre demande avec le plus grand soin et vous adressera une proposition personnalisée dans les meilleurs délais.
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 28px 0;">
+                Vous trouverez votre devis en pièce jointe. N'hésitez pas à nous contacter pour toute question.
               </p>
+              {{/if}}
 
               <!-- Récapitulatif -->
-              <p style="font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:600;color:#AB9679;letter-spacing:0.18em;text-transform:uppercase;margin:0 0 14px 0;">
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:600;color:#AB9679;letter-spacing:0.18em;text-transform:uppercase;margin:0 0 14px 0;">
                 Récapitulatif de votre demande
               </p>
 
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;border:1px solid #D3C2AC;margin-bottom:28px;">
                 <!-- En-tête tableau -->
                 <tr>
-                  <td width="50%" style="background-color:#2e2010;padding:10px 16px;font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:500;color:#FAF7F3;letter-spacing:0.12em;text-transform:uppercase;">
+                  <td width="50%" style="background-color:#2e2010;padding:10px 16px;font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:500;color:#FAF7F3;letter-spacing:0.12em;text-transform:uppercase;">
                     Information
                   </td>
-                  <td width="50%" style="background-color:#2e2010;padding:10px 16px;font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:500;color:#FAF7F3;letter-spacing:0.12em;text-transform:uppercase;">
+                  <td width="50%" style="background-color:#2e2010;padding:10px 16px;font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:500;color:#FAF7F3;letter-spacing:0.12em;text-transform:uppercase;">
                     Détail
                   </td>
                 </tr>
                 <!-- Café(s) -->
                 <tr>
-                  <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
+                  <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
                     Café(s)
                   </td>
                   <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:400;color:#2e2010;border-bottom:1px solid #D3C2AC;">
                     {{#each cafes}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
                   </td>
                 </tr>
-                <!-- Quantité -->
+                <!-- Quantité (masquée pour les demandes sur mesure) -->
+                {{#unless sur_devis}}
                 <tr>
-                  <td style="background-color:#ffffff;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
+                  <td style="background-color:#ffffff;padding:12px 16px;font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
                     Quantité
                   </td>
                   <td style="background-color:#ffffff;padding:12px 16px;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:400;color:#2e2010;border-bottom:1px solid #D3C2AC;">
-                    {{quantite}}
+                    {{quantite_resume}}
                   </td>
                 </tr>
+                {{/unless}}
                 <!-- Fréquence -->
                 {{#if frequence}}
                 <tr>
-                  <td style="background-color:#ffffff;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
+                  <td style="background-color:#ffffff;padding:12px 16px;font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
                     Fréquence
                   </td>
                   <td style="background-color:#ffffff;padding:12px 16px;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:400;color:#2e2010;border-bottom:1px solid #D3C2AC;">
@@ -131,7 +146,7 @@
                 <!-- Adresse (particulier uniquement) -->
                 {{#if is_particulier}}
                 <tr>
-                  <td style="background-color:#ffffff;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
+                  <td style="background-color:#ffffff;padding:12px 16px;font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;border-bottom:1px solid #D3C2AC;">
                     Adresse de livraison
                   </td>
                   <td style="background-color:#ffffff;padding:12px 16px;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:400;color:#2e2010;border-bottom:1px solid #D3C2AC;">
@@ -141,28 +156,30 @@
                 {{/if}}
                 <!-- Référence -->
                 <tr>
-                  <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;">
+                  <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:500;color:#AB9679;letter-spacing:0.06em;text-transform:uppercase;">
                     Référence devis
                   </td>
-                  <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:400;color:#4F3422;letter-spacing:0.04em;">
+                  <td style="background-color:#FAF7F3;padding:12px 16px;font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:400;color:#4F3422;letter-spacing:0.04em;">
                     {{devis_numero}}
                   </td>
                 </tr>
               </table>
 
-              <!-- Délai -->
+              <!-- Délai — uniquement pour les demandes sur mesure -->
+              {{#if sur_devis}}
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;background-color:#FAF7F3;border:1px solid #D3C2AC;border-left:3px solid #4F3422;margin-bottom:28px;">
                 <tr>
                   <td style="padding:16px 20px;">
-                    <p style="font-family:'Jost',Arial,sans-serif;font-size:13px;font-weight:400;color:#2e2010;line-height:1.6;margin:0;">
-                      Notre équipe vous répondra sous <strong style="font-weight:600;color:#4F3422;">48h ouvrées</strong> avec une proposition commerciale adaptée à vos besoins.
+                    <p style="font-family:'Montserrat',Arial,sans-serif;font-size:13px;font-weight:400;color:#2e2010;line-height:1.6;margin:0;">
+                      Un conseiller Maison Buna vous contactera sous <strong style="font-weight:600;color:#4F3422;">48 heures</strong> pour discuter de votre projet et vous soumettre une offre sur mesure.
                     </p>
                   </td>
                 </tr>
               </table>
+              {{/if}}
 
               <!-- Closing -->
-              <p style="font-family:'Jost',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 6px 0;">
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:300;color:#2e2010;line-height:1.7;margin:0 0 6px 0;">
                 En vous souhaitant une excellente journée,
               </p>
               <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:500;color:#4F3422;margin:0;line-height:1.4;">
@@ -178,7 +195,7 @@
               <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;font-weight:400;color:#FAF7F3;margin:0 0 4px 0;letter-spacing:0.06em;">
                 Maison Buna
               </p>
-              <p style="font-family:'Jost',Arial,sans-serif;font-size:11px;font-weight:300;color:#D3C2AC;margin:0;letter-spacing:0.08em;">
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:300;color:#D3C2AC;margin:0;letter-spacing:0.08em;">
                 <a href="mailto:contact@maisonbuna.fr" style="color:#D3C2AC;text-decoration:none;">contact@maisonbuna.fr</a>
                 &nbsp;·&nbsp;
                 <a href="https://www.maisonbuna.fr" style="color:#D3C2AC;text-decoration:none;">www.maisonbuna.fr</a>
@@ -193,7 +210,7 @@
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px;width:100%;">
           <tr>
             <td style="padding:16px 0;text-align:center;">
-              <p style="font-family:'Jost',Arial,sans-serif;font-size:10px;font-weight:300;color:#AB9679;margin:0;letter-spacing:0.06em;line-height:1.6;">
+              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:300;color:#AB9679;margin:0;letter-spacing:0.06em;line-height:1.6;">
                 Vous recevez cet email car vous avez soumis une demande de devis sur maisonbuna.fr.
               </p>
             </td>
