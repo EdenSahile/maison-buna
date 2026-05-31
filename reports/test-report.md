@@ -1,21 +1,20 @@
-## Testeur — DONE
+## Testeur — DONE (audit complet)
 
 ### Résultats
 | Test | Attendu | Obtenu | Statut |
 |------|---------|--------|--------|
-| Démarrage serveur | port 3000 OK | HTML retourné (`<!DOCTYPE html>`) | ✅ |
-| Route nominale | success: true | `{"success":true,"id":"970365ff-..."}` HTTP 200 | ✅ |
-| Champ manquant | 400 | 400 `{"error":"Champ manquant : nom"}` | ✅ |
-| Email invalide | 400 | 400 `{"error":"Email invalide"}` | ✅ |
-| Corps vide | 400 | 400 `{"error":"Champ manquant : societe"}` | ✅ |
-| Stockage JSON | entrée avec id+timestamp | UUID + timestamp ISO présents dans data/devis.json | ✅ |
-| PDF généré | fichier > 0 bytes | scripts/test-output.pdf créé (212 188 bytes) | ✅ |
-| Emails envoyés | SMTP non configuré (toléré) | ⚠️ ECONNREFUSED ::1:587 — SMTP non configuré en dev | ⚠️ |
+| T1 — Route nominale | 200 + success:true | `{"success":true,"id":"5f35cfcc-..."}` HTTP 200 | OK |
+| T2 — Content-Type manquant | 415 | `{"error":"Content-Type application/json requis"}` HTTP 415 | OK |
+| T3 — Email invalide | 400 | `{"error":"Email invalide"}` HTTP 400 | OK |
+| T4 — Email bord (@.) | 400 | `{"error":"Email invalide"}` HTTP 400 | OK |
+| T5 — Prenom manquant | 400 | `{"error":"Champ manquant : prenom"}` HTTP 400 | OK |
+| T6 — Corps vide | 400 | `{"error":"Champ manquant : prenom"}` HTTP 400 | OK |
+| T7 — Helmet headers | >=2 headers | CSP + X-Content-Type-Options + X-Frame-Options (3/3) | OK |
+| T8 — Stockage JSON | entrée valide (id UUID + timestamp ISO) | id + timestamp presents dans data/devis.json | OK |
+| T9 — PDF logo-buna | fichier > 0 bytes | scripts/test-output.pdf cree (173 308 bytes), aucune erreur ENOENT logo | OK |
 
-### Bugs détectés
+### Bugs detectes
 Aucun.
 
-Le bug signalé dans le rapport précédent (route nominale retournant HTTP 500 à cause de l'erreur SMTP non catchée) est **corrigé** dans `routes/devis.js` : `sendDevisEmails` est maintenant enveloppé dans son propre `try/catch` (lignes 61–65), ce qui rend l'envoi email best-effort. La réponse de succès est bien retournée indépendamment du résultat SMTP.
-
 ### Verdict
-✅ TOUS LES TESTS PASSENT — Prêt pour : Reviewer
+TOUS LES TESTS PASSENT — Pret pour : Reviewer

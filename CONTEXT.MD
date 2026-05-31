@@ -12,53 +12,69 @@
 |-----------|------|
 | Serveur (port 3000) | ✅ opérationnel |
 | Vite dev client (port 5180) | ✅ opérationnel |
-| PDF Puppeteer | ✅ généré et joint en PJ email |
+| PDF Puppeteer | ✅ généré (logo à corriger dans audit) |
 | Emails Brevo REST API | ✅ client + admin envoyés |
-| Tests Vitest | ✅ 20/20 (à re-confirmer) |
+| Logo email inline (CID) | ❌ s'affiche en PJ — à corriger dans audit |
+| Tests Vitest | ✅ 20/20 (à re-confirmer après audit) |
 
 ---
 
 ## Branche active
 
-`feature/react-migration`
+`main` — prochaine branche à créer : `chore/audit-complet`
 
 ---
 
-## Features terminées (cette branche)
+## Tâches terminées ✅
 
-- **Migration React** — formulaire React complet avec composants (DevisForm, CoffeeGrid, AudienceToggle, BrandPanel, SectionCommande)
-- **Sélection des cafés** — Limmu, Sidamo, Yirgacheffe avec visuels et régions
-- **Audience toggle** — mode Entreprise / Particulier avec tarifs adaptés
-- **Templates email** — audience-aware, numéro de devis `MB-YYYY-XXXXXXXX`, bloc "48h" uniquement pour `sur_devis:true`
-- **mailService.js** — réécriture SMTP → API REST Brevo (fetch), plus de connexions TCP pendantes
-- **Fix bug emails** — nodemon ignorait pas `data/` → redémarrait après chaque save → `setImmediate` tué. Corrigé via `nodemonConfig.ignore: ["data/*"]` dans `package.json`
+- [x] Migration formulaire React (DevisForm, CoffeeGrid, AudienceToggle, BrandPanel, SectionCommande)
+- [x] Sélection cafés par quantité individuelle (`quantiteParCafe`)
+- [x] Audience toggle Entreprise / Particulier avec tarifs adaptés
+- [x] Templates email audience-aware + numéro devis `MB-YYYY-XXXXXXXX`
+- [x] Réécriture mailService SMTP → API REST Brevo (fetch)
+- [x] Fix bug emails nodemon (`nodemonConfig.ignore: ["data/*"]`)
+- [x] Mouture — chip statique "Grains entiers" (non interactive)
+- [x] Email recap — quantités affichées même pour `sur_devis:true`
+- [x] Workflow git — pipeline branches/PR/merge propre
+- [x] Audit sécurité initial (3 ÉLEVÉ corrigés, helmet + rate-limit + nodemailer CVE)
+- [x] Plan audit complet rédigé (`docs/superpowers/plans/2026-05-31-audit-complet.md`)
 
 ---
 
-## Tâches restantes
+## Tâches en cours / restantes ⏳
 
-| # | Tâche | Fichier(s) | Statut |
-|---|-------|------------|--------|
-| 1 | Polices KALUFONIA + Classy Vogue | `client/src/assets/fonts/` | ⏳ en attente (fichiers à fournir) |
-| 2 | SIRET dans template PDF | `templates/devis-template.html` | ⏳ info à compléter |
-| 3 | Merger `feature/react-migration` → `main` | — | ⏳ après validation complète |
+### Audit complet — pipeline multi-agents (`chore/audit-complet`)
+
+- [ ] Créer branche `chore/audit-complet`
+- [ ] Agent UX Designer — fix templates email (CID→SVG), PDF logo, couleurs React, theme.js
+- [ ] Agent Développeur — fromEmail env var, helmet, timeout Puppeteer, regex email, logs anonymisés, nodemailer, .env.example
+- [x] Agent Testeur — 9/9 tests passes (HTTP, Helmet, JSON, PDF)
+- [x] Agent Code Reviewer — audit qualité tout le code modifié (APPROUVÉ)
+- [x] Agent Sécurité — vérif MOYEN restants + npm audit (SUR — 2026-05-31)
+- [ ] PR `chore/audit-complet` → `main` + merge
+
+### Après audit
+
+- [ ] Polices KALUFONIA + Classy Vogue (`client/src/assets/fonts/`) — en attente fichiers
+- [ ] SIRET dans template PDF (`templates/devis-template.html`) — info à compléter
 
 ---
 
 ## Notes techniques
 
-- `SMTP_PASS` dans `.env` = clé API Brevo `xkeysib-...` (89 chars) — utilisée par `mailService.js`
+- `SMTP_PASS` dans `.env` = clé API Brevo `xkeysib-...` (89 chars)
 - `ADMIN_EMAIL` dans `.env` = `REDACTED_EMAIL`
-- Vite dev sur port **5180** (5173 occupé par autre app)
-- Nodemon ignore `data/*` — ne redémarre plus sur changement de `data/devis.json`
-- Flow `sur_devis` : quantité "À estimer" → pas de PDF, email client sans bloc délai, email admin "sur mesure"
+- Vite dev sur port **5180**
+- Nodemon ignore `data/*`
 - REST API Brevo : POST `https://api.brevo.com/v3/smtp/email` avec header `api-key: SMTP_PASS`
-- `from.email` dans `mailService.js` : `REDACTED_EMAIL` (domaine validé Brevo)
+- Pipeline multi-agents obligatoire pour toute feature (voir CLAUDE.md)
 
 ---
 
 ## Audit sécurité
 
-Dernier audit : 2026-05-26
-Verdict : ✅ SÛR (3 ÉLEVÉ corrigés — 0 CRITIQUE/ÉLEVÉ restant)
-Points MOYEN restants : helmet.js absent · timeout Puppeteer absent · emails loggés en clair
+Dernier audit : 2026-05-31 — SUR (0 CRITIQUE/ÉLEVÉ)
+npm audit : 0 vulnérabilité
+Points MOYEN résiduels (non bloquants) :
+- Rate limiting absent (à réinstaller — express-rate-limit disparu lors migration Brevo)
+- BREVO_API_KEY fantôme dans .env.example (incohérence avec SMTP_PASS utilisé dans le code)

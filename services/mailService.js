@@ -11,7 +11,7 @@ function loadTemplate(name) {
   return readFileSync(join(__dirname, '../templates', name), 'utf8');
 }
 
-async function sendOne({ apiKey, from, to, subject, html, attachments, inlineImages }) {
+async function sendOne({ apiKey, from, to, subject, html, attachments }) {
   const body = {
     sender: { name: from.name, email: from.email },
     to: [{ email: to }],
@@ -20,14 +20,6 @@ async function sendOne({ apiKey, from, to, subject, html, attachments, inlineIma
   };
 
   const allAttachments = [];
-
-  if (inlineImages?.length) {
-    inlineImages.forEach(img => allAttachments.push({
-      name: img.filename,
-      content: img.content.toString('base64'),
-      contentId: img.contentId,
-    }));
-  }
 
   if (attachments?.length) {
     attachments.forEach(a => allAttachments.push({
@@ -57,17 +49,10 @@ async function sendOne({ apiKey, from, to, subject, html, attachments, inlineIma
 export async function sendDevisEmails(devis, pdfBuffer) {
   const apiKey   = process.env.SMTP_PASS;
   const fromName  = 'Maison Buna';
-  const fromEmail = 'REDACTED_EMAIL';
+  const fromEmail = process.env.SMTP_USER;
 
   const clientTemplate = Handlebars.compile(loadTemplate('email-client.html'));
   const adminTemplate  = Handlebars.compile(loadTemplate('email-admin.html'));
-
-  const logoContent = readFileSync(join(__dirname, '../public/images/logo-buna.png'));
-  const inlineImages = [{
-    filename: 'logo-buna.png',
-    content: logoContent,
-    contentId: 'logo-buna',
-  }];
 
   const attachments = pdfBuffer ? [{
     filename: `devis-${devis.id.slice(0, 8)}.pdf`,
@@ -90,9 +75,8 @@ export async function sendDevisEmails(devis, pdfBuffer) {
     subject: clientSubject,
     html: clientTemplate(devis),
     attachments,
-    inlineImages,
   });
-  console.log(`Email client envoyé à ${devis.email}`);
+  console.log(`Email client envoyé — id:${devis.id}`);
 
   await sendOne({
     apiKey,
@@ -101,7 +85,6 @@ export async function sendDevisEmails(devis, pdfBuffer) {
     subject: adminSubject,
     html: adminTemplate(devis),
     attachments,
-    inlineImages,
   });
-  console.log(`Email admin envoyé à ${process.env.ADMIN_EMAIL}`);
+  console.log(`Email admin envoyé — id:${devis.id}`);
 }

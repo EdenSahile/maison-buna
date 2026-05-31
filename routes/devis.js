@@ -82,6 +82,8 @@ function buildQuantiteResume(quantiteParCafe, cafes) {
 
 router.post('/devis', async (req, res) => {
   try {
+    if (!req.is('application/json')) return res.status(415).json({ error: 'Content-Type application/json requis' });
+
     const {
       societe, prenom, nom, email, telephone,
       collaborateurs, secteur,
@@ -94,7 +96,7 @@ router.post('/devis', async (req, res) => {
     // Validation
     if (!prenom?.trim()) return res.status(400).json({ error: 'Champ manquant : prenom' });
     if (!nom?.trim())    return res.status(400).json({ error: 'Champ manquant : nom' });
-    if (!email?.includes('@')) return res.status(400).json({ error: 'Email invalide' });
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Email invalide' });
     if (!Array.isArray(cafes) || cafes.length === 0) return res.status(400).json({ error: 'Champ manquant : cafes' });
     if (!quantiteParCafe || typeof quantiteParCafe !== 'object') return res.status(400).json({ error: 'Champ manquant : quantiteParCafe' });
     const missingQte = cafes.find(c => !quantiteParCafe[c]);
@@ -136,7 +138,6 @@ router.post('/devis', async (req, res) => {
       // Pricing
       ...computePricing(quantiteParCafe, cafes),
       is_particulier: isParticulier,
-      base_url: process.env.BASE_URL || 'http://localhost:3000',
     };
 
     saveDevis(devis);
