@@ -101,7 +101,7 @@ const Tagline = styled.p`
   flex: 1;
 `
 
-export default function SuccessView({ formData, audience, onReset }) {
+export default function SuccessView({ formData, audience, onReset, surDevis }) {
   const isEnt = audience === 'entreprise'
 
   const rows = []
@@ -133,7 +133,9 @@ export default function SuccessView({ formData, audience, onReset }) {
 
       <Title>Demande <em>bien reçue.</em></Title>
       <Lead>
-        Merci de votre confiance. Notre équipe étudie votre demande et reviendra vers vous sous 48 heures avec une proposition personnalisée.
+        {surDevis
+          ? "Notre équipe étudie votre demande et reviendra vers vous sous 48 heures avec une proposition personnalisée."
+          : "Votre devis a été généré et vous sera envoyé par email dans quelques instants. Pensez à vérifier vos spams si vous ne le recevez pas."}
       </Lead>
 
       <SummaryBox>

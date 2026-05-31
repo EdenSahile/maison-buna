@@ -141,6 +141,7 @@ export default function DevisForm() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [surDevis, setSurDevis] = useState(false);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -182,6 +183,8 @@ export default function DevisForm() {
       });
       if (!res.ok)
         throw new Error("Erreur lors de l'envoi. Veuillez réessayer.");
+      const hasSurDevis = Object.values(formData.quantiteParCafe).some(v => v === 'À estimer');
+      setSurDevis(hasSurDevis);
       setSubmitted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
@@ -215,6 +218,7 @@ export default function DevisForm() {
             formData={formData}
             audience={audience}
             onReset={handleReset}
+            surDevis={surDevis}
           />
         </FormArea>
       </Shell>
