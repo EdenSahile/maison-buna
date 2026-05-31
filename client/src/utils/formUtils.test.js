@@ -5,14 +5,14 @@ const baseEnt = {
   societe: 'Acme', secteur: 'Tech / Startup', collaborateurs: '11 – 25',
   adresse: '', codepostal: '', ville: 'Paris',
   prenom: 'Jean', nom: 'Dupont', email: 'jean@acme.fr', telephone: '',
-  cafes: ['Limmu'], quantite: '1 – 3 kg', frequence: '', moutures: [], message: '',
+  cafes: ['Limmu'], quantiteParCafe: { Limmu: '1 – 3 kg' }, frequence: '', moutures: [], message: '',
 }
 
 const basePart = {
   societe: '', secteur: '', collaborateurs: '',
   adresse: '12 rue de la Paix', codepostal: '75001', ville: 'Paris',
   prenom: 'Marie', nom: 'Martin', email: 'marie@email.fr', telephone: '',
-  cafes: ['Sidamo'], quantite: '500 g — 1 personne', frequence: '', moutures: [], message: '',
+  cafes: ['Sidamo'], quantiteParCafe: { Sidamo: '500 g — 1 personne' }, frequence: '', moutures: [], message: '',
 }
 
 describe('validate', () => {
@@ -40,8 +40,8 @@ describe('validate', () => {
     expect(validate({ ...baseEnt, email: 'pasunemail' }, 'entreprise')).toHaveProperty('email')
   })
 
-  it('exige quantite', () => {
-    expect(validate({ ...baseEnt, quantite: '' }, 'entreprise')).toHaveProperty('quantite')
+  it('exige quantite pour chaque café sélectionné', () => {
+    expect(validate({ ...baseEnt, quantiteParCafe: {} }, 'entreprise')).toHaveProperty('quantiteParCafe')
   })
 
   it('exige au moins un café', () => {
@@ -56,11 +56,15 @@ describe('computeStepProgress', () => {
   })
 
   it('step 4 est toujours true', () => {
-    expect(computeStepProgress({ ...baseEnt, quantite: '' }, 'entreprise')[3]).toBe(true)
+    expect(computeStepProgress({ ...baseEnt, quantiteParCafe: {} }, 'entreprise')[3]).toBe(true)
   })
 
   it('step 3 false si cafes vide', () => {
     expect(computeStepProgress({ ...baseEnt, cafes: [] }, 'entreprise')[2]).toBe(false)
+  })
+
+  it('step 3 false si café sélectionné sans quantité', () => {
+    expect(computeStepProgress({ ...baseEnt, quantiteParCafe: {} }, 'entreprise')[2]).toBe(false)
   })
 
   it('step 1 false si societe manquante', () => {
@@ -74,7 +78,7 @@ describe('computeStepProgress', () => {
 
 describe('computeProgress', () => {
   it('retourne 0 si rien n\'est rempli', () => {
-    const empty = { ...baseEnt, societe: '', collaborateurs: '', prenom: '', nom: '', email: '', cafes: [], quantite: '', ville: '', secteur: '' }
+    const empty = { ...baseEnt, societe: '', collaborateurs: '', prenom: '', nom: '', email: '', cafes: [], quantiteParCafe: {}, ville: '', secteur: '' }
     expect(computeProgress(empty, 'entreprise')).toBe(0)
   })
 
@@ -102,5 +106,10 @@ describe('buildPayload', () => {
   it('inclut cafes dans le payload', () => {
     expect(buildPayload(baseEnt, 'entreprise').cafes).toEqual(['Limmu'])
     expect(buildPayload(basePart, 'particulier').cafes).toEqual(['Sidamo'])
+  })
+
+  it('inclut quantiteParCafe dans le payload', () => {
+    expect(buildPayload(baseEnt, 'entreprise').quantiteParCafe).toEqual({ Limmu: '1 – 3 kg' })
+    expect(buildPayload(basePart, 'particulier').quantiteParCafe).toEqual({ Sidamo: '500 g — 1 personne' })
   })
 })

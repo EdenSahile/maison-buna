@@ -1,5 +1,7 @@
 .env
 node_modules/
 data/devis.json
+data/bg-errors.log
 scripts/test-output.pdf
 .playwright-mcp/
+.superpowers/

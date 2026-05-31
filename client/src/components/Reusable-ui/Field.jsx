@@ -34,7 +34,7 @@ const baseInputStyles = css`
   border: 1px solid ${({ $invalid }) => $invalid ? theme.error : theme.line};
   border-radius: 6px;
   padding: 14px 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 15px;
   color: ${theme.dark};
   outline: none;
@@ -68,7 +68,7 @@ export const StyledTextarea = styled.textarea`
   resize: vertical;
   min-height: 100px;
   line-height: 1.6;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 `
 
 const ErrorMsg = styled.div`
