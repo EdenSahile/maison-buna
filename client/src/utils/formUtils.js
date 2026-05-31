@@ -5,7 +5,7 @@ export const INITIAL_FORM_DATA = {
   societe: '', secteur: '', collaborateurs: '',
   adresse: '', codepostal: '', ville: '',
   prenom: '', nom: '', email: '', telephone: '',
-  cafes: [], quantiteParCafe: {}, frequence: '', moutures: [],
+  cafes: [], quantiteParCafe: {}, frequence: '', moutures: ['Grains entiers'],
   message: '',
 }
 
@@ -58,12 +58,11 @@ export function computeProgress(formData, audience) {
       (formData.cafes?.length ? 1 : 0) +
       (formData.cafes?.length && formData.cafes.every(c => formData.quantiteParCafe?.[c]) ? 1 : 0) +
       (formData.frequence ? 0.5 : 0) +
-      (formData.moutures.length ? 0.5 : 0) +
       (formData.secteur ? 0.3 : 0) +
       (formData.telephone ? 0.3 : 0) +
       (formData.ville ? 0.3 : 0) +
       (formData.message ? 0.6 : 0)
-    total = 1+1+1+1+1+1+1+0.5+0.5+0.3+0.3+0.3+0.6
+    total = 1+1+1+1+1+1+1+0.5+0.3+0.3+0.3+0.6
   } else {
     filled =
       (formData.adresse ? 1 : 0) +
@@ -75,10 +74,9 @@ export function computeProgress(formData, audience) {
       (formData.cafes?.length ? 1 : 0) +
       (formData.cafes?.length && formData.cafes.every(c => formData.quantiteParCafe?.[c]) ? 1 : 0) +
       (formData.frequence ? 0.5 : 0) +
-      (formData.moutures.length ? 0.5 : 0) +
       (formData.telephone ? 0.3 : 0) +
       (formData.message ? 0.6 : 0)
-    total = 1+1+1+1+1+1+1+1+0.5+0.5+0.3+0.6
+    total = 1+1+1+1+1+1+1+1+0.5+0.3+0.6
   }
 
   return Math.min(100, Math.round((filled / total) * 100))

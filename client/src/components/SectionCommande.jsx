@@ -61,20 +61,52 @@ const FREQUENCE = [
   { value: "Ponctuelle", label: "Ponctuelle", sub: "Événementiel" },
 ];
 
-const MOUTURES = [
-  {
-    value: "Grains entiers",
-    label: "Grains entiers",
-    sub: "À moudre soi-même",
-  },
-  { value: "Moulu fin (espresso)", label: "Moulu fin", sub: "Pour espresso" },
-  { value: "Moulu moyen (filtre)", label: "Moulu moyen", sub: "Pour filtre" },
-  {
-    value: "Mix selon besoin",
-    label: "Mix sur mesure",
-    sub: "Plusieurs moutures",
-  },
-];
+const MoutureChip = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 16px;
+  border: 1.5px solid #4f3422;
+  border-radius: 8px;
+  background: #faf7f3;
+  cursor: default;
+
+  span.label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2e2010;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &::before {
+      content: "✓";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: #4f3422;
+      color: #faf7f3;
+      border-radius: 50%;
+      font-size: 10px;
+      line-height: 16px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+  }
+
+  span.sub {
+    font-size: 11px;
+    color: #ab9679;
+    padding-left: 22px;
+  }
+`;
+
+const MoutureNote = styled.p`
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #ab9679;
+  font-style: italic;
+`;
 
 export default function SectionCommande({
   audience,
@@ -125,18 +157,12 @@ export default function SectionCommande({
       </FieldBlock>
 
       <FieldBlock style={{ marginTop: "28px" }}>
-        <FieldLabel>
-          Mouture souhaitée{" "}
-          <span className="opt">plusieurs choix possibles</span>
-        </FieldLabel>
-        <ChoiceGrid
-          cols={2}
-          type="checkbox"
-          name="moutures"
-          value={formData.moutures}
-          onChange={(arr) => onChange("moutures", arr)}
-          options={MOUTURES}
-        />
+        <FieldLabel>Mouture</FieldLabel>
+        <MoutureChip>
+          <span className="label">Grains entiers</span>
+          <span className="sub">À moudre soi-même</span>
+        </MoutureChip>
+        <MoutureNote>D'autres moutures disponibles prochainement.</MoutureNote>
       </FieldBlock>
     </Section>
   );
