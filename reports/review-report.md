@@ -2,41 +2,47 @@
 
 ### Fichiers reviewés
 
-1. `server.js`
-2. `routes/devis.js`
-3. `data/storage.js`
-4. `services/pdfService.js`
-5. `services/mailService.js`
-6. `scripts/test-pdf.js`
-7. `scripts/test-mail.js`
-8. `package.json`
+1. `templates/email-client.html` — CID -> SVG inline
+2. `templates/email-admin.html` — CID -> SVG inline
+3. `services/pdfService.js` — logo-buna.png (PNG base64)
+4. `services/mailService.js` — fromEmail env, inlineImages supprimé, logs anonymisés
+5. `server.js` — helmet.js ajouté
+6. `routes/devis.js` — regex email, Content-Type validation
+7. `package.json` — nodemailer retiré
+8. `.env.example` — BASE_URL retiré
+9. `client/src/components/BrandPanel.jsx` — logo + theme
+10. `client/src/theme.js` — couleurs charte
+11. `client/src/components/SectionCommande.jsx` — couleurs -> theme
 
 ---
 
 ### Points positifs
 
-- **ESM strict et cohérent** : aucun `require()`, `"type": "module"` en place, toutes les extensions `.js` présentes dans les imports relatifs.
-- **`import.meta.url` correctement utilisé** dans tous les fichiers qui construisent des chemins (`storage.js`, `pdfService.js`, `mailService.js`, `test-pdf.js`).
-- **Validation des champs obligatoires** exhaustive et lisible via la boucle `Object.entries` (routes/devis.js, lignes 27–32).
-- **Codes HTTP corrects** : 200/400/500 utilisés aux bons endroits.
-- **Aucun secret hardcodé** — toutes les credentials passent par `process.env`.
-- **Pupeteer correctement fermé dans `finally`** (pdfService.js, ligne 21) — pas de fuite de processus.
-- **Envoi email best-effort** bien isolé dans son propre `try/catch` (routes/devis.js, lignes 61–65) — la réponse client n'est pas bloquée par un échec SMTP.
-- **Architecture propre** : `server.js` ne contient que le démarrage, la route orchestre sans logique métier complexe, les services encapsulent bien leur domaine.
-- **Pas de code mort** ni de commentaires inutiles.
+- **ESM strict** : aucun `require()` dans aucun fichier, `"type": "module"` présent dans `package.json`, toutes les extensions `.js` présentes dans les imports relatifs (`./routes/devis.js`, `../data/storage.js`, etc.).
+- **`import.meta.url` utilisé correctement** dans `pdfService.js` et `mailService.js` pour construire les chemins de fichiers.
+- **Suppression propre de nodemailer** : aucune référence résiduelle dans les fichiers sources, `package.json` à jour.
+- **Logo email SVG inline** : la migration CID -> SVG inline élimine les problèmes d'affichage en pièce jointe. Les couleurs SVG respectent strictement la charte (#4F3422 et #FAF7F3).
+- **Logo PDF base64** : `pdfService.js` embed correctement le PNG en base64, le test T9 confirme un PDF de 173 308 octets sans erreur ENOENT.
+- **Helmet ajouté** : `app.use(helmet())` en place avant `express.json()`, les headers T7 confirment CSP + X-Content-Type-Options + X-Frame-Options.
+- **Validation Content-Type** : `req.is('application/json')` renvoie 415 proprement, testé en T2.
+- **Regex email améliorée** : `/^[^\s@]+@[^\s@]+\.[^\s@]+$/` couvre les cas limites (@., @@..) testés en T3 et T4.
+- **Logs anonymisés** : seul l'`id` est loggé (`Email client envoyé — id:${devis.id}`), jamais l'adresse email en clair.
+- **Puppeteer fermé dans `finally`** : `pdfService.js` lignes 24-26 — aucun risque de fuite de processus headless.
+- **theme.js** : les 5 couleurs de la charte Maison Buna sont toutes présentes et exactes. Les couleurs supplémentaires (`sandDark`, `accent`, `error`, `ok`) sont des extensions fonctionnelles légitimes pour les états UI (erreur formulaire, succès, hover).
+- **BrandPanel.jsx et SectionCommande.jsx** : aucune couleur hex hardcodée — tout passe par `theme.*`.
+- **Architecture** : `server.js` ne contient que le démarrage et les middlewares globaux. La route orchestre sans logique métier complexe. Les services encapsulent leur domaine.
+- **Réponse client non bloquée** : le `setImmediate` dans `routes/devis.js` isole le PDF+email du chemin critique, avec son propre `try/catch`.
 
 ---
 
 ### Points à corriger
 
-| Fichier | Ligne | Problème | Recommandation | Priorité |
-|---------|-------|----------|----------------|----------|
-| `routes/devis.js` | 70 | `err.message` retourné directement au client dans la réponse 500 — peut exposer des chemins internes, des erreurs Puppeteer ou d'autres détails d'implémentation | Retourner un message générique fixe au client (`"Erreur interne du serveur"`) et logger `err` en entier en interne uniquement | MOYENNE |
-| `routes/devis.js` | 35 | Validation email trop permissive : `includes('@') && includes('.')` accepte des valeurs invalides comme `@.`, `a@b.`, `@@..` | Utiliser une regex minimale : `/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)` | FAIBLE |
-| `services/mailService.js` | 14 | `nodemailer.createTransport()` est appelé à chaque invocation de `sendDevisEmails` — crée un nouveau transporter (et potentiellement une connexion) pour chaque devis | Déplacer la création du transporter au niveau du module (singleton) | FAIBLE |
-| `services/pdfService.js` | 11 | `readFileSync(templatePath)` non enveloppé dans un `try/catch` — si le fichier template est absent, l'erreur remonte jusqu'au handler 500 avec un message de chemin de fichier dans `err.message` | Envelopper dans un try/catch avec un message d'erreur métier clair, ou valider l'existence du template au démarrage du serveur | FAIBLE |
-| `services/mailService.js` | 10 | `readFileSync` dans `loadTemplate()` non enveloppé — même situation que ci-dessus pour les templates email | Même recommandation : try/catch ou vérification au démarrage | FAIBLE |
-| `scripts/test-pdf.js` | — | `dotenv/config` non importé (contrairement à `test-mail.js`) — pas de problème fonctionnel ici car aucune variable d'env n'est utilisée, mais incohérence entre les deux scripts | Ajouter `import 'dotenv/config';` en ligne 1 pour cohérence et éviter des surprises si le script évolue | FAIBLE |
+| Fichier | Problème | Priorité |
+|---------|----------|----------|
+| `.env.example` | `BREVO_API_KEY` est documenté mais aucun fichier JS ne lit `process.env.BREVO_API_KEY` — le code lit `process.env.SMTP_PASS` pour la clé API Brevo (héritage de l'ancien SMTP). La variable `BREVO_API_KEY` dans `.env.example` est un faux indicateur qui peut induire en erreur un nouveau développeur. Recommandation : supprimer `BREVO_API_KEY` de `.env.example` ou renommer `SMTP_PASS` en `BREVO_API_KEY` dans le code et dans `.env`. | MOYENNE |
+| `routes/devis.js` ligne 141 | `base_url: process.env.BASE_URL \|\| 'http://localhost:3000'` est calculé et injecté dans l'objet `devis`, mais aucun template (email-client.html, email-admin.html, devis-template.html) ne l'utilise. C'est du code mort. Recommandation : supprimer cette ligne. | FAIBLE |
+| `services/mailService.js` | Aucun `try/catch` dans `sendOne()` autour du `fetch()`. Si la réponse Brevo est corrompue ou le réseau coupe, l'erreur remonte brute. Le catch est présent dans `routes/devis.js` (setImmediate), donc pas bloquant fonctionnellement — mais la gestion serait plus lisible dans `sendOne` directement. | FAIBLE |
+| `client/src/components/BrandPanel.jsx` ligne 157 | `STEPS[0]` n'a pas de propriété `label` : `{ num: '01', id: 1 }`. La ligne 166 (`label = i === 0 ? step1Label : step.label`) compense dynamiquement, ce qui fonctionne. Mais l'incohérence avec les 3 autres entrées qui ont toutes un `label` fixe peut surprendre un lecteur. Recommandation : ajouter `label: ''` ou un label placeholder pour la cohérence du tableau. | FAIBLE |
 
 ---
 
@@ -44,4 +50,4 @@
 
 ✅ **APPROUVÉ** — Prêt pour : Agent Sécurité
 
-Tous les points à corriger sont de priorité MOYENNE ou FAIBLE, sans impact sur la sécurité critique ni sur le fonctionnement nominal. Le seul point MOYENNE (exposition de `err.message` au client) est une bonne pratique à appliquer mais n'expose pas de secret ou de vecteur d'attaque direct dans le contexte actuel. L'agent Sécurité pourra l'escalader si nécessaire.
+Un seul point de priorité MOYENNE (incohérence `BREVO_API_KEY` / `SMTP_PASS` dans `.env.example`) sans impact sur le fonctionnement ou la sécurité. Les trois points FAIBLE sont des améliorations de lisibilité. Aucun problème bloquant, aucune régression fonctionnelle, aucun secret hardcodé.

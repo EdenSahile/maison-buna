@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import theme from '../theme'
-import logoImg from '../assets/logo-amalivre.jpeg'
+import logoImg from '../assets/logo-buna.png'
 
 const Brand = styled.aside`
-  background: #4F3422;
+  background: ${theme.brown};
   color: ${theme.cream};
   padding: 48px 44px;
   position: sticky;
@@ -68,7 +68,7 @@ const BrandName = styled.div`
     font-style: italic;
     font-size: 13px;
     letter-spacing: 0.5px;
-    color: #FAF6F1;
+    color: ${theme.white};
     text-transform: none;
     margin-top: 2px;
   }
@@ -182,7 +182,7 @@ export default function BrandPanel({ stepProgress, audience }) {
       </BrandHead>
 
       <BrandHeadline>
-        Un café <em><span style={{ color: '#FBF8F3' }}>de caractère</span></em>, chez vous ou au bureau.
+        Un café <em><span style={{ color: theme.white }}>de caractère</span></em>, chez vous ou au bureau.
       </BrandHeadline>
       <BrandSub>
         Café de spécialité éthiopien, torréfié artisanalement en France. Livraison régulière, sans engagement.

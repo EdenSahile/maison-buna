@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import theme from "../theme";
 import SectionHead from "./Reusable-ui/SectionHead";
 import ChoiceGrid from "./Reusable-ui/ChoiceGrid";
 import CoffeeGrid from "./CoffeeGrid";
@@ -21,16 +22,16 @@ const FieldBlock = styled.div`
 const FieldLabel = styled.div`
   font-size: 12px;
   font-weight: 500;
-  color: #3d2817;
+  color: ${theme.brown};
   margin-bottom: 8px;
   letter-spacing: 0.2px;
 
   span.req {
-    color: #c8753a;
+    color: ${theme.accent};
     margin-left: 2px;
   }
   span.opt {
-    color: #9b8266;
+    color: ${theme.sand};
     font-weight: 400;
     margin-left: 6px;
     font-size: 11px;
@@ -66,15 +67,15 @@ const MoutureChip = styled.div`
   flex-direction: column;
   gap: 2px;
   padding: 10px 16px;
-  border: 1.5px solid #4f3422;
+  border: 1.5px solid ${theme.brown};
   border-radius: 8px;
-  background: #faf7f3;
+  background: ${theme.creamSoft};
   cursor: default;
 
   span.label {
     font-size: 13px;
     font-weight: 600;
-    color: #2e2010;
+    color: ${theme.dark};
     display: flex;
     align-items: center;
     gap: 6px;
@@ -84,8 +85,8 @@ const MoutureChip = styled.div`
       display: inline-block;
       width: 16px;
       height: 16px;
-      background: #4f3422;
-      color: #faf7f3;
+      background: ${theme.brown};
+      color: ${theme.creamSoft};
       border-radius: 50%;
       font-size: 10px;
       line-height: 16px;
@@ -96,7 +97,7 @@ const MoutureChip = styled.div`
 
   span.sub {
     font-size: 11px;
-    color: #ab9679;
+    color: ${theme.sand};
     padding-left: 22px;
   }
 `;
@@ -104,7 +105,7 @@ const MoutureChip = styled.div`
 const MoutureNote = styled.p`
   margin: 8px 0 0;
   font-size: 11px;
-  color: #ab9679;
+  color: ${theme.sand};
   font-style: italic;
 `;
 
