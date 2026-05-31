@@ -11,7 +11,7 @@ function loadTemplate(name) {
   return readFileSync(join(__dirname, '../templates', name), 'utf8');
 }
 
-async function sendOne({ apiKey, from, to, subject, html, attachments }) {
+async function sendOne({ apiKey, from, to, subject, html, attachments, inlineImages }) {
   const body = {
     sender: { name: from.name, email: from.email },
     to: [{ email: to }],
@@ -19,12 +19,24 @@ async function sendOne({ apiKey, from, to, subject, html, attachments }) {
     htmlContent: html,
   };
 
+  const allAttachments = [];
+
+  if (inlineImages?.length) {
+    inlineImages.forEach(img => allAttachments.push({
+      name: img.filename,
+      content: img.content.toString('base64'),
+      contentId: img.contentId,
+    }));
+  }
+
   if (attachments?.length) {
-    body.attachment = attachments.map(a => ({
+    attachments.forEach(a => allAttachments.push({
       name: a.filename,
       content: a.content.toString('base64'),
     }));
   }
+
+  if (allAttachments.length) body.attachment = allAttachments;
 
   const res = await fetch(BREVO_API, {
     method: 'POST',
@@ -50,6 +62,13 @@ export async function sendDevisEmails(devis, pdfBuffer) {
   const clientTemplate = Handlebars.compile(loadTemplate('email-client.html'));
   const adminTemplate  = Handlebars.compile(loadTemplate('email-admin.html'));
 
+  const logoContent = readFileSync(join(__dirname, '../public/images/logo-buna.png'));
+  const inlineImages = [{
+    filename: 'logo-buna.png',
+    content: logoContent,
+    contentId: 'logo-buna',
+  }];
+
   const attachments = pdfBuffer ? [{
     filename: `devis-${devis.id.slice(0, 8)}.pdf`,
     content: pdfBuffer,
@@ -71,6 +90,7 @@ export async function sendDevisEmails(devis, pdfBuffer) {
     subject: clientSubject,
     html: clientTemplate(devis),
     attachments,
+    inlineImages,
   });
   console.log(`Email client envoyé à ${devis.email}`);
 
@@ -81,6 +101,7 @@ export async function sendDevisEmails(devis, pdfBuffer) {
     subject: adminSubject,
     html: adminTemplate(devis),
     attachments,
+    inlineImages,
   });
   console.log(`Email admin envoyé à ${process.env.ADMIN_EMAIL}`);
 }
