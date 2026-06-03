@@ -38,19 +38,10 @@ const FieldLabel = styled.div`
   }
 `;
 
-const ENT_QTE_OPTIONS = [
+const QTE_OPTIONS = [
   { value: "250 g", label: "250 g" },
   { value: "500 g", label: "500 g" },
   { value: "À estimer", label: "Sur mesure" },
-];
-
-const PART_QTE_OPTIONS = [
-  { value: "250 g — Découverte", label: "250 g" },
-  { value: "500 g — 1 personne", label: "500 g" },
-  { value: "1 kg — Couple", label: "1 kg" },
-  { value: "2 kg — Famille", label: "2 kg" },
-  { value: "Abonnement découverte", label: "Abonnement" },
-  { value: "Coffret cadeau", label: "Coffret" },
 ];
 
 const FREQUENCE = [
@@ -137,7 +128,7 @@ export default function SectionCommande({
               [cafe]: qte,
             });
           }}
-          quantiteOptions={isEnt ? ENT_QTE_OPTIONS : PART_QTE_OPTIONS}
+          quantiteOptions={QTE_OPTIONS}
           error={errors.cafes}
           errorQuantite={errors.quantiteParCafe}
         />
