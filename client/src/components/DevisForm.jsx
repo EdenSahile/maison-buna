@@ -12,7 +12,6 @@ import { PrimaryButton } from "./Reusable-ui/Button";
 import {
   validate,
   computeStepProgress,
-  computeProgress,
   buildPayload,
   INITIAL_FORM_DATA,
 } from "../utils/formUtils";
@@ -51,28 +50,6 @@ const FormMeta = styled.div`
   text-transform: uppercase;
 `;
 
-const ProgressWrap = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const ProgressBar = styled.span`
-  display: inline-block;
-  width: 120px;
-  height: 2px;
-  background: ${theme.line};
-  border-radius: 2px;
-  overflow: hidden;
-`;
-
-const ProgressFill = styled.span`
-  display: block;
-  height: 100%;
-  background: ${theme.brown};
-  width: ${({ $pct }) => $pct}%;
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-`;
 
 const PageTitle = styled.h1`
   font-family: "Cormorant Garamond", serif;
@@ -205,7 +182,6 @@ export default function DevisForm() {
   };
 
   const stepProgress = computeStepProgress(formData, audience);
-  const progress = computeProgress(formData, audience);
   const isEnt = audience === "entreprise";
 
   if (submitted) {
@@ -234,12 +210,6 @@ export default function DevisForm() {
       <FormArea>
         <FormMeta>
           <span>Demande de devis</span>
-          <ProgressWrap>
-            <span>{progress}%</span>
-            <ProgressBar>
-              <ProgressFill $pct={progress} />
-            </ProgressBar>
-          </ProgressWrap>
         </FormMeta>
 
         <PageTitle>
