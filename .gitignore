@@ -3,5 +3,7 @@ node_modules/
 data/devis.json
 data/bg-errors.log
 scripts/test-output.pdf
+data/counter.json
+handoffs/
 .playwright-mcp/
 .superpowers/
