@@ -184,7 +184,7 @@ export default function BrandPanel({ stepProgress, audience, onLogoClick }) {
       </BrandHead>
 
       <BrandHeadline>
-        Un café <em><span style={{ color: theme.white }}>de caractère</span></em>, chez vous ou au bureau.
+        Un café <em><span style={{ color: theme.accent }}>de caractère,</span></em> chez vous ou au bureau.
       </BrandHeadline>
       <BrandSub>
         Café de spécialité éthiopien, torréfié artisanalement en France. Livraison régulière, sans engagement.
