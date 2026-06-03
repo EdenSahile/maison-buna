@@ -130,12 +130,15 @@ export default function SectionCommande({
           value={formData.cafes}
           onChange={(arr) => onChange("cafes", arr)}
           quantiteParCafe={formData.quantiteParCafe}
-          onQuantiteChange={(cafe, qte) =>
+          onQuantiteChange={(cafe, qte) => {
+            if (!formData.cafes.includes(cafe)) {
+              onChange("cafes", [...formData.cafes, cafe]);
+            }
             onChange("quantiteParCafe", {
               ...formData.quantiteParCafe,
               [cafe]: qte,
-            })
-          }
+            });
+          }}
           quantiteOptions={isEnt ? ENT_QTE_OPTIONS : PART_QTE_OPTIONS}
           error={errors.cafes}
           errorQuantite={errors.quantiteParCafe}
