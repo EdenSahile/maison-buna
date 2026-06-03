@@ -111,13 +111,13 @@ export default function SuccessView({ formData, audience, onReset, surDevis }) {
     rows.push(['Email', `${formData.email}${formData.telephone ? ` · ${formData.telephone}` : ''}`])
     rows.push(['Équipe', `${formData.collaborateurs} collaborateurs`])
     if (formData.ville) rows.push(['Livraison', formData.ville])
-    rows.push(['Quantité', `${formData.quantite} / mois`])
+    formData.cafes.forEach(cafe => rows.push([cafe, formData.quantiteParCafe[cafe]]))
   } else {
     rows.push(['Type', 'Particulier'])
     rows.push(['Contact', `${formData.prenom} ${formData.nom}`])
     rows.push(['Email', `${formData.email}${formData.telephone ? ` · ${formData.telephone}` : ''}`])
     rows.push(['Livraison', `${formData.adresse}, ${formData.codepostal} ${formData.ville}`])
-    rows.push(['Commande', formData.quantite])
+    formData.cafes.forEach(cafe => rows.push([cafe, formData.quantiteParCafe[cafe]]))
   }
   if (formData.frequence) rows.push(['Fréquence', formData.frequence])
   if (formData.moutures.length) rows.push(['Mouture', formData.moutures.join(', ')])
@@ -141,8 +141,8 @@ export default function SuccessView({ formData, audience, onReset, surDevis }) {
       <SummaryBox>
         <SummaryBoxHead>Récapitulatif</SummaryBoxHead>
         <dl>
-          {rows.map(([key, val]) => (
-            <SummaryRow key={key}>
+          {rows.map(([key, val], i) => (
+            <SummaryRow key={i}>
               <dt>{key}</dt>
               <dd>{val}</dd>
             </SummaryRow>
