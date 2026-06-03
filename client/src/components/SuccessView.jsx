@@ -101,7 +101,7 @@ const Tagline = styled.p`
   flex: 1;
 `
 
-export default function SuccessView({ formData, audience, onReset }) {
+export default function SuccessView({ formData, audience, onReset, surDevis }) {
   const isEnt = audience === 'entreprise'
 
   const rows = []
@@ -111,13 +111,13 @@ export default function SuccessView({ formData, audience, onReset }) {
     rows.push(['Email', `${formData.email}${formData.telephone ? ` · ${formData.telephone}` : ''}`])
     rows.push(['Équipe', `${formData.collaborateurs} collaborateurs`])
     if (formData.ville) rows.push(['Livraison', formData.ville])
-    rows.push(['Quantité', `${formData.quantite} / mois`])
+    formData.cafes.forEach(cafe => rows.push([cafe, formData.quantiteParCafe[cafe]]))
   } else {
     rows.push(['Type', 'Particulier'])
     rows.push(['Contact', `${formData.prenom} ${formData.nom}`])
     rows.push(['Email', `${formData.email}${formData.telephone ? ` · ${formData.telephone}` : ''}`])
     rows.push(['Livraison', `${formData.adresse}, ${formData.codepostal} ${formData.ville}`])
-    rows.push(['Commande', formData.quantite])
+    formData.cafes.forEach(cafe => rows.push([cafe, formData.quantiteParCafe[cafe]]))
   }
   if (formData.frequence) rows.push(['Fréquence', formData.frequence])
   if (formData.moutures.length) rows.push(['Mouture', formData.moutures.join(', ')])
@@ -133,14 +133,16 @@ export default function SuccessView({ formData, audience, onReset }) {
 
       <Title>Demande <em>bien reçue.</em></Title>
       <Lead>
-        Merci de votre confiance. Notre équipe étudie votre demande et reviendra vers vous sous 48 heures avec une proposition personnalisée.
+        {surDevis
+          ? "Notre équipe étudie votre demande et reviendra vers vous sous 48 heures avec une proposition personnalisée."
+          : "Votre devis a été généré et vous sera envoyé par email dans quelques instants. Pensez à vérifier vos spams si vous ne le recevez pas."}
       </Lead>
 
       <SummaryBox>
         <SummaryBoxHead>Récapitulatif</SummaryBoxHead>
         <dl>
-          {rows.map(([key, val]) => (
-            <SummaryRow key={key}>
+          {rows.map(([key, val], i) => (
+            <SummaryRow key={i}>
               <dt>{key}</dt>
               <dd>{val}</dd>
             </SummaryRow>

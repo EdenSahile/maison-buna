@@ -1,8 +1,25 @@
 import { Router } from 'express';
 import crypto from 'crypto';
+import { readFileSync, writeFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import { saveDevis } from '../data/storage.js';
 import { generatePDF } from '../services/pdfService.js';
 import { sendDevisEmails } from '../services/mailService.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const counterPath = join(__dirname, '../data/counter.json');
+
+function nextDevisNumero(isParticulier) {
+  const data = JSON.parse(readFileSync(counterPath, 'utf8'));
+  data.counter += 1;
+  writeFileSync(counterPath, JSON.stringify(data));
+  const prefix = isParticulier ? 'MBP' : 'MBE';
+  const now = new Date();
+  const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+  const seq = String(data.counter).padStart(5, '0');
+  return `${prefix}-${date}-${seq}`;
+}
 
 const router = Router();
 
@@ -14,17 +31,9 @@ const CAFES_META = {
 
 // Prix TTC par quantité — TVA non applicable art. 293 B CGI (franchise en base)
 const PRICING = {
-  '250 g':               { pu_ttc: 14.99, qte_label: '250 g',      sur_devis: false },
-  '500 g – 1 kg':        { pu_ttc: 28.00, qte_label: '500 g',      sur_devis: false },
-  '1 – 3 kg':            { pu_ttc: 52.00, qte_label: '1 kg',       sur_devis: false },
-  '3 – 5 kg':            { pu_ttc: 145.00, qte_label: '3 kg',      sur_devis: false },
-  'À estimer':           { pu_ttc: 0,     qte_label: '',            sur_devis: true  },
-  '250 g — Découverte':  { pu_ttc: 14.99, qte_label: '250 g',      sur_devis: false },
-  '500 g — 1 personne':  { pu_ttc: 26.50, qte_label: '500 g',      sur_devis: false },
-  '1 kg — Couple':       { pu_ttc: 49.99, qte_label: '1 kg',       sur_devis: false },
-  '2 kg — Famille':      { pu_ttc: 94.99, qte_label: '2 kg',       sur_devis: false },
-  'Abonnement découverte': { pu_ttc: 12.99, qte_label: '250 g/mois', sur_devis: false },
-  'Coffret cadeau':      { pu_ttc: 34.99, qte_label: '1 coffret',  sur_devis: false },
+  '250 g':      { pu_ttc: 14.99, qte_label: '250 g', sur_devis: false },
+  '500 g':      { pu_ttc: 28.00, qte_label: '500 g', sur_devis: false },
+  'Sur mesure': { pu_ttc: 0,     qte_label: '',       sur_devis: true  },
 };
 
 function formatDate(d) {
@@ -116,7 +125,7 @@ router.post('/devis', async (req, res) => {
     const devis = {
       id,
       timestamp: now.toISOString(),
-      devis_numero: `MB-${now.getFullYear()}-${id.slice(0, 8).toUpperCase()}`,
+      devis_numero: nextDevisNumero(isParticulier),
       date_emission: formatDate(now),
       date_validite: formatDate(validite),
       // Client
