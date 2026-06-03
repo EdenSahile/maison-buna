@@ -15,7 +15,10 @@ export async function generatePDF(devis) {
   const template = Handlebars.compile(source);
   const html = template({ ...devis, logo_src: logoSrc });
 
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   try {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: 'domcontentloaded', timeout: 10000 });
