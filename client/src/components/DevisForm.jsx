@@ -214,6 +214,7 @@ export default function DevisForm() {
         <BrandPanel
           stepProgress={[true, true, true, true]}
           audience={audience}
+          onLogoClick={handleReset}
         />
         <FormArea>
           <SuccessView

@@ -38,6 +38,7 @@ const BrandHead = styled.div`
   align-items: center;
   gap: 16px;
   margin-bottom: 56px;
+  cursor: ${({ $clickable }) => $clickable ? 'pointer' : 'default'};
 
   @media (max-width: 1024px) { margin-bottom: 24px; }
 `
@@ -162,7 +163,7 @@ const STEPS = [
   { num: '04', label: 'Précisions', id: 4 },
 ]
 
-export default function BrandPanel({ stepProgress, audience }) {
+export default function BrandPanel({ stepProgress, audience, onLogoClick }) {
   const activeIdx = stepProgress.findIndex(x => !x)
   const step1Label = audience === 'entreprise' ? 'Votre entreprise' : 'Votre livraison'
 
@@ -172,7 +173,7 @@ export default function BrandPanel({ stepProgress, audience }) {
 
   return (
     <Brand>
-      <BrandHead>
+      <BrandHead $clickable={!!onLogoClick} onClick={onLogoClick}>
         <Monogram>
           <img src={logoImg} alt="Logo Maison Buna" />
         </Monogram>
