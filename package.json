@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "dev:client": "cd client && npm run dev",
+    "dev:all": "concurrently -n API,React -c cyan,magenta \"nodemon server.js\" \"cd client && npm run dev\"",
     "start": "NODE_ENV=production node server.js",
     "build": "cd client && npm run build",
     "pdf:test": "node scripts/test-pdf.js",
@@ -19,6 +20,7 @@
     "puppeteer": "^22.0.0"
   },
   "devDependencies": {
+    "concurrently": "^10.0.3",
     "nodemon": "^3.0.0"
   },
   "nodemonConfig": {

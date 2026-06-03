@@ -38,21 +38,10 @@ const FieldLabel = styled.div`
   }
 `;
 
-const ENT_QTE_OPTIONS = [
+const QTE_OPTIONS = [
   { value: "250 g", label: "250 g" },
-  { value: "500 g – 1 kg", label: "500 g–1 kg" },
-  { value: "1 – 3 kg", label: "1–3 kg" },
-  { value: "3 – 5 kg", label: "3–5 kg" },
+  { value: "500 g", label: "500 g" },
   { value: "À estimer", label: "Sur mesure" },
-];
-
-const PART_QTE_OPTIONS = [
-  { value: "250 g — Découverte", label: "250 g" },
-  { value: "500 g — 1 personne", label: "500 g" },
-  { value: "1 kg — Couple", label: "1 kg" },
-  { value: "2 kg — Famille", label: "2 kg" },
-  { value: "Abonnement découverte", label: "Abonnement" },
-  { value: "Coffret cadeau", label: "Coffret" },
 ];
 
 const FREQUENCE = [
@@ -130,13 +119,20 @@ export default function SectionCommande({
           value={formData.cafes}
           onChange={(arr) => onChange("cafes", arr)}
           quantiteParCafe={formData.quantiteParCafe}
-          onQuantiteChange={(cafe, qte) =>
-            onChange("quantiteParCafe", {
-              ...formData.quantiteParCafe,
-              [cafe]: qte,
-            })
-          }
-          quantiteOptions={isEnt ? ENT_QTE_OPTIONS : PART_QTE_OPTIONS}
+          onQuantiteChange={(cafe, qte) => {
+            if (formData.quantiteParCafe[cafe] === qte) {
+              onChange("cafes", formData.cafes.filter(c => c !== cafe));
+              const next = { ...formData.quantiteParCafe };
+              delete next[cafe];
+              onChange("quantiteParCafe", next);
+            } else {
+              if (!formData.cafes.includes(cafe)) {
+                onChange("cafes", [...formData.cafes, cafe]);
+              }
+              onChange("quantiteParCafe", { ...formData.quantiteParCafe, [cafe]: qte });
+            }
+          }}
+          quantiteOptions={QTE_OPTIONS}
           error={errors.cafes}
           errorQuantite={errors.quantiteParCafe}
         />

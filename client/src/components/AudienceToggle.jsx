@@ -110,6 +110,7 @@ export default function AudienceToggle({ audience, onChange }) {
           </AudIcon>
           <AudText>
             <AudTitle>Mon entreprise</AudTitle>
+            <AudSub>bureau, équipe, événements</AudSub>
           </AudText>
         </AudOpt>
 
@@ -138,6 +139,7 @@ export default function AudienceToggle({ audience, onChange }) {
           </AudIcon>
           <AudText>
             <AudTitle>Moi à la maison</AudTitle>
+            <AudSub>livraison, abonnement, cadeaux</AudSub>
           </AudText>
         </AudOpt>
       </Toggle>
