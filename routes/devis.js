@@ -11,7 +11,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const counterPath = join(__dirname, '../data/counter.json');
 
 function nextDevisNumero(isParticulier) {
-  const data = JSON.parse(readFileSync(counterPath, 'utf8'));
+  let data = { counter: 0 };
+  try {
+    data = JSON.parse(readFileSync(counterPath, 'utf8'));
+  } catch {
+    // fichier absent (ex: premier démarrage sur Render) — on part de 0
+  }
   data.counter += 1;
   writeFileSync(counterPath, JSON.stringify(data));
   const prefix = isParticulier ? 'MBP' : 'MBE';
