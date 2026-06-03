@@ -151,9 +151,8 @@ const CheckBadge = styled.span`
 
 const QuantiteWrapper = styled.div`
   overflow: hidden;
-  max-height: ${({ $visible }) => $visible ? '140px' : '0'};
-  opacity: ${({ $visible }) => $visible ? 1 : 0};
-  transition: max-height 0.22s ease, opacity 0.18s ease;
+  max-height: 200px;
+  opacity: 1;
 `
 
 const QuantiteInner = styled.div`
@@ -346,7 +345,7 @@ export default function CoffeeGrid({
                 <Name>{cafe.name}</Name>
                 <Region>{cafe.region}</Region>
                 <Notes>{cafe.notes}</Notes>
-                <QuantiteWrapper $visible={checked}>
+                <QuantiteWrapper>
                   <QuantiteInner>
                     <QuantiteLabel $error={missingQte}>Quantité</QuantiteLabel>
                     <PillsRow>
