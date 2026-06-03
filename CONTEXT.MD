@@ -53,7 +53,10 @@
 
 ## Tâches restantes ⏳
 
-Aucune tâche en cours.
+- [ ] **Renommer le PDF en pièce jointe** : `Devis-[numéro_devis].pdf` au lieu de `devis-[id].pdf`
+  - Fichier : `services/mailService.js`
+  - Remplacer : `filename: \`devis-${devis.id.slice(0, 8)}.pdf\``
+  - Par : `filename: \`Devis-${devis.devis_numero}.pdf\``
 
 ---
 
