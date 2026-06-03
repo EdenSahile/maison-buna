@@ -158,11 +158,18 @@ router.post('/devis', async (req, res) => {
     res.json({ success: true, id: devis.id });
 
     setImmediate(async () => {
+      let pdfBuffer = null;
+      if (!devis.sur_devis) {
+        try {
+          pdfBuffer = await generatePDF(devis);
+        } catch (err) {
+          console.error(`Erreur PDF id:${devis.id} :`, err.message);
+        }
+      }
       try {
-        const pdfBuffer = devis.sur_devis ? null : await generatePDF(devis);
         await sendDevisEmails(devis, pdfBuffer);
       } catch (err) {
-        console.error(`Erreur background id:${devis.id} :`, err.message);
+        console.error(`Erreur email id:${devis.id} :`, err.message);
       }
     });
   } catch (err) {
