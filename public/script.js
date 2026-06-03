@@ -296,6 +296,11 @@
       `<div class="summary-row"><dt>${k}</dt><dd>${v}</dd></div>`
     ).join('');
 
+    const hasSurDevis = d.cafes.some(cafe => d.quantiteParCafe[cafe] === 'À estimer');
+    document.getElementById('success-lead').textContent = hasSurDevis
+      ? 'Notre équipe étudie votre demande et reviendra vers vous sous 48 heures avec une proposition personnalisée.'
+      : 'Votre devis a été généré et vous sera envoyé par email dans quelques instants. Pensez à vérifier vos spams si vous ne le recevez pas.';
+
     document.getElementById('form-view').style.display = 'none';
     document.getElementById('success-view').classList.add('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
