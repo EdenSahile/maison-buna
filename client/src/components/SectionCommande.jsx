@@ -40,9 +40,7 @@ const FieldLabel = styled.div`
 
 const ENT_QTE_OPTIONS = [
   { value: "250 g", label: "250 g" },
-  { value: "500 g – 1 kg", label: "500 g–1 kg" },
-  { value: "1 – 3 kg", label: "1–3 kg" },
-  { value: "3 – 5 kg", label: "3–5 kg" },
+  { value: "500 g", label: "500 g" },
   { value: "À estimer", label: "Sur mesure" },
 ];
 
