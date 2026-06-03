@@ -122,32 +122,6 @@ const Notes = styled.div`
   line-height: 1.5;
 `
 
-const CheckBadge = styled.span`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid ${({ $checked }) => $checked ? theme.brown : 'rgba(255,255,255,0.8)'};
-  background: ${({ $checked }) => $checked ? theme.brown : 'rgba(46,32,16,0.4)'};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  z-index: 3;
-
-  &::after {
-    content: '';
-    width: 5px;
-    height: 9px;
-    border-right: 2px solid white;
-    border-bottom: 2px solid white;
-    transform: rotate(45deg) ${({ $checked }) => $checked ? 'scale(1)' : 'scale(0)'};
-    margin-bottom: 2px;
-    transition: transform 0.2s;
-  }
-`
 
 const QuantiteWrapper = styled.div`
   overflow: hidden;
@@ -297,7 +271,6 @@ const LightboxClose = styled.button`
 
 export default function CoffeeGrid({
   value = [],
-  onChange,
   quantiteParCafe = {},
   onQuantiteChange,
   quantiteOptions = [],
@@ -313,11 +286,6 @@ export default function CoffeeGrid({
     return () => window.removeEventListener('keydown', onKey)
   }, [lightbox])
 
-  const toggle = (v) => {
-    const next = value.includes(v) ? value.filter(x => x !== v) : [...value, v]
-    onChange(next)
-  }
-
   return (
     <div>
       <Grid>
@@ -327,7 +295,7 @@ export default function CoffeeGrid({
           const missingQte = checked && !selectedQte && !!errorQuantite
 
           return (
-            <Card key={cafe.value} $checked={checked} onClick={() => toggle(cafe.value)}>
+            <Card key={cafe.value} $checked={checked}>
               <PhotoWrapper
                 onClick={e => { e.stopPropagation(); setLightbox(cafe) }}
                 title={`Voir ${cafe.name}`}
@@ -340,7 +308,6 @@ export default function CoffeeGrid({
                   </svg>
                 </ZoomIcon>
               </PhotoWrapper>
-              <CheckBadge $checked={checked} />
               <Info>
                 <Name>{cafe.name}</Name>
                 <Region>{cafe.region}</Region>
