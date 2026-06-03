@@ -183,7 +183,9 @@ export default function DevisForm() {
       });
       if (!res.ok)
         throw new Error("Erreur lors de l'envoi. Veuillez réessayer.");
-      const hasSurDevis = Object.values(formData.quantiteParCafe).some(v => v === 'À estimer');
+      const hasSurDevis = formData.cafes.some(
+        (cafe) => formData.quantiteParCafe[cafe] === "À estimer",
+      );
       setSurDevis(hasSurDevis);
       setSubmitted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });

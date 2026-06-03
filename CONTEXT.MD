@@ -11,70 +11,56 @@
 | Composant | État |
 |-----------|------|
 | Serveur (port 3000) | ✅ opérationnel |
-| Vite dev client (port 5180) | ✅ opérationnel |
-| PDF Puppeteer | ✅ généré (logo à corriger dans audit) |
-| Emails Brevo REST API | ✅ client + admin envoyés |
-| Logo email inline (CID) | ❌ s'affiche en PJ — à corriger dans audit |
-| Tests Vitest | ✅ 20/20 (à re-confirmer après audit) |
+| PDF Puppeteer (`npm run pdf:test`) | ✅ |
+| Emails Brevo | ✅ (SMTP OK — non retesté cette session) |
+| Formulaire HTML (public/index.html) | ✅ grille cafés + chips quantité |
+| Script JS (public/script.js) | ✅ CSP-safe, cafes/quantiteParCafe |
 
 ---
 
 ## Branche active
 
-`main` — prochaine branche à créer : `chore/audit-complet`
+`feat/fix-message-succes` — non pushée, 9 commits propres
 
 ---
 
 ## Tâches terminées ✅
 
-- [x] Migration formulaire React (DevisForm, CoffeeGrid, AudienceToggle, BrandPanel, SectionCommande)
-- [x] Sélection cafés par quantité individuelle (`quantiteParCafe`)
-- [x] Audience toggle Entreprise / Particulier avec tarifs adaptés
-- [x] Templates email audience-aware + numéro devis `MB-YYYY-XXXXXXXX`
-- [x] Réécriture mailService SMTP → API REST Brevo (fetch)
-- [x] Fix bug emails nodemon (`nodemonConfig.ignore: ["data/*"]`)
-- [x] Mouture — chip statique "Grains entiers" (non interactive)
-- [x] Email recap — quantités affichées même pour `sur_devis:true`
-- [x] Workflow git — pipeline branches/PR/merge propre
-- [x] Audit sécurité initial (3 ÉLEVÉ corrigés, helmet + rate-limit + nodemailer CVE)
-- [x] Plan audit complet rédigé (`docs/superpowers/plans/2026-05-31-audit-complet.md`)
+- [x] Fix bug CSP Helmet : script inline extrait dans `public/script.js`
+- [x] Suppression barre de progression (HTML + CSS)
+- [x] PRICING simplifié : 250 g (14,99 €) / 500 g (28,00 €) / Sur mesure
+- [x] Grille cafés : 3 cards avec photo (Limmu / Sidamo / Yirgacheffe) + chips de quantité
+- [x] Sélection multiple possible (plusieurs cafés, quantités différentes)
+- [x] script.js : modèle `cafes[]` + `quantiteParCafe{}` aligné avec l'API routes/devis.js
+- [x] Fix tag `</script>` manquant (310 lignes de vieux code inline supprimées)
+- [x] Mouture : Grains entiers uniquement, coché par défaut
+- [x] SIRET + mentions légales dans footer emails client et admin
+- [x] "Mélissa Sahilé EI — Micro-entreprise" → "Mélissa Sahilé — Entrepreneur individuel" (PDF + 2 emails)
+- [x] "Recontact 48h" → "Devis sous 48 h"
+- [x] Photos cafés copiées dans `public/images/` (limmu.png, sidamo.png, yirgacheffe.png)
+- [x] Hook session-start.js : injection CONTEXT.md au démarrage (partiel — stop.js et CLAUDE.md restants)
+- [x] Fix bug `surDevis` : `DevisForm.jsx:187` — croiser `formData.cafes` pour n'inspecter que les cafés sélectionnés
 
 ---
 
-## Tâches en cours / restantes ⏳
+## Tâches restantes ⏳
 
-### Audit complet — pipeline multi-agents (`chore/audit-complet`)
-
-- [ ] Créer branche `chore/audit-complet`
-- [ ] Agent UX Designer — fix templates email (CID→SVG), PDF logo, couleurs React, theme.js
-- [ ] Agent Développeur — fromEmail env var, helmet, timeout Puppeteer, regex email, logs anonymisés, nodemailer, .env.example
-- [x] Agent Testeur — 9/9 tests passes (HTTP, Helmet, JSON, PDF)
-- [x] Agent Code Reviewer — audit qualité tout le code modifié (APPROUVÉ)
-- [x] Agent Sécurité — vérif MOYEN restants + npm audit (SUR — 2026-05-31)
-- [ ] PR `chore/audit-complet` → `main` + merge
-
-### Après audit
-
-- [ ] Polices KALUFONIA + Classy Vogue (`client/src/assets/fonts/`) — en attente fichiers
-- [ ] SIRET dans template PDF (`templates/devis-template.html`) — info à compléter
+- [ ] Finaliser les hooks CONTEXT.md :
+  - `stop.js` → bloquer avec `systemMessage` si tâches non cochées
+  - `CLAUDE.md` → template sous-agent avec contenu CONTEXT.md inclus
+- [ ] Push branche + créer PR `feat/fix-message-succes` → `main`
+- [ ] Mettre à jour `client/src/components/SectionCommande.jsx` (React port 5173) :
+  - Chips quantité : 250 g / 500 g / Sur mesure
 
 ---
 
 ## Notes techniques
 
-- `SMTP_PASS` dans `.env` = clé API Brevo `xkeysib-...` (89 chars)
+- `SMTP_PASS` dans `.env` = clé API Brevo `xkeysib-...`
 - `ADMIN_EMAIL` dans `.env` = `REDACTED_EMAIL`
-- Vite dev sur port **5180**
-- Nodemon ignore `data/*`
-- REST API Brevo : POST `https://api.brevo.com/v3/smtp/email` avec header `api-key: SMTP_PASS`
-- Pipeline multi-agents obligatoire pour toute feature (voir CLAUDE.md)
-
----
-
-## Audit sécurité
-
-Dernier audit : 2026-05-31 — SUR (0 CRITIQUE/ÉLEVÉ)
-npm audit : 0 vulnérabilité
-Points MOYEN résiduels (non bloquants) :
-- Rate limiting absent (à réinstaller — express-rate-limit disparu lors migration Brevo)
-- BREVO_API_KEY fantôme dans .env.example (incohérence avec SMTP_PASS utilisé dans le code)
+- `SMTP_USER` = `REDACTED_EMAIL`
+- Port 3000 = formulaire HTML Express
+- Port 5173/5180 = app React Vite
+- Tuer port 3000 si EADDRINUSE : `lsof -ti:3000 | xargs kill -9`
+- Fondatrice : Mélissa Sahilé — Entrepreneur individuel, SIRET 999 382 484 00015
+- `data/counter.json` : compteur global devis — ne pas remettre à 0 en production
