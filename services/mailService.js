@@ -55,7 +55,7 @@ export async function sendDevisEmails(devis, pdfBuffer) {
   const adminTemplate  = Handlebars.compile(loadTemplate('email-admin.html'));
 
   const attachments = pdfBuffer ? [{
-    filename: `devis-${devis.id.slice(0, 8)}.pdf`,
+    filename: `Devis-${devis.devis_numero}.pdf`,
     content: pdfBuffer,
     contentType: 'application/pdf',
   }] : [];
