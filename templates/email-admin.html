@@ -15,15 +15,14 @@
   </noscript>
   <![endif]-->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
-    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
     table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
     img { -ms-interpolation-mode: bicubic; border: 0; }
     body { margin: 0; padding: 0; background-color: #F5F0EA; }
     a { color: #4F3422; text-decoration: none; }
   </style>
 </head>
-<body style="margin:0;padding:0;background-color:#F5F0EA;font-family:'Montserrat',Arial,sans-serif;">
+<body style="margin:0;padding:0;background-color:#F5F0EA;font-family:Verdana,sans-serif;">
 
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#F5F0EA;">
     <tr>
@@ -34,14 +33,18 @@
 
           <!-- HEADER -->
           <tr>
-            <td style="background-color:#4F3422;padding:28px 48px;text-align:center;">
-              <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:11px;font-weight:400;color:#AB9679;letter-spacing:6px;text-transform:uppercase;margin:0 0 8px 0;">
-                Maison Buna
-              </p>
-              <div style="width:32px;height:1px;background-color:#AB9679;margin:0 auto 8px auto;"></div>
-              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:8px;font-weight:300;color:#D3C2AC;letter-spacing:4px;text-transform:uppercase;margin:0;">
-                Le berceau du café
-              </p>
+            <td style="background-color:#FAF7F3;padding:24px 48px;border-bottom:1px solid #EDE5D8;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="font-family:Verdana,sans-serif;font-size:11px;font-weight:700;color:#2e2010;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 3px 0;">Maison Buna</p>
+                    <p style="font-family:Verdana,sans-serif;font-size:8px;font-weight:400;color:#AB9679;letter-spacing:0.06em;margin:0;">Le berceau du café</p>
+                  </td>
+                  <td align="right">
+                    <p style="font-family:Verdana,sans-serif;font-size:8px;font-weight:700;color:#AB9679;letter-spacing:0.15em;text-transform:uppercase;margin:0;">Notification interne</p>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
 
@@ -51,18 +54,18 @@
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
                   <td valign="middle">
-                    <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 4px 0;">
+                    <p style="font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 4px 0;">
                       Notification interne
                     </p>
-                    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:500;color:#2e2010;margin:0;line-height:1.2;">
+                    <p style="font-family:Verdana,sans-serif;font-size:18px;font-weight:400;color:#2e2010;margin:0;line-height:1.2;">
                       {{#if sur_devis}}Demande sur mesure{{else}}Nouvelle demande de devis{{/if}}
                     </p>
                   </td>
                   <td align="right" valign="middle" style="white-space:nowrap;padding-left:16px;">
-                    <p style="font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:400;color:#4F3422;margin:0 0 3px 0;text-align:right;">
+                    <p style="font-family:Verdana,sans-serif;font-size:11px;font-weight:400;color:#4F3422;margin:0 0 3px 0;text-align:right;">
                       {{date_emission}}
                     </p>
-                    <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:300;color:#AB9679;margin:0;text-align:right;letter-spacing:0.06em;">
+                    <p style="font-family:Verdana,sans-serif;font-size:9px;font-weight:300;color:#AB9679;margin:0;text-align:right;letter-spacing:0.06em;">
                       {{devis_numero}}
                     </p>
                   </td>
@@ -81,7 +84,7 @@
             <td style="padding:36px 48px;background-color:#FFFFFF;">
 
               <!-- SECTION : Coordonnées client -->
-              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 16px 0;padding-bottom:10px;border-bottom:1px solid #D3C2AC;">
+              <p style="font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 16px 0;padding-bottom:10px;border-bottom:1px solid #D3C2AC;">
                 Coordonnées client
               </p>
 
@@ -89,40 +92,40 @@
 
                 <!-- Société / Type -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;vertical-align:top;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;vertical-align:top;">
                     {{#if is_particulier}}Type{{else}}Société{{/if}}
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:500;color:#2e2010;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:500;color:#2e2010;border-bottom:1px solid #EDE5D8;">
                     {{societe}}
                   </td>
                 </tr>
 
                 <!-- Contact -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
                     Contact
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:400;color:#2e2010;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:400;color:#2e2010;border-bottom:1px solid #EDE5D8;">
                     {{prenom}} {{nom}}
                   </td>
                 </tr>
 
                 <!-- Email -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
                     Email
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:400;color:#4F3422;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:12px;font-weight:400;color:#4F3422;border-bottom:1px solid #EDE5D8;">
                     <a href="mailto:{{email}}" style="color:#4F3422;text-decoration:underline;">{{email}}</a>
                   </td>
                 </tr>
 
                 <!-- Téléphone -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
                     Téléphone
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:300;color:#2e2010;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:12px;font-weight:300;color:#2e2010;border-bottom:1px solid #EDE5D8;">
                     {{#if telephone}}{{telephone}}{{else}}<span style="color:#D3C2AC;font-style:italic;">Non renseigné</span>{{/if}}
                   </td>
                 </tr>
@@ -130,38 +133,38 @@
                 {{#if is_particulier}}
                 <!-- Adresse livraison -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top;">
                     Adresse
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:400;color:#2e2010;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:400;color:#2e2010;">
                     {{adresse}}<br>{{codepostal}} {{ville}}
                   </td>
                 </tr>
                 {{else}}
                 <!-- Collaborateurs -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
                     Collaborateurs
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:400;color:#2e2010;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:400;color:#2e2010;border-bottom:1px solid #EDE5D8;">
                     {{collaborateurs}}
                   </td>
                 </tr>
                 <!-- Ville -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
                     Ville
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:300;color:#2e2010;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:300;color:#2e2010;border-bottom:1px solid #EDE5D8;">
                     {{#if ville}}{{ville}}{{else}}<span style="color:#D3C2AC;font-style:italic;">Non renseignée</span>{{/if}}
                   </td>
                 </tr>
                 <!-- Secteur -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;">
                     Secteur
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:300;color:#2e2010;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:300;color:#2e2010;">
                     {{#if secteur}}{{secteur}}{{else}}<span style="color:#D3C2AC;font-style:italic;">Non renseigné</span>{{/if}}
                   </td>
                 </tr>
@@ -170,7 +173,7 @@
               </table>
 
               <!-- SECTION : Détails commande -->
-              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 16px 0;padding-bottom:10px;border-bottom:1px solid #D3C2AC;">
+              <p style="font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 16px 0;padding-bottom:10px;border-bottom:1px solid #D3C2AC;">
                 Détails de la commande
               </p>
 
@@ -178,44 +181,44 @@
 
                 <!-- Café(s) -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;vertical-align:top;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;vertical-align:top;">
                     Café(s)
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:500;color:#2e2010;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:500;color:#2e2010;border-bottom:1px solid #EDE5D8;">
                     {{#each cafes}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
                   </td>
                 </tr>
 
                 <!-- Quantité -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;vertical-align:top;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;vertical-align:top;">
                     Quantité
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:400;color:#2e2010;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:400;color:#2e2010;border-bottom:1px solid #EDE5D8;">
                     {{#if sur_devis}}Sur mesure{{else}}{{quantite_resume}}{{/if}}
                   </td>
                 </tr>
 
                 <!-- Fréquence -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #EDE5D8;">
                     Fréquence
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:300;color:#2e2010;border-bottom:1px solid #EDE5D8;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:16px;font-weight:300;color:#2e2010;border-bottom:1px solid #EDE5D8;">
                     {{#if frequence}}{{frequence}}{{else}}<span style="color:#D3C2AC;font-style:italic;">Non renseignée</span>{{/if}}
                   </td>
                 </tr>
 
                 <!-- Moutures -->
                 <tr>
-                  <td width="36%" style="padding:12px 0;font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top;">
+                  <td width="36%" style="padding:12px 0;font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.1em;text-transform:uppercase;vertical-align:top;">
                     Moutures
                   </td>
-                  <td style="padding:12px 0 12px 20px;font-family:'Montserrat',Arial,sans-serif;font-size:11px;color:#2e2010;">
+                  <td style="padding:12px 0 12px 20px;font-family:Verdana,sans-serif;font-size:11px;color:#2e2010;">
                     {{#if moutures}}
                       {{#each moutures}}<span style="display:inline-block;border:1px solid #D3C2AC;color:#4F3422;font-size:10px;font-weight:400;padding:3px 10px;margin:2px 4px 2px 0;letter-spacing:0.08em;">{{this}}</span>{{/each}}
                     {{else}}
-                      <span style="color:#D3C2AC;font-style:italic;font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;">Non renseignées</span>
+                      <span style="color:#D3C2AC;font-style:italic;font-family:Verdana,sans-serif;font-size:15px;">Non renseignées</span>
                     {{/if}}
                   </td>
                 </tr>
@@ -224,13 +227,13 @@
 
               <!-- SECTION : Message libre -->
               {{#if message}}
-              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 16px 0;padding-bottom:10px;border-bottom:1px solid #D3C2AC;">
+              <p style="font-family:Verdana,sans-serif;font-size:9px;font-weight:600;color:#AB9679;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 16px 0;padding-bottom:10px;border-bottom:1px solid #D3C2AC;">
                 Message du client
               </p>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;margin-bottom:32px;">
                 <tr>
                   <td style="padding:18px 22px;background-color:#FAF7F3;border-left:2px solid #4F3422;">
-                    <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:400;color:#2e2010;line-height:1.7;margin:0;font-style:italic;">
+                    <p style="font-family:Verdana,sans-serif;font-size:16px;font-weight:400;color:#2e2010;line-height:1.7;margin:0;font-style:italic;">
                       {{message}}
                     </p>
                   </td>
@@ -242,7 +245,7 @@
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
                 <tr>
                   <td style="padding:14px 20px;background-color:#FAF7F3;border:1px solid #D3C2AC;">
-                    <p style="font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:400;color:#4F3422;margin:0;line-height:1.6;">
+                    <p style="font-family:Verdana,sans-serif;font-size:11px;font-weight:400;color:#4F3422;margin:0;line-height:1.6;">
                       {{#if sur_devis}}
                         Demande sur mesure — aucun PDF joint. À traiter manuellement.
                       {{else}}
@@ -258,14 +261,14 @@
 
           <!-- FOOTER -->
           <tr>
-            <td style="background-color:#2e2010;padding:20px 48px;text-align:center;">
-              <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;font-weight:400;color:#FAF7F3;margin:0 0 5px 0;letter-spacing:0.08em;">
+            <td style="background-color:#FAF7F3;padding:18px 48px;border-top:1px solid #EDE5D8;text-align:center;">
+              <p style="font-family:Verdana,sans-serif;font-size:10px;font-weight:700;color:#4F3422;margin:0 0 5px 0;letter-spacing:0.08em;text-transform:uppercase;">
                 Maison Buna — Notification interne
               </p>
-              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:10px;font-weight:300;color:#AB9679;margin:0 0 4px 0;letter-spacing:0.1em;">
+              <p style="font-family:Verdana,sans-serif;font-size:9px;font-weight:400;color:#AB9679;margin:0 0 3px 0;letter-spacing:0.06em;">
                 <a href="mailto:contact@maisonbuna.fr" style="color:#AB9679;text-decoration:none;">contact@maisonbuna.fr</a>
               </p>
-              <p style="font-family:'Montserrat',Arial,sans-serif;font-size:9px;font-weight:300;color:#AB9679;margin:0;letter-spacing:0.06em;line-height:1.6;">
+              <p style="font-family:Verdana,sans-serif;font-size:9px;font-weight:400;color:#AB9679;margin:0;letter-spacing:0.04em;line-height:1.6;">
                 Mélissa Sahilé — Entrepreneur individuel &nbsp;·&nbsp; SIRET 999 382 484 00015
               </p>
             </td>

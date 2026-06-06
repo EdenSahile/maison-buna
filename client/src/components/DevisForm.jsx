@@ -20,6 +20,7 @@ const Shell = styled.div`
   display: grid;
   grid-template-columns: 420px 1fr;
   min-height: 100vh;
+  background: ${theme.creamSoft};
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
