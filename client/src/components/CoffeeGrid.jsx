@@ -118,7 +118,7 @@ const Region = styled.div`
 
 const Notes = styled.div`
   font-size: 12px;
-  color: #6B5240;
+  color: ${theme.sandDark};
   line-height: 1.5;
 `
 
@@ -168,6 +168,10 @@ const Pill = styled.button`
   &:hover {
     border-color: ${theme.brown};
     background: ${({ $active }) => $active ? theme.brown : 'rgba(61,40,23,0.06)'};
+  }
+  &:focus-visible {
+    outline: 2px solid ${theme.accent};
+    outline-offset: 2px;
   }
 `
 
