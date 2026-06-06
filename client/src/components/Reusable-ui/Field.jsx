@@ -42,10 +42,10 @@ const baseInputStyles = css`
   appearance: none;
 
   &::placeholder { color: #B8AB97; }
-  &:hover { border-color: ${theme.cream}; background: ${theme.creamSoft}; }
+  &:hover { border-color: ${theme.cream}; background-color: ${theme.creamSoft}; }
   &:focus {
     border-color: ${theme.brown};
-    background: ${theme.white};
+    background-color: ${theme.white};
     box-shadow: 0 0 0 4px rgba(61,40,23,0.07);
   }
 `

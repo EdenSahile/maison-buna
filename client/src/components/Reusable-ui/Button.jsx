@@ -30,6 +30,10 @@ export const PrimaryButton = styled.button`
   &:active {
     transform: translateY(0);
   }
+  &:focus-visible {
+    outline: 2px solid ${theme.accent};
+    outline-offset: 3px;
+  }
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -58,5 +62,9 @@ export const GhostButton = styled.button`
   &:hover {
     background: ${theme.creamSoft};
     border-color: ${theme.sand};
+  }
+  &:focus-visible {
+    outline: 2px solid ${theme.accent};
+    outline-offset: 3px;
   }
 `;
