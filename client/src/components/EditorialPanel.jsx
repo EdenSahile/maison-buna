@@ -8,7 +8,7 @@ const Panel = styled.aside`
   top: 0;
   height: 100vh;
   overflow: hidden;
-  padding: 40px 28px 36px;
+  padding: 40px 20px 36px;
   display: flex;
   flex-direction: column;
 
@@ -46,12 +46,21 @@ const Quote = styled.blockquote`
   line-height: 1.35;
   color: ${theme.dark};
   letter-spacing: -0.2px;
-  margin: 0 0 28px;
+  margin: 0 0 10px;
 
   em {
     font-style: normal;
     color: ${theme.accent};
   }
+`;
+
+const Pronunciation = styled.p`
+  font-family: "Open Sans", system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  color: ${theme.sandText};
+  font-style: italic;
+  margin: 0 0 28px;
 `;
 
 const Divider = styled.div`
@@ -94,44 +103,40 @@ const BeanDecor = styled.div`
   overflow: hidden;
 `;
 
-const EYEBROW = "Ethiopie · Spécialité";
-const QUOTE_PLAIN = "« ";
-const QUOTE_WORD = "Buna : ";
-const QUOTE_REST = " café en amharique, la langue du berceau du café. »";
-const FACT1_TEXT =
-  "Score SCA 87/100. Excellent. Le plus haut standard de qualité international.";
-const FACT2_LABEL = "Traçabilité";
-const FACT2_TEXT =
-  "Sourcé via Heleph Coffee, partenaire éthiopien direct. De la plantation à la tasse.";
-const FACT3_LABEL = "Torréfaction";
-const FACT3_TEXT =
-  "Artisanale, en France. À la commande, pour préserver chaque arôme.";
-
 export default function EditorialPanel() {
   return (
     <Panel aria-hidden="true">
-      <Eyebrow>{EYEBROW}</Eyebrow>
+      <Eyebrow>Ethiopie · Spécialité</Eyebrow>
 
       <Quote>
-        {QUOTE_PLAIN}
-        <em>{QUOTE_WORD}</em>
-        {QUOTE_REST}
+        <em>Buna</em>
+        {" — le mot amharique pour « café »."}
       </Quote>
+      <Pronunciation>
+        se prononce « <span style={{ color: theme.accent }}>bouna</span>
+        {" »"}
+      </Pronunciation>
 
       <Divider />
 
       <Facts>
         <Fact>
           <FactLabel>Grade 1 Arabica</FactLabel>
-          <FactText>{FACT1_TEXT}</FactText>
+          <FactText>
+            L'excellence du café éthiopien, reconnue à l'international.
+          </FactText>
         </Fact>
         <Fact>
-          <FactLabel>{FACT2_LABEL}</FactLabel>
-          <FactText>{FACT2_TEXT}</FactText>
+          <FactLabel>Traçabilité</FactLabel>
+          <FactText>
+            Sourcé via Heleph Coffee, partenaire éthiopien direct.
+          </FactText>
         </Fact>
         <Fact>
-          <FactLabel>{FACT3_LABEL}</FactLabel>
-          <FactText>{FACT3_TEXT}</FactText>
+          <FactLabel>Torréfaction</FactLabel>
+          <FactText>
+            Torréfié à la commande en France, pour préserver chaque arôme.
+          </FactText>
         </Fact>
       </Facts>
 

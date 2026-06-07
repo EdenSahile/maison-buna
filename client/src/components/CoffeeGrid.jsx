@@ -6,9 +6,9 @@ import sidamoImg from '../assets/SIDAMO.png'
 import yirgImg from '../assets/yirgacheffe.png'
 
 const CAFES = [
-  { value: 'Limmu',       name: 'Limmu',       region: 'Région Limmu',       notes: 'Floral, bergamote, jasmin',  img: limmuImg  },
-  { value: 'Sidamo',      name: 'Sidamo',       region: 'Région Sidama',      notes: 'Fruité, pêche, agrumes',     img: sidamoImg },
-  { value: 'Yirgacheffe', name: 'Yirgacheffe',  region: 'Région Yirgacheffe', notes: 'Thé, citron, fleur blanche', img: yirgImg   },
+  { value: 'Limmu',       name: 'Limmu',       region: 'Région Limmu',       notes: 'Épicé, boisé, chocolat noir', img: limmuImg  },
+  { value: 'Sidamo',      name: 'Sidamo',       region: 'Région Sidama',      notes: 'Fruité, myrtille, caramel',   img: sidamoImg },
+  { value: 'Yirgacheffe', name: 'Yirgacheffe',  region: 'Région Yirgacheffe', notes: 'Floral, agrumes, jasmin',     img: yirgImg   },
 ]
 
 const Grid = styled.div`

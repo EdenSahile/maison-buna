@@ -32,8 +32,6 @@ const Shell = styled.div`
 
 const FormArea = styled.main`
   padding: 48px 64px 80px;
-  max-width: 780px;
-  width: 100%;
   background: ${theme.formBg};
 
   @media (max-width: 1024px) {
@@ -45,7 +43,7 @@ const FormArea = styled.main`
 `;
 
 const PageTitle = styled.h1`
-  font-family: 'Crimson Pro', Georgia, serif;
+  font-family: "Crimson Pro", Georgia, serif;
   font-weight: 300;
   font-size: 48px;
   line-height: 1.08;
@@ -68,7 +66,7 @@ const PageTitle = styled.h1`
 `;
 
 const PageIntro = styled.p`
-  font-family: 'Open Sans', system-ui, sans-serif;
+  font-family: "Open Sans", system-ui, sans-serif;
   color: ${theme.sandDark};
   font-size: 14.5px;
   line-height: 1.7;
@@ -89,16 +87,18 @@ const SubmitArea = styled.div`
   @media (max-width: 640px) {
     flex-direction: column;
     align-items: stretch;
-    button { justify-content: center; }
+    button {
+      justify-content: center;
+    }
   }
 `;
 
 const SubmitNote = styled.p`
-  font-family: 'Open Sans', system-ui, sans-serif;
+  font-family: "Open Sans", system-ui, sans-serif;
   font-size: 13px;
   color: ${theme.sandDark};
   line-height: 1.6;
-  max-width: 280px;
+  max-width: 400px;
 
   strong {
     color: ${theme.brown};
@@ -203,7 +203,6 @@ export default function DevisForm() {
     <Shell>
       <BrandPanel stepProgress={stepProgress} audience={audience} />
       <FormArea>
-
         <PageTitle>
           Parlons de votre <em>café</em>.
         </PageTitle>
@@ -242,12 +241,12 @@ export default function DevisForm() {
 
           <SubmitArea>
             <SubmitNote>
-              <strong>Devis en quelques minutes</strong>
+              <strong>Réponse rapide, adaptée à vos besoins</strong>
               <br />
-              {isEnt && "Aucun engagement."}
+              Devis immédiat ou accompagnement personnalisé sous 48 h pour toute demande sur mesure.
             </SubmitNote>
             <PrimaryButton type="submit" disabled={loading}>
-              <span>{loading ? "Envoi en cours…" : "Envoyer ma demande"}</span>
+              <span>{loading ? "Envoi en cours…" : "Demander mon devis"}</span>
               {!loading && (
                 <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
                   <path
