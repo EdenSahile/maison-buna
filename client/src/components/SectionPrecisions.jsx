@@ -13,16 +13,12 @@ export default function SectionPrecisions({ formData, audience, onChange }) {
     <Section id="section-4" data-step="4">
       <SectionHead num="04" title="Vos précisions" step="Étape 4 / 4" />
 
-      <Field
-        id="message"
-        label="Informations complémentaires"
-        optional
-      >
+      <Field id="message" label="Remarque" optional>
         <StyledTextarea
           id="message"
           value={formData.message}
           onChange={(e) => onChange("message", e.target.value)}
-          placeholder=""
+          placeholder="Délai, fréquence particulière, remarque de livraison…"
         />
       </Field>
     </Section>

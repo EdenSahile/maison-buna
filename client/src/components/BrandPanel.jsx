@@ -239,8 +239,9 @@ const StepLabel = styled.span`
 
 const STEPS = [
   { num: "01", id: 1 },
-  { num: "02", label: "Contact", id: 2 },
+  { num: "02", label: "Vos coordonnées", id: 2 },
   { num: "03", label: "Votre commande", id: 3 },
+  { num: "04", label: "Vos précisions", id: 4 },
 ];
 
 export default function BrandPanel({ stepProgress, audience, onLogoClick }) {
