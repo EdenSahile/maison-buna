@@ -103,9 +103,9 @@ const Info = styled.div`
 `
 
 const Name = styled.div`
-  font-family: 'Open Sans', system-ui, sans-serif;
-  font-size: 18px;
-  font-weight: 400;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
   color: ${theme.brown};
   margin-bottom: 4px;
 `
