@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import theme from "../theme";
+import ceremonieImg from "../assets/ceremonie-cafe-maison-buna-ethiopie.png";
 
 const Panel = styled.aside`
   background: ${theme.white};
@@ -17,27 +18,6 @@ const Panel = styled.aside`
   }
 `;
 
-const Eyebrow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: ${theme.accentText};
-  margin-bottom: 24px;
-
-  &::before {
-    content: "";
-    width: 18px;
-    height: 1.5px;
-    background: ${theme.accent};
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-`;
-
 const Quote = styled.blockquote`
   font-family: "Crimson Pro", Georgia, serif;
   font-weight: 300;
@@ -46,7 +26,7 @@ const Quote = styled.blockquote`
   line-height: 1.35;
   color: ${theme.dark};
   letter-spacing: -0.2px;
-  margin: 0 0 10px;
+  margin: 0 0 5px;
 
   em {
     font-style: normal;
@@ -95,19 +75,31 @@ const FactText = styled.div`
   color: ${theme.sandDark};
 `;
 
-const BeanDecor = styled.div`
-  position: relative;
-  height: 120px;
+const PhotoDecor = styled.div`
   margin-top: auto;
-  pointer-events: none;
   overflow: hidden;
+  border-radius: 8px;
+  flex-shrink: 0;
+`;
+
+const PhotoDecorImg = styled.img`
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+`;
+
+const PhotoCaption = styled.p`
+  font-family: "Open Sans", system-ui, sans-serif;
+  font-size: 10px;
+  font-style: italic;
+  color: ${theme.sandText};
+  margin-top: 8px;
+  text-align: center;
 `;
 
 export default function EditorialPanel() {
   return (
     <Panel aria-hidden="true">
-      <Eyebrow>Ethiopie · Spécialité</Eyebrow>
-
       <Quote>
         <em>Buna</em>
         {" — le mot amharique pour « café »."}
@@ -140,79 +132,10 @@ export default function EditorialPanel() {
         </Fact>
       </Facts>
 
-      <BeanDecor aria-hidden="true">
-        <svg
-          style={{
-            position: "absolute",
-            bottom: 8,
-            right: 16,
-            transform: "rotate(22deg)",
-            opacity: 0.35,
-          }}
-          viewBox="0 0 40 62"
-          width="62"
-          height="96"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <ellipse cx="20" cy="31" rx="18" ry="29" fill="#C4AE92" />
-          <path
-            d="M20 4 Q12 31 20 58"
-            stroke="#705540"
-            strokeWidth="1.5"
-            fill="none"
-            strokeLinecap="round"
-          />
-        </svg>
-
-        <svg
-          style={{
-            position: "absolute",
-            bottom: 20,
-            left: 10,
-            transform: "rotate(-18deg)",
-            opacity: 0.22,
-          }}
-          viewBox="0 0 40 62"
-          width="42"
-          height="65"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <ellipse cx="20" cy="31" rx="18" ry="29" fill="#C4AE92" />
-          <path
-            d="M20 4 Q12 31 20 58"
-            stroke="#705540"
-            strokeWidth="1.5"
-            fill="none"
-            strokeLinecap="round"
-          />
-        </svg>
-
-        <svg
-          style={{
-            position: "absolute",
-            bottom: 50,
-            right: 70,
-            transform: "rotate(55deg)",
-            opacity: 0.16,
-          }}
-          viewBox="0 0 40 62"
-          width="26"
-          height="40"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <ellipse cx="20" cy="31" rx="18" ry="29" fill="#C4AE92" />
-          <path
-            d="M20 4 Q12 31 20 58"
-            stroke="#705540"
-            strokeWidth="1.5"
-            fill="none"
-            strokeLinecap="round"
-          />
-        </svg>
-      </BeanDecor>
+      <PhotoDecor>
+        <PhotoDecorImg src={ceremonieImg} alt="Cérémonie du café en Éthiopie" />
+        <PhotoCaption>Cérémonie du café éthiopien</PhotoCaption>
+      </PhotoDecor>
     </Panel>
   );
 }

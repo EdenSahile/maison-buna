@@ -28,12 +28,12 @@ const AudOpt = styled.button`
   align-items: center;
   gap: 14px;
   padding: 18px 20px;
-  background: ${({ $active }) => $active ? theme.creamSoft : 'transparent'};
+  background: ${({ $active }) => ($active ? theme.creamSoft : "transparent")};
   border: none;
   cursor: pointer;
   transition: all 0.25s ease;
   text-align: left;
-  font-family: 'Open Sans', inherit;
+  font-family: "Open Sans", inherit;
   color: ${theme.brown};
   position: relative;
 
@@ -45,7 +45,9 @@ const AudOpt = styled.button`
     background: ${theme.creamSoft};
   }
 
-  ${({ $active }) => $active && `
+  ${({ $active }) =>
+    $active &&
+    `
     &::after {
       content: '';
       position: absolute;
@@ -68,9 +70,9 @@ const AudIcon = styled.span`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: ${({ $active }) => $active ? theme.brown : theme.white};
-  color: ${({ $active }) => $active ? theme.cream : theme.sandText};
-  border: 1px solid ${({ $active }) => $active ? theme.brown : theme.line};
+  background: ${({ $active }) => ($active ? theme.brown : theme.white)};
+  color: ${({ $active }) => ($active ? theme.cream : theme.sandText)};
+  border: 1px solid ${({ $active }) => ($active ? theme.brown : theme.line)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,7 +112,16 @@ export default function AudienceToggle({ audience, onChange }) {
           onClick={() => onChange("entreprise")}
         >
           <AudIcon $active={audience === "entreprise"}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M3 21h18" />
               <path d="M5 21V8l7-4 7 4v13" />
               <path d="M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h.01M13 17h.01" />
@@ -130,7 +141,16 @@ export default function AudienceToggle({ audience, onChange }) {
           onClick={() => onChange("particulier")}
         >
           <AudIcon $active={audience === "particulier"}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M3 11l9-7 9 7" />
               <path d="M5 9.5V21h14V9.5" />
               <path d="M10 21v-6h4v6" />
@@ -138,7 +158,7 @@ export default function AudienceToggle({ audience, onChange }) {
           </AudIcon>
           <AudText>
             <AudTitle>Moi à la maison</AudTitle>
-            <AudSub>Livraison, abonnement, cadeaux</AudSub>
+            <AudSub>Livraison à domicile, cadeaux</AudSub>
           </AudText>
         </AudOpt>
       </Toggle>
