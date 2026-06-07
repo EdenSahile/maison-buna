@@ -7,7 +7,7 @@ import { dirname, join } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const templatePath = join(__dirname, '../templates/devis-template.html');
 
-const logoPath = join(__dirname, '../public/images/logo-buna.png');
+const logoPath = join(__dirname, '../public/images/monogram-mb.png');
 const logoSrc = `data:image/png;base64,${readFileSync(logoPath).toString('base64')}`;
 
 export async function generatePDF(devis) {
@@ -21,7 +21,7 @@ export async function generatePDF(devis) {
   });
   try {
     const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await page.setContent(html, { waitUntil: 'networkidle0', timeout: 15000 });
     const pdf = await page.pdf({ format: 'A4', printBackground: true });
     return pdf;
   } finally {
