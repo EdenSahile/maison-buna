@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import theme from "../theme";
 import BrandPanel from "./BrandPanel";
+import EditorialPanel from "./EditorialPanel";
 import AudienceToggle from "./AudienceToggle";
 import SectionProfil from "./SectionProfil";
 import SectionContact from "./SectionContact";
@@ -18,9 +19,12 @@ import {
 
 const Shell = styled.div`
   display: grid;
-  grid-template-columns: 380px 1fr;
+  grid-template-columns: 380px 1fr 240px;
   min-height: 100vh;
 
+  @media (max-width: 1280px) {
+    grid-template-columns: 380px 1fr;
+  }
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
   }
@@ -43,11 +47,11 @@ const FormArea = styled.main`
 const PageTitle = styled.h1`
   font-family: 'Crimson Pro', Georgia, serif;
   font-weight: 300;
-  font-size: 42px;
+  font-size: 48px;
   line-height: 1.08;
   color: ${theme.brown};
   margin-bottom: 14px;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
 
   em {
     font-style: italic;
@@ -56,10 +60,10 @@ const PageTitle = styled.h1`
   }
 
   @media (max-width: 1024px) {
-    font-size: 32px;
+    font-size: 36px;
   }
   @media (max-width: 640px) {
-    font-size: 26px;
+    font-size: 30px;
   }
 `;
 
@@ -190,6 +194,7 @@ export default function DevisForm() {
             surDevis={surDevis}
           />
         </FormArea>
+        <EditorialPanel />
       </Shell>
     );
   }
@@ -198,6 +203,7 @@ export default function DevisForm() {
     <Shell>
       <BrandPanel stepProgress={stepProgress} audience={audience} />
       <FormArea>
+
         <PageTitle>
           Parlons de votre <em>café</em>.
         </PageTitle>
@@ -257,6 +263,7 @@ export default function DevisForm() {
           </SubmitArea>
         </form>
       </FormArea>
+      <EditorialPanel />
     </Shell>
   );
 }

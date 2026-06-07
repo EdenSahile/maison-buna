@@ -21,7 +21,7 @@ const Num = styled.span`
 const Title = styled.h2`
   font-family: 'Crimson Pro', Georgia, serif;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 26px;
   color: ${theme.brown};
   letter-spacing: -0.2px;
 `
