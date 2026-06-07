@@ -11,9 +11,8 @@
 | Composant | État |
 |-----------|------|
 | Serveur local (`npm run dev:all`) | ✅ opérationnel |
-| PDF Puppeteer (`npm run pdf:test`) | ✅ |
+| PDF Puppeteer (`npm run pdf:test`) | ✅ non retesté cette session |
 | Emails Brevo | ✅ (SMTP OK — non retesté cette session) |
-| Formulaire HTML | ❌ supprimé — migration complète vers React |
 | App React (`npm run dev:client`) | ✅ port 5173 |
 | Render (production) | ✅ mergé + auto-deploy actif |
 
@@ -21,7 +20,7 @@
 
 ## Branche active
 
-`feat/fix-message-succes` — mergée dans `main`, pushée
+`feat/design-v2` — en cours, non pushée
 
 ---
 
@@ -32,28 +31,33 @@
 - [x] PRICING simplifié : 250 g / 500 g / Sur mesure
 - [x] Grille cafés : 3 cards avec photo (Limmu / Sidamo / Yirgacheffe) + chips de quantité
 - [x] Sélection multiple possible (plusieurs cafés, quantités différentes)
-- [x] Fix bug `surDevis` : `DevisForm.jsx:187` — croiser `formData.cafes` pour n'inspecter que les cafés sélectionnés
+- [x] Fix bug `surDevis` : `DevisForm.jsx:187`
 - [x] Fix message de confirmation conditionnel (HTML + React)
-- [x] Suppression formulaire HTML (`public/index.html` + `public/script.js`)
 - [x] Migration confirmation page vers React (`SuccessView.jsx`)
 - [x] Script `dev:all` : Express + Vite en parallèle (concurrently)
 - [x] Restauration UI : chips toujours visibles, logo avec bordure, toggle avec sous-titres
-- [x] Options quantité unifiées : 250 g / 500 g / Sur mesure (entreprise + particulier)
+- [x] Options quantité unifiées : 250 g / 500 g / Sur mesure
 - [x] Logo cliquable sur page confirmation → retour formulaire
-- [x] Chips toggleables + suppression CheckBadge
-- [x] Fix PDF : padding-top sur bloc conditions (margin ignoré au saut de page)
+- [x] Fix PDF : padding-top sur bloc conditions
 - [x] Merge `feat/fix-message-succes` → `main` + push
 - [x] Fix 500 Render : `counter.json` absent + Puppeteer `--no-sandbox`
-- [x] Cron GitHub Actions keep-alive (ping toutes les 14 min)
-- [x] Fix hook stop : `client/.claude/settings.json` → `../.claude/hooks/stop.js`
-- [x] Suppression barre de progression React (formulaire)
-- [x] "de caractère," en orange (`theme.accent`) dans la sidebar
+- [x] Cron GitHub Actions keep-alive
+- [x] Design v2 landing page : typographie, panneau éditorial, monogramme MB, stepper 4 étapes, photo cérémonie
+- [x] Spec + plan refonte template PDF (`docs/superpowers/specs/` + `docs/superpowers/plans/`)
 
 ---
 
 ## Tâches restantes ⏳
 
-Aucune tâche en cours.
+- [x] Tâche 1 — Copier `monogram-mb.png` dans `public/images/`
+- [x] Tâche 2 — Mettre à jour `pdfService.js` (logo + networkidle0)
+- [x] Tâche 3 — Réécrire le CSS du template PDF (Crimson Pro + Open Sans)
+- [x] Tâche 4 — Mettre les quantités en `<strong>` dans le tableau
+- [x] Tâche 5 — Tester la génération PDF
+- [ ] Pusher `feat/design-v2` → remote
+- [ ] Ouvrir PR `feat/design-v2` → `main`
+- [ ] Reset compteur devis (`data/counter.json` → `{"counter":0}`) avant mise en prod
+- [ ] Valider PDF + emails après refonte template
 
 ---
 
@@ -69,3 +73,4 @@ Aucune tâche en cours.
 - Render URL : https://maison-buna.onrender.com
 - Render plan : Free (cold start ~30s) — passer Starter $7/mois pour production
 - Puppeteer sur Render Free : 512MB RAM, suffisant pour PDF basiques
+- Numérotation devis : `MBE-YYYYMMDD-NNNNN` (entreprise) / `MBP-YYYYMMDD-NNNNN` (particulier) — compteur actuel : 31

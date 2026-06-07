@@ -1,6 +1,8 @@
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import theme from "../theme";
 import logoImg from "../assets/monogram-mb.png";
+import ceremonieImg from "../assets/ceremonie-cafe-maison-buna-ethiopie.JPG";
 
 const Brand = styled.aside`
   background: ${theme.white};
@@ -10,18 +12,23 @@ const Brand = styled.aside`
   top: 0;
   align-self: start;
   height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (max-width: 1024px) {
     position: relative;
     height: auto;
+    overflow-y: visible;
     border-right: none;
     border-bottom: 1px solid ${theme.line};
   }
 `;
 
 const BrandInner = styled.div`
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   padding: 36px;
@@ -54,8 +61,8 @@ const BrandDot = styled.div`
 `;
 
 const Monogram = styled.div`
-  width: 46px;
-  height: 46px;
+  width: 55px;
+  height: 55px;
   border-radius: 8px;
   overflow: hidden;
   flex-shrink: 0;
@@ -98,7 +105,7 @@ const BrandBody = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding-top: 48px;
+  padding-top: 36px;
 
   @media (max-width: 1024px) {
     padding-top: 20px;
@@ -161,7 +168,7 @@ const BrandSub = styled.p`
 `;
 
 const Stepper = styled.nav`
-  margin-top: auto;
+  flex-shrink: 0;
 
   @media (max-width: 1024px) {
     display: none;
@@ -201,11 +208,8 @@ const StepDot = styled.span`
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  border: 1.5px solid
-    ${({ $done, $active }) =>
-      $active ? theme.accent : $done ? theme.dark : theme.line};
-  background: ${({ $done, $active }) =>
-    $active ? theme.accent : $done ? theme.dark : "transparent"};
+  border: 1.5px solid ${({ $active }) => ($active ? theme.accent : theme.line)};
+  background: ${({ $active }) => ($active ? theme.accent : "transparent")};
   flex-shrink: 0;
   transition: all 0.25s ease;
   box-shadow: ${({ $active }) =>
@@ -223,8 +227,7 @@ const StepNum = styled.span`
   font-family: "Crimson Pro", Georgia, serif;
   font-size: 16px;
   font-style: italic;
-  color: ${({ $done, $active }) =>
-    $active ? theme.accent : $done ? theme.sandText : theme.sandText};
+  color: ${({ $active }) => ($active ? theme.accent : theme.sandText)};
   width: 20px;
   text-align: right;
   transition: color 0.25s;
@@ -233,8 +236,31 @@ const StepNum = styled.span`
 const StepLabel = styled.span`
   font-size: 12px;
   font-weight: 600;
-  color: ${({ $done, $active }) => ($active ? theme.dark : theme.sandText)};
+  color: ${({ $active }) => ($active ? theme.dark : theme.sandText)};
   transition: color 0.25s;
+`;
+
+const PhotoWrap = styled.div`
+  flex-shrink: 0;
+  margin: 32px -36px;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+`;
+
+const PhotoImg = styled.img`
+  width: 100%;
+  display: block;
+`;
+
+const PhotoCaption = styled.p`
+  font-family: "Open Sans", system-ui, sans-serif;
+  font-size: 10px;
+  font-style: italic;
+  color: ${theme.sandText};
+  margin-top: 10px;
+  text-align: center;
 `;
 
 const STEPS = [
@@ -244,15 +270,54 @@ const STEPS = [
   { num: "04", label: "Vos précisions", id: 4 },
 ];
 
-export default function BrandPanel({ stepProgress, audience, onLogoClick }) {
-  const activeIdx = stepProgress.findIndex((x) => !x);
+export default function BrandPanel({ audience, onLogoClick }) {
+  const [activeSectionId, setActiveSectionId] = useState(1);
+
   const step1Label =
     audience === "entreprise" ? "Votre entreprise" : "Votre livraison";
 
+  const isProgrammaticScroll = useRef(false);
+  const scrollLockTimer = useRef(null);
+
+  useEffect(() => {
+    const getActive = () => {
+      if (isProgrammaticScroll.current) return;
+      if (window.scrollY === 0) {
+        setActiveSectionId(1);
+        return;
+      }
+      const atBottom =
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 80;
+      if (atBottom) {
+        setActiveSectionId(STEPS[STEPS.length - 1].id);
+        return;
+      }
+      const trigger = window.innerHeight * 0.4;
+      let active = 1;
+      for (const { id } of STEPS) {
+        const el = document.getElementById(`section-${id}`);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= trigger) active = id;
+      }
+      setActiveSectionId(active);
+    };
+
+    window.addEventListener("scroll", getActive, { passive: true });
+    getActive();
+    return () => window.removeEventListener("scroll", getActive);
+  }, []);
+
   const scrollToSection = (id) => {
+    isProgrammaticScroll.current = true;
+    setActiveSectionId(id);
     document
       .getElementById(`section-${id}`)
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    clearTimeout(scrollLockTimer.current);
+    scrollLockTimer.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 900);
   };
 
   return (
@@ -280,15 +345,17 @@ export default function BrandPanel({ stepProgress, audience, onLogoClick }) {
             Café de spécialité éthiopien, torréfié artisanalement en France.
             Livraison régulière, sans engagement.
           </BrandSub>
-
-
         </BrandBody>
+
+        <PhotoWrap>
+          <PhotoImg src={ceremonieImg} alt="Cérémonie du café en Éthiopie" />
+          <PhotoCaption>Cérémonie du café éthiopien</PhotoCaption>
+        </PhotoWrap>
 
         <Stepper aria-label="Navigation par étapes">
           <StepperTitle>Votre demande</StepperTitle>
           {STEPS.map((step, i) => {
-            const isDone = stepProgress[i];
-            const isActive = i === activeIdx;
+            const isActive = step.id === activeSectionId;
             const label = i === 0 ? step1Label : step.label;
             return (
               <Step
@@ -297,14 +364,10 @@ export default function BrandPanel({ stepProgress, audience, onLogoClick }) {
                 onClick={() => scrollToSection(step.id)}
                 onKeyDown={(e) => e.key === "Enter" && scrollToSection(step.id)}
               >
-                <StepDot $done={isDone} $active={isActive} />
+                <StepDot $active={isActive} />
                 <StepContent>
-                  <StepNum $done={isDone} $active={isActive}>
-                    {step.num}
-                  </StepNum>
-                  <StepLabel $done={isDone} $active={isActive}>
-                    {label}
-                  </StepLabel>
+                  <StepNum $active={isActive}>{step.num}</StepNum>
+                  <StepLabel $active={isActive}>{label}</StepLabel>
                 </StepContent>
               </Step>
             );

@@ -2,7 +2,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import theme from "../theme";
 import BrandPanel from "./BrandPanel";
-import EditorialPanel from "./EditorialPanel";
 import AudienceToggle from "./AudienceToggle";
 import SectionProfil from "./SectionProfil";
 import SectionContact from "./SectionContact";
@@ -19,12 +18,9 @@ import {
 
 const Shell = styled.div`
   display: grid;
-  grid-template-columns: 380px 1fr 240px;
+  grid-template-columns: 380px 1fr;
   min-height: 100vh;
 
-  @media (max-width: 1280px) {
-    grid-template-columns: 380px 1fr;
-  }
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
   }
@@ -182,7 +178,6 @@ export default function DevisForm() {
     return (
       <Shell>
         <BrandPanel
-          stepProgress={[true, true, true, true]}
           audience={audience}
           onLogoClick={handleReset}
         />
@@ -194,14 +189,13 @@ export default function DevisForm() {
             surDevis={surDevis}
           />
         </FormArea>
-        <EditorialPanel />
       </Shell>
     );
   }
 
   return (
     <Shell>
-      <BrandPanel stepProgress={stepProgress} audience={audience} />
+      <BrandPanel audience={audience} />
       <FormArea>
         <PageTitle>
           Parlons de votre <em>café</em>.
@@ -262,7 +256,6 @@ export default function DevisForm() {
           </SubmitArea>
         </form>
       </FormArea>
-      <EditorialPanel />
     </Shell>
   );
 }
