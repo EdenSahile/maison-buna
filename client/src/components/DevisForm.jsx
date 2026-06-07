@@ -18,9 +18,8 @@ import {
 
 const Shell = styled.div`
   display: grid;
-  grid-template-columns: 420px 1fr;
+  grid-template-columns: 380px 1fr;
   min-height: 100vh;
-  background: ${theme.creamSoft};
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
@@ -28,63 +27,54 @@ const Shell = styled.div`
 `;
 
 const FormArea = styled.main`
-  padding: 56px 72px 80px;
-  max-width: 920px;
+  padding: 48px 64px 80px;
+  max-width: 780px;
   width: 100%;
+  background: ${theme.formBg};
 
   @media (max-width: 1024px) {
-    padding: 48px 32px 64px;
+    padding: 40px 28px 60px;
   }
   @media (max-width: 640px) {
-    padding: 32px 20px 56px;
+    padding: 28px 18px 48px;
   }
 `;
 
-const FormMeta = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: ${theme.sand};
-  margin-bottom: 32px;
-  text-transform: uppercase;
-`;
-
-
 const PageTitle = styled.h1`
-  font-family: "Cormorant Garamond", serif;
-  font-weight: 400;
-  font-size: 52px;
-  line-height: 1.05;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-weight: 300;
+  font-size: 42px;
+  line-height: 1.08;
   color: ${theme.brown};
-  margin-bottom: 16px;
-  letter-spacing: -1px;
+  margin-bottom: 14px;
+  letter-spacing: -0.3px;
 
   em {
     font-style: italic;
+    font-weight: 400;
     color: ${theme.accent};
   }
 
   @media (max-width: 1024px) {
-    font-size: 40px;
+    font-size: 32px;
   }
   @media (max-width: 640px) {
-    font-size: 32px;
+    font-size: 26px;
   }
 `;
 
 const PageIntro = styled.p`
+  font-family: 'Open Sans', system-ui, sans-serif;
   color: ${theme.sandDark};
-  font-size: 16px;
-  line-height: 1.6;
-  max-width: 520px;
-  margin-bottom: 56px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 44px;
 `;
 
 const SubmitArea = styled.div`
-  margin-top: 56px;
-  padding-top: 40px;
+  margin-top: 48px;
+  padding-top: 32px;
   border-top: 1px solid ${theme.line};
   display: flex;
   align-items: center;
@@ -95,21 +85,20 @@ const SubmitArea = styled.div`
   @media (max-width: 640px) {
     flex-direction: column;
     align-items: stretch;
-    button {
-      justify-content: center;
-    }
+    button { justify-content: center; }
   }
 `;
 
 const SubmitNote = styled.p`
+  font-family: 'Open Sans', system-ui, sans-serif;
   font-size: 13px;
   color: ${theme.sandDark};
   line-height: 1.6;
-  max-width: 320px;
+  max-width: 280px;
 
   strong {
     color: ${theme.brown};
-    font-weight: 500;
+    font-weight: 600;
   }
 `;
 
@@ -209,10 +198,6 @@ export default function DevisForm() {
     <Shell>
       <BrandPanel stepProgress={stepProgress} audience={audience} />
       <FormArea>
-        <FormMeta>
-          <span>Demande de devis</span>
-        </FormMeta>
-
         <PageTitle>
           Parlons de votre <em>café</em>.
         </PageTitle>

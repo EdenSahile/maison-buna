@@ -25,13 +25,12 @@ const SuccessIcon = styled.div`
 `
 
 const Title = styled.h2`
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Open Sans', system-ui, sans-serif;
   font-weight: 400;
-  font-size: 48px;
+  font-size: 42px;
   color: ${theme.brown};
-  line-height: 1.05;
-  letter-spacing: -0.5px;
-  margin-bottom: 20px;
+  line-height: 1.1;
+  margin-bottom: 16px;
 
   em { font-style: italic; color: ${theme.accent}; }
 `
@@ -74,10 +73,11 @@ const SummaryRow = styled.div`
   &:last-child { border-bottom: none; }
 
   dt {
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: ${theme.sand};
+    color: ${theme.sandText};
     padding-top: 2px;
   }
 
@@ -94,10 +94,10 @@ const Footer = styled.div`
 `
 
 const Tagline = styled.p`
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Crimson Pro', Georgia, serif;
   font-style: italic;
-  color: ${theme.sand};
-  font-size: 16px;
+  color: ${theme.sandText};
+  font-size: 15px;
   flex: 1;
 `
 

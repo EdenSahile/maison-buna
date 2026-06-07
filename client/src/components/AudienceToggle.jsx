@@ -2,49 +2,65 @@ import styled from "styled-components";
 import theme from "../theme";
 
 const Audience = styled.div`
-  margin-bottom: 48px;
+  margin-bottom: 44px;
 `;
 
 const AudienceLabel = styled.div`
   font-size: 11px;
+  font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: ${theme.sand};
-  margin-bottom: 12px;
-  font-weight: 500;
+  color: ${theme.sandText};
+  margin-bottom: 10px;
 `;
 
 const Toggle = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  background: ${theme.creamSoft};
   border: 1px solid ${theme.line};
-  border-radius: 14px;
-  padding: 6px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: ${theme.white};
 `;
 
 const AudOpt = styled.button`
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 18px;
-  border-radius: 10px;
-  background: ${({ $active }) => ($active ? theme.white : "transparent")};
-  border: 1px solid ${({ $active }) => ($active ? theme.brown : "transparent")};
-  box-shadow: ${({ $active }) =>
-    $active
-      ? `0 1px 0 ${theme.brown}, 0 4px 14px rgba(61,40,23,0.10)`
-      : "none"};
+  padding: 18px 20px;
+  background: ${({ $active }) => $active ? theme.creamSoft : 'transparent'};
+  border: none;
   cursor: pointer;
   transition: all 0.25s ease;
   text-align: left;
-  font-family: inherit;
+  font-family: 'Open Sans', inherit;
   color: ${theme.brown};
-  width: 100%;
+  position: relative;
+
+  & + & {
+    border-left: 1px solid ${theme.line};
+  }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.55);
+    background: ${theme.creamSoft};
+  }
+
+  ${({ $active }) => $active && `
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: ${theme.brown};
+      border-radius: 2px 2px 0 0;
+    }
+  `}
+
+  &:focus-visible {
+    outline: 2.5px solid ${theme.accent};
+    outline-offset: -2px;
   }
 `;
 
@@ -52,31 +68,32 @@ const AudIcon = styled.span`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: ${({ $active }) => ($active ? theme.brown : theme.white)};
-  color: ${({ $active }) => ($active ? theme.cream : theme.sandDark)};
-  border: 1px solid ${({ $active }) => ($active ? theme.brown : theme.line)};
+  background: ${({ $active }) => $active ? theme.brown : theme.white};
+  color: ${({ $active }) => $active ? theme.cream : theme.sandText};
+  border: 1px solid ${({ $active }) => $active ? theme.brown : theme.line};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
 `;
 
 const AudText = styled.span`
   line-height: 1.3;
 `;
+
 const AudTitle = styled.span`
   display: block;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: ${theme.brown};
-  letter-spacing: -0.1px;
 `;
+
 const AudSub = styled.span`
   display: block;
   font-size: 12px;
-  color: ${theme.sand};
-  margin-top: 2px;
+  color: ${theme.sandText};
+  margin-top: 1px;
   font-weight: 400;
 `;
 
@@ -84,7 +101,7 @@ export default function AudienceToggle({ audience, onChange }) {
   return (
     <Audience>
       <AudienceLabel>Vous commandez pour…</AudienceLabel>
-      <Toggle role="radiogroup">
+      <Toggle role="radiogroup" aria-label="Vous commandez pour…">
         <AudOpt
           type="button"
           $active={audience === "entreprise"}
@@ -93,16 +110,7 @@ export default function AudienceToggle({ audience, onChange }) {
           onClick={() => onChange("entreprise")}
         >
           <AudIcon $active={audience === "entreprise"}>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 21h18" />
               <path d="M5 21V8l7-4 7 4v13" />
               <path d="M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h.01M13 17h.01" />
@@ -110,7 +118,7 @@ export default function AudienceToggle({ audience, onChange }) {
           </AudIcon>
           <AudText>
             <AudTitle>Mon entreprise</AudTitle>
-            <AudSub>bureau, équipe, événements</AudSub>
+            <AudSub>Bureau, équipe, événements</AudSub>
           </AudText>
         </AudOpt>
 
@@ -122,16 +130,7 @@ export default function AudienceToggle({ audience, onChange }) {
           onClick={() => onChange("particulier")}
         >
           <AudIcon $active={audience === "particulier"}>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 11l9-7 9 7" />
               <path d="M5 9.5V21h14V9.5" />
               <path d="M10 21v-6h4v6" />
@@ -139,7 +138,7 @@ export default function AudienceToggle({ audience, onChange }) {
           </AudIcon>
           <AudText>
             <AudTitle>Moi à la maison</AudTitle>
-            <AudSub>livraison, abonnement, cadeaux</AudSub>
+            <AudSub>Livraison, abonnement, cadeaux</AudSub>
           </AudText>
         </AudOpt>
       </Toggle>

@@ -6,9 +6,9 @@ import sidamoImg from '../assets/SIDAMO.png'
 import yirgImg from '../assets/yirgacheffe.png'
 
 const CAFES = [
-  { value: 'Limmu',       name: 'Limmu',       region: 'Région Limmu · Éthiopie',        notes: 'Floral, bergamote, jasmin',   img: limmuImg  },
-  { value: 'Sidamo',      name: 'Sidamo',       region: 'Région Sidama · Éthiopie',       notes: 'Fruité, pêche, agrumes',      img: sidamoImg },
-  { value: 'Yirgacheffe', name: 'Yirgacheffe',  region: 'Région Yirgacheffe · Éthiopie',  notes: 'Thé, citron, fleur blanche',  img: yirgImg   },
+  { value: 'Limmu',       name: 'Limmu',       region: 'Région Limmu',       notes: 'Floral, bergamote, jasmin',  img: limmuImg  },
+  { value: 'Sidamo',      name: 'Sidamo',       region: 'Région Sidama',      notes: 'Fruité, pêche, agrumes',     img: sidamoImg },
+  { value: 'Yirgacheffe', name: 'Yirgacheffe',  region: 'Région Yirgacheffe', notes: 'Thé, citron, fleur blanche', img: yirgImg   },
 ]
 
 const Grid = styled.div`
@@ -23,23 +23,25 @@ const Grid = styled.div`
 
 const Card = styled.div`
   position: relative;
-  border: 1.5px solid ${({ $checked }) => $checked ? theme.brown : theme.line};
-  border-radius: 12px;
+  border: 1px solid ${({ $checked }) => $checked ? theme.brown : theme.line};
+  border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background: ${({ $checked }) => $checked ? theme.creamSoft : theme.white};
-  box-shadow: ${({ $checked }) => $checked ? `0 0 0 3px rgba(61,40,23,0.07)` : 'none'};
+  transition: border-color 0.25s, box-shadow 0.25s;
+  background: ${theme.white};
+  box-shadow: ${({ $checked }) =>
+    $checked ? `0 0 0 1px ${theme.brown}, 0 4px 20px rgba(79,52,34,0.10)` : 'none'};
 
   &:hover {
     border-color: ${theme.sand};
+    box-shadow: 0 4px 20px rgba(79,52,34,0.08);
   }
 `
 
 const PhotoWrapper = styled.div`
   position: relative;
   overflow: hidden;
-  height: 220px;
+  height: 240px;
 
   &:hover img {
     transform: scale(1.04);
@@ -53,7 +55,7 @@ const PhotoWrapper = styled.div`
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.18);
+    background: rgba(0,0,0,0.15);
     opacity: 0;
     transition: opacity 0.2s ease;
     pointer-events: none;
@@ -101,25 +103,29 @@ const Info = styled.div`
 `
 
 const Name = styled.div`
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 20px;
-  font-weight: 600;
+  font-family: 'Open Sans', system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
   color: ${theme.brown};
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 `
 
 const Region = styled.div`
   font-size: 10px;
-  color: ${theme.sand};
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  color: ${theme.sandText};
   margin-bottom: 6px;
 `
 
 const Notes = styled.div`
-  font-size: 12px;
+  font-family: 'Open Sans', system-ui, sans-serif;
+  font-size: 12.5px;
+  font-style: italic;
   color: ${theme.sandDark};
-  line-height: 1.5;
+  line-height: 1.4;
+  margin-bottom: 14px;
 `
 
 
@@ -136,41 +142,42 @@ const QuantiteInner = styled.div`
 `
 
 const QuantiteLabel = styled.div`
+  display: block;
   font-size: 10px;
-  font-weight: 500;
-  color: ${({ $error }) => $error ? theme.error : theme.sand};
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  color: ${({ $error }) => $error ? theme.error : theme.sandText};
   margin-bottom: 6px;
   transition: color 0.2s;
 `
 
 const PillsRow = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+  gap: 5px;
 `
 
 const Pill = styled.button`
-  font-family: 'Montserrat', Arial, sans-serif;
-  font-size: 10px;
-  font-weight: 500;
-  padding: 4px 9px;
-  border-radius: 20px;
+  flex: 1;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 4px;
+  border-radius: 4px;
   border: 1px solid ${({ $active }) => $active ? theme.brown : theme.line};
-  background: ${({ $active }) => $active ? theme.brown : 'transparent'};
+  background: ${({ $active }) => $active ? theme.brown : theme.white};
   color: ${({ $active }) => $active ? theme.white : theme.brown};
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.25s ease;
   white-space: nowrap;
-  line-height: 1.4;
 
   &:hover {
-    border-color: ${theme.brown};
-    background: ${({ $active }) => $active ? theme.brown : 'rgba(61,40,23,0.06)'};
+    border-color: ${theme.sand};
+    color: ${({ $active }) => $active ? theme.white : theme.brown};
+    background: ${({ $active }) => $active ? theme.brown : 'transparent'};
   }
   &:focus-visible {
-    outline: 2px solid ${theme.accent};
+    outline: 2.5px solid ${theme.accent};
     outline-offset: 2px;
   }
 `
@@ -241,11 +248,12 @@ const LightboxCaption = styled.div`
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-style: italic;
   font-size: 18px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.75);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   white-space: nowrap;
 `
 
