@@ -3,7 +3,7 @@ import theme from '../../theme'
 
 const Grid = styled.div`
   display: grid;
-  gap: 10px;
+  gap: 8px;
   grid-template-columns: ${({ $cols }) => `repeat(${$cols}, 1fr)`};
 
   @media (max-width: 640px) {
@@ -23,19 +23,16 @@ const ChoiceItem = styled.div`
   label {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 4px;
-    padding: 16px 18px;
+    gap: 3px;
+    padding: 14px 16px;
     border: 1px solid ${({ $checked }) => $checked ? theme.brown : theme.line};
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     background: ${({ $checked }) => $checked ? theme.creamSoft : theme.white};
-    box-shadow: ${({ $checked }) => $checked ? `0 0 0 3px rgba(61,40,23,0.06), 0 1px 0 ${theme.brown}` : 'none'};
+    box-shadow: ${({ $checked }) => $checked ? `0 0 0 1px ${theme.brown}` : 'none'};
     text-align: left;
     margin: 0;
-    min-height: 64px;
     position: relative;
 
     &:hover {
@@ -44,15 +41,14 @@ const ChoiceItem = styled.div`
     }
 
     .main {
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 600;
       color: ${theme.brown};
-      letter-spacing: -0.1px;
     }
 
     .sub {
-      font-size: 12px;
-      color: ${theme.sand};
+      font-size: 11px;
+      color: ${theme.sandText};
       font-weight: 400;
     }
   }
@@ -60,14 +56,14 @@ const ChoiceItem = styled.div`
 
 const Check = styled.span`
   position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 18px;
-  height: 18px;
-  border: 1px solid ${({ $checked }) => $checked ? theme.brown : theme.line};
+  top: 12px;
+  right: 12px;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid ${({ $checked }) => $checked ? theme.brown : theme.line};
   border-radius: ${({ $checkbox }) => $checkbox ? '4px' : '50%'};
   background: ${({ $checked }) => $checked ? theme.brown : 'transparent'};
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,8 +71,8 @@ const Check = styled.span`
   &::after {
     content: '';
     ${({ $checkbox, $checked }) => $checkbox ? `
-      width: 6px;
-      height: 10px;
+      width: 5px;
+      height: 9px;
       background: transparent;
       border-right: 2px solid ${theme.white};
       border-bottom: 2px solid ${theme.white};
@@ -84,8 +80,8 @@ const Check = styled.span`
       margin-bottom: 2px;
       transition: transform 0.2s;
     ` : `
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: ${theme.white};
       transform: ${$checked ? 'scale(1)' : 'scale(0)'};
@@ -97,7 +93,7 @@ const Check = styled.span`
 const ErrorMsg = styled.div`
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 12px;
   color: ${theme.error};
   margin-top: 8px;
@@ -152,7 +148,7 @@ export default function ChoiceGrid({ cols = 3, type = 'radio', name, value, onCh
           )
         })}
       </Grid>
-      {error && <ErrorMsg>{error}</ErrorMsg>}
+      {error && <ErrorMsg role="alert">{error}</ErrorMsg>}
     </div>
   )
 }
