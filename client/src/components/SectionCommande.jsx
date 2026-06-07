@@ -31,7 +31,7 @@ const FieldLabel = styled.div`
     margin-left: 2px;
   }
   span.opt {
-    color: ${theme.sand};
+    color: ${theme.sandText};
     font-weight: 400;
     margin-left: 6px;
     font-size: 11px;
@@ -45,10 +45,10 @@ const QTE_OPTIONS = [
 ];
 
 const FREQUENCE = [
+  { value: "Ponctuelle", label: "Ponctuelle", sub: "Événementiel" },
   { value: "Hebdomadaire", label: "Hebdo", sub: "Chaque semaine" },
   { value: "Bi-mensuelle", label: "Bi-mensuelle", sub: "Tous les 15 j" },
   { value: "Mensuelle", label: "Mensuelle", sub: "Une fois / mois" },
-  { value: "Ponctuelle", label: "Ponctuelle", sub: "Événementiel" },
 ];
 
 const MoutureChip = styled.div`
@@ -86,7 +86,7 @@ const MoutureChip = styled.div`
 
   span.sub {
     font-size: 11px;
-    color: ${theme.sand};
+    color: ${theme.sandText};
     padding-left: 22px;
   }
 `;
@@ -94,7 +94,7 @@ const MoutureChip = styled.div`
 const MoutureNote = styled.p`
   margin: 8px 0 0;
   font-size: 11px;
-  color: ${theme.sand};
+  color: ${theme.sandText};
   font-style: italic;
 `;
 
