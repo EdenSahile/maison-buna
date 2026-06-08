@@ -20,6 +20,7 @@ const Brand = styled.aside`
 
   @media (max-width: 1024px) {
     position: relative;
+    top: auto;
     height: auto;
     overflow-y: visible;
     border-right: none;
@@ -34,7 +35,7 @@ const BrandInner = styled.div`
   padding: 24px 36px 36px;
 
   @media (max-width: 1024px) {
-    padding: 24px 28px 20px;
+    padding: 14px 18px 14px;
   }
 `;
 
