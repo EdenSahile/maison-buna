@@ -7,36 +7,32 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const BREVO_API = 'https://api.brevo.com/v3/smtp/email';
 
-const MONOGRAM_B64 = readFileSync(join(__dirname, '../public/images/monogram-email.png')).toString('base64');
-
 function loadTemplate(name) {
   return readFileSync(join(__dirname, '../templates', name), 'utf8');
 }
 
 async function sendOne({ apiKey, from, to, subject, html, attachments }) {
   const body = {
-    sender: { name: from.name, email: from.email },
-    to: [{ email: to }],
+    sender:      { name: from.name, email: from.email },
+    to:          [{ email: to }],
     subject,
     htmlContent: html,
   };
 
   const allAttachments = [];
-
   if (attachments?.length) {
     attachments.forEach(a => allAttachments.push({
-      name: a.filename,
+      name:    a.filename,
       content: a.content.toString('base64'),
     }));
   }
-
   if (allAttachments.length) body.attachment = allAttachments;
 
   const res = await fetch(BREVO_API, {
     method: 'POST',
     headers: {
-      'accept': 'application/json',
-      'api-key': apiKey,
+      'accept':       'application/json',
+      'api-key':      apiKey,
       'content-type': 'application/json',
     },
     body: JSON.stringify(body),
@@ -49,7 +45,7 @@ async function sendOne({ apiKey, from, to, subject, html, attachments }) {
 }
 
 export async function sendDevisEmails(devis, pdfBuffer) {
-  const apiKey   = process.env.SMTP_PASS;
+  const apiKey    = process.env.SMTP_PASS;
   const fromName  = 'Maison Buna';
   const fromEmail = process.env.SMTP_USER;
 
@@ -57,8 +53,8 @@ export async function sendDevisEmails(devis, pdfBuffer) {
   const adminTemplate  = Handlebars.compile(loadTemplate('email-admin.html'));
 
   const attachments = pdfBuffer ? [{
-    filename: `Devis-${devis.devis_numero}.pdf`,
-    content: pdfBuffer,
+    filename:    `Devis-${devis.devis_numero}.pdf`,
+    content:     pdfBuffer,
     contentType: 'application/pdf',
   }] : [];
 
@@ -73,9 +69,9 @@ export async function sendDevisEmails(devis, pdfBuffer) {
   await sendOne({
     apiKey,
     from: { name: fromName, email: fromEmail },
-    to: devis.email,
+    to:   devis.email,
     subject: clientSubject,
-    html: clientTemplate({ ...devis, monogram_b64: MONOGRAM_B64 }),
+    html:    clientTemplate(devis),
     attachments,
   });
   console.log(`Email client envoyé — id:${devis.id}`);
@@ -83,9 +79,9 @@ export async function sendDevisEmails(devis, pdfBuffer) {
   await sendOne({
     apiKey,
     from: { name: fromName, email: fromEmail },
-    to: process.env.ADMIN_EMAIL,
+    to:   process.env.ADMIN_EMAIL,
     subject: adminSubject,
-    html: adminTemplate({ ...devis, monogram_b64: MONOGRAM_B64 }),
+    html:    adminTemplate(devis),
     attachments,
   });
   console.log(`Email admin envoyé — id:${devis.id}`);

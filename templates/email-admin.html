@@ -298,7 +298,7 @@
     <!-- Header -->
     <div class="email-header">
       <div class="header-left">
-        <div class="monogram"><img src="data:image/png;base64,{{monogram_b64}}" alt="MB" width="44" height="44" style="border-radius:6px;display:block;"></div>
+        <div class="monogram"><img src="https://maison-buna.onrender.com/images/monogram-email.png" alt="MB" width="44" height="44" style="border-radius:6px;display:block;"></div>
         <div class="brand-name">
           <strong>Maison Buna</strong>
           <small>Le berceau du café</small>
@@ -347,7 +347,7 @@
             </div>
 
             {{#if is_particulier}}
-            <div class="recap-row">
+            <div class="recap-row" style="border-bottom:none;">
               <span class="recap-key">Adresse</span>
               <span class="recap-value">{{adresse}}<br>{{codepostal}} {{ville}}</span>
             </div>
@@ -362,7 +362,7 @@
               <span class="recap-value">{{#if ville}}{{ville}}{{else}}<span class="empty">Non renseignée</span>{{/if}}</span>
             </div>
 
-            <div class="recap-row">
+            <div class="recap-row" style="border-bottom:none;">
               <span class="recap-key">Secteur</span>
               <span class="recap-value">{{#if secteur}}{{secteur}}{{else}}<span class="empty">Non renseigné</span>{{/if}}</span>
             </div>
@@ -391,7 +391,7 @@
               <span class="recap-value">{{#if frequence}}{{frequence}}{{else}}<span class="empty">Non renseignée</span>{{/if}}</span>
             </div>
 
-            <div class="recap-row">
+            <div class="recap-row" style="border-bottom:none;">
               <span class="recap-key">Moutures</span>
               <span class="recap-value">
                 {{#if moutures}}
