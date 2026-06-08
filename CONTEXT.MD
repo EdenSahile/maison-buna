@@ -11,16 +11,16 @@
 | Composant | État |
 |-----------|------|
 | Serveur local (`npm run dev:all`) | ✅ opérationnel |
-| PDF Puppeteer (`npm run pdf:test`) | ✅ 365 KB |
+| PDF Puppeteer (`npm run pdf:test`) | ✅ 374 KB |
 | Emails local (`npm run mail:test`) | ✅ logo + Instagram visibles |
 | App React (`npm run dev:client`) | ✅ port 5173 |
-| Render (production) | ⚠️ `main` déployée — logo/Instagram absents en prod |
+| Render (production) | ⚠️ PR `feat/email` à merger dans `main` — fix logo en attente de merge |
 
 ---
 
 ## Branche active
 
-`main` — `feat/email` mergée PR #19
+`feat/email` — PR ouverte vers `main` (non encore mergée)
 
 ---
 
@@ -43,12 +43,21 @@
 - [x] Fix clipping Gmail : preheader invisible avec numéro de devis
 - [x] Fix pièce jointe orpheline admin : images CID séparées client/admin
 - [x] Bandeau démo : landing + success + emails client + admin
+- [x] Fix logo/Instagram prod : resolveImagesForREST() + route /images statique + BASE_URL
+- [x] Fix compteur devis Render : compteur en mémoire + COUNTER_SEED env var
+- [x] Suppression ligne signoff email-client + margin-top section-label
+- [x] PDF : break-before déplacé sur wrapper conditions (toujours page 2)
+- [x] CoffeeGrid : max-width 960px + centrage + aspect-ratio 4/3
+- [x] Bandeau démo : sticky, texte blanc, z-index 200
+- [x] Sidebar : sticky top 35px, photo 254px, hover stepper
+- [x] Responsive mobile : BrandBody masqué, toggle audience vertical
 
 ---
 
 ## Tâches restantes
 
-- [ ] **BLOQUANT** : logo + Instagram absents en production Render (SMTP probablement bloqué — voir handoff 2026-06-08-1857)
+- [ ] **ACTION REQUISE** : merger PR `feat/email` → `main` sur GitHub
+- [ ] **ACTION REQUISE** : ajouter dans Render env vars : `BASE_URL=https://maison-buna.onrender.com` et `COUNTER_SEED=0`
 - [ ] Reset compteur devis (`data/counter.json` → `{"counter":0}`) avant mise en prod Mélissa
 
 ---
@@ -65,5 +74,6 @@
 - Fondatrice : Mélissa Sahilé — Entrepreneur individuel, SIRET 999 382 484 00015
 - Render URL : https://maison-buna.onrender.com
 - Keep-alive : outil tiers (pas GitHub Actions)
-- Numérotation devis : compteur ~35 (à remettre à 0 avant prod Mélissa)
+- Compteur devis : en mémoire, initialisé depuis `COUNTER_SEED` env var (défaut 0)
+- Bandeau démo : hauteur ~35px → top de la sidebar = 35px, height = calc(100vh - 35px)
 - `nodemailer` installé et utilisé pour SMTP + CID
