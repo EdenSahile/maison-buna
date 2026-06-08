@@ -1,8 +1,11 @@
 import DevisForm from './components/DevisForm'
 
 const demoBanner = {
+  position: 'sticky',
+  top: 0,
+  zIndex: 200,
   background: '#2e2010',
-  color: '#D3C2AC',
+  color: '#ffffff',
   textAlign: 'center',
   padding: '9px 16px',
   fontSize: '11px',
