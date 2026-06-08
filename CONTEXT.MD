@@ -12,15 +12,15 @@
 |-----------|------|
 | Serveur local (`npm run dev:all`) | ✅ opérationnel |
 | PDF Puppeteer (`npm run pdf:test`) | ✅ 365 KB |
-| Emails Brevo (`npm run mail:test`) | ✅ envois OK — logo non résolu |
+| Emails local (`npm run mail:test`) | ✅ logo + Instagram visibles |
 | App React (`npm run dev:client`) | ✅ port 5173 |
-| Render (production) | ✅ sur `main` — `feat/email` non pushée |
+| Render (production) | ⚠️ `main` déployée — logo/Instagram absents en prod |
 
 ---
 
 ## Branche active
 
-`feat/email` — 4 commits, non pushée sur GitHub
+`main` — `feat/email` mergée PR #19
 
 ---
 
@@ -35,30 +35,35 @@
 - [x] Keep-alive Render (outil tiers)
 - [x] Design v2 landing page : typographie, panneau éditorial, monogramme MB, stepper 4 étapes, photo cérémonie
 - [x] Refonte template PDF : Crimson Pro + Open Sans, monogramme, palette landing
-- [x] Refonte `email-client.html` : DM Sans + DM Serif Display, card crème, récap CSS Grid, footer Instagram
-- [x] Refonte `email-admin.html` : même charte, banner notification interne, sections coordonnées + commande
-- [x] Fix double bordure recap : `style="border-bottom:none;"` inline sur dernière row
+- [x] Refonte `email-client.html` : logo CID 80px centré, récap, footer Instagram CID, preheader, bandeau démo
+- [x] Refonte `email-admin.html` : logo CID 80px centré, banner table, sections fond beige, preheader, bandeau démo
+- [x] Fix double bordure recap
+- [x] Logo monogramme PNG visible en local via Nodemailer SMTP + CID
+- [x] Icône Instagram visible en local (CID)
+- [x] Fix clipping Gmail : preheader invisible avec numéro de devis
+- [x] Fix pièce jointe orpheline admin : images CID séparées client/admin
+- [x] Bandeau démo : landing + success + emails client + admin
 
 ---
 
 ## Tâches restantes
 
-- [ ] **BLOQUER** : logo monogramme non visible dans les emails (voir section Blocages)
-- [ ] Icône Instagram dans le footer non visible (même cause)
-- [ ] Pusher `feat/email` → remote + ouvrir PR → `main`
-- [ ] Reset compteur devis (`data/counter.json` → `{"counter":0}`) avant mise en prod
+- [ ] **BLOQUANT** : logo + Instagram absents en production Render (SMTP probablement bloqué — voir handoff 2026-06-08-1857)
+- [ ] Reset compteur devis (`data/counter.json` → `{"counter":0}`) avant mise en prod Mélissa
 
 ---
 
 ## Notes techniques
 
-- `SMTP_PASS` dans `.env` = clé API Brevo `xkeysib-...` → **ne pas changer**
-- `ADMIN_EMAIL` dans `.env` = `edensahile28@gmail.com`
-- `SMTP_USER` = `edensahile28@gmail.com`
+- `SMTP_PASS` = clé API Brevo REST (`xkeysib-...`) → ne pas changer
+- `BREVO_SMTP_USER` = `ac9d17001@smtp-brevo.com`
+- `BREVO_SMTP_PASS` = `xsmtpsib-...`
+- `SMTP_USER` = `edensahile28@gmail.com` (expéditeur)
+- `ADMIN_EMAIL` = `edensahile28@gmail.com`
 - Port 3000 = API Express · Port 5173 = React Vite (dev)
 - Tuer ports : `lsof -ti:3000,5173,5174,5175,5176,5177,5178,5179,5180 | xargs kill -9`
 - Fondatrice : Mélissa Sahilé — Entrepreneur individuel, SIRET 999 382 484 00015
 - Render URL : https://maison-buna.onrender.com
 - Keep-alive : outil tiers (pas GitHub Actions)
-- Numérotation devis : compteur actuel 31 (à remettre à 0 avant prod)
-- `nodemailer` installé dans package.json mais **non utilisé** (tentative échouée — voir Blocages)
+- Numérotation devis : compteur ~35 (à remettre à 0 avant prod Mélissa)
+- `nodemailer` installé et utilisé pour SMTP + CID
