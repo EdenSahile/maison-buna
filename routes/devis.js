@@ -10,19 +10,22 @@ import { sendDevisEmails } from '../services/mailService.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const counterPath = join(__dirname, '../data/counter.json');
 
+let _counter = null;
+
 function nextDevisNumero(isParticulier) {
-  let data = { counter: 0 };
-  try {
-    data = JSON.parse(readFileSync(counterPath, 'utf8'));
-  } catch {
-    // fichier absent (ex: premier démarrage sur Render) — on part de 0
+  if (_counter === null) {
+    try {
+      _counter = JSON.parse(readFileSync(counterPath, 'utf8')).counter;
+    } catch {
+      _counter = parseInt(process.env.COUNTER_SEED || '0');
+    }
   }
-  data.counter += 1;
-  writeFileSync(counterPath, JSON.stringify(data));
+  _counter++;
+  try { writeFileSync(counterPath, JSON.stringify({ counter: _counter })); } catch {}
   const prefix = isParticulier ? 'MBP' : 'MBE';
   const now = new Date();
   const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
-  const seq = String(data.counter).padStart(5, '0');
+  const seq = String(_counter).padStart(5, '0');
   return `${prefix}-${date}-${seq}`;
 }
 
