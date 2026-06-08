@@ -378,8 +378,6 @@ tbody td.right { text-align: right; font-weight: 400; }
   background: #FAF7F2;
   border: 1px solid #E5DCCD;
   border-left: 3px solid #4F3422;
-  break-before: page;
-  page-break-before: always;
 }
 
 .message-text {
@@ -706,7 +704,7 @@ p, li {
     {{/if}}
 
     <!-- ── CONDITIONS ────────────────────────────────────── -->
-    <div style="padding-top: 36px;">
+    <div style="break-before: page; page-break-before: always; padding-top: 44px;">
     <div class="conditions">
       <div class="conditions-title">Conditions générales</div>
       <ul class="conditions-list">
