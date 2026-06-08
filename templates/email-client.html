@@ -38,31 +38,19 @@
 
     /* ── Header ── */
     .email-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 32px;
+      text-align: center;
+      margin-bottom: 36px;
       padding: 0 4px;
     }
 
-    .monogram {
-      width: 44px;
-      height: 44px;
-      border-radius: 6px;
-      overflow: hidden;
-      flex-shrink: 0;
+    .brand-title {
       display: block;
-    }
-
-    .monogram img {
-      width: 44px;
-      height: 44px;
-      display: block;
-      border-radius: 6px;
-    }
-
-    .brand-name {
-      display: block;
+      font-family: 'DM Sans', Verdana, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #2E2016;
     }
 
     .brand-name strong {
@@ -265,19 +253,23 @@
 </head>
 <body>
 
+  <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">{{devis_numero}} — {{prenom}} {{nom}}</div>
+
   <div class="email-wrapper">
 
     <!-- Header -->
     <div class="email-header">
-      <div class="monogram"><img src="https://maison-buna.onrender.com/images/monogram-email.png" alt="MB" width="44" height="44" style="border-radius:6px;display:block;"></div>
-      <div class="brand-name">
-        <strong>Maison Buna</strong>
-        <small>Le berceau du café</small>
-      </div>
+      <img src="cid:monogram-mb" alt="MB" width="80" height="80" style="display:block;border-radius:10px;margin:0 auto 16px;">
+      <strong class="brand-title">Maison Buna</strong>
+    </div>
+
+    <!-- Demo banner -->
+    <div style="background-color:#2e2010;color:#D3C2AC;text-align:center;padding:9px 16px;font-size:11px;letter-spacing:0.6px;border-radius:4px 4px 0 0;margin-bottom:0;">
+      Démo — ce devis est fictif et n'a aucune valeur commerciale.
     </div>
 
     <!-- Card -->
-    <div class="email-card">
+    <div class="email-card" style="border-top:none;border-radius:0 0 4px 4px;">
       <div class="email-body">
 
         <p class="greeting">Bonjour <strong>{{prenom}} {{nom}}</strong>,</p>
@@ -350,11 +342,10 @@
 
       <!-- Footer card -->
       <div class="email-footer">
-        <p class="footer-brand">Maison Buna</p>
         <p class="footer-links">
           <a href="mailto:contact@maisonbuna.fr">contact@maisonbuna.fr</a>
           &nbsp;&nbsp;·&nbsp;&nbsp;
-          <a href="https://instagram.com/maisonbuna"><img src="https://maison-buna.onrender.com/images/instagram-icon.png" width="13" height="13" alt="" style="vertical-align:middle;margin-right:4px;">&nbsp;@maisonbuna</a>
+          <a href="https://instagram.com/maisonbuna"><img src="cid:instagram-icon" width="13" height="13" alt="" style="vertical-align:middle;margin-right:4px;">@maisonbuna</a>
         </p>
       </div>
     </div>
