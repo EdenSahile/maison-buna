@@ -7,6 +7,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const BREVO_API = 'https://api.brevo.com/v3/smtp/email';
 
+const MONOGRAM_B64 = readFileSync(join(__dirname, '../public/images/monogram-email.png')).toString('base64');
+
 function loadTemplate(name) {
   return readFileSync(join(__dirname, '../templates', name), 'utf8');
 }
@@ -73,7 +75,7 @@ export async function sendDevisEmails(devis, pdfBuffer) {
     from: { name: fromName, email: fromEmail },
     to: devis.email,
     subject: clientSubject,
-    html: clientTemplate(devis),
+    html: clientTemplate({ ...devis, monogram_b64: MONOGRAM_B64 }),
     attachments,
   });
   console.log(`Email client envoyé — id:${devis.id}`);
@@ -83,7 +85,7 @@ export async function sendDevisEmails(devis, pdfBuffer) {
     from: { name: fromName, email: fromEmail },
     to: process.env.ADMIN_EMAIL,
     subject: adminSubject,
-    html: adminTemplate(devis),
+    html: adminTemplate({ ...devis, monogram_b64: MONOGRAM_B64 }),
     attachments,
   });
   console.log(`Email admin envoyé — id:${devis.id}`);
