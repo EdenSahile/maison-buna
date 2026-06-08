@@ -26,6 +26,7 @@ const Shell = styled.div`
   }
 `;
 
+
 const FormArea = styled.main`
   padding: 48px 64px 80px;
   background: ${theme.formBg};

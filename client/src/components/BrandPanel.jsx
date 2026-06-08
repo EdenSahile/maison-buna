@@ -9,9 +9,9 @@ const Brand = styled.aside`
   color: ${theme.dark};
   border-right: 1px solid ${theme.line};
   position: sticky;
-  top: 0;
+  top: 35px;
   align-self: start;
-  height: 100vh;
+  height: calc(100vh - 35px);
   overflow-y: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -31,7 +31,7 @@ const BrandInner = styled.div`
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 36px;
+  padding: 24px 36px 36px;
 
   @media (max-width: 1024px) {
     padding: 24px 28px 20px;
@@ -141,7 +141,7 @@ const BrandHeadline = styled.h2`
   color: ${theme.dark};
   margin-bottom: 20px;
   letter-spacing: -0.5px;
-  margin-top: 32px;
+  margin-top: 5px;
 
   em {
     font-style: italic;
@@ -188,19 +188,24 @@ const Step = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 12px 0;
+  padding: 12px 4px;
   border-top: 1px solid ${theme.line};
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+  border-radius: 4px;
 
   &:last-child {
     border-bottom: 1px solid ${theme.line};
   }
 
+  &:hover {
+    background: rgba(79, 52, 34, 0.05);
+    padding-left: 8px;
+  }
+
   &:focus-visible {
     outline: 2px solid ${theme.accent};
     outline-offset: 4px;
-    border-radius: 4px;
   }
 `;
 
@@ -251,6 +256,9 @@ const PhotoWrap = styled.div`
 
 const PhotoImg = styled.img`
   width: 100%;
+  height: 254px;
+  object-fit: cover;
+  object-position: center 30%;
   display: block;
 `;
 
