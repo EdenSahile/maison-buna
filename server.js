@@ -25,6 +25,8 @@ app.use(express.json());
 app.use('/api/devis', devisLimiter);
 app.use('/api', devisRouter);
 
+app.use('/images', express.static(join(__dirname, 'public', 'images')));
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(join(__dirname, 'client', 'dist')));
   app.get('*', (req, res) => {
