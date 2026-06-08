@@ -108,7 +108,7 @@ const BrandBody = styled.div`
   padding-top: 36px;
 
   @media (max-width: 1024px) {
-    padding-top: 20px;
+    display: none;
   }
 `;
 
@@ -146,11 +146,6 @@ const BrandHeadline = styled.h2`
   em {
     font-style: italic;
     color: ${theme.accent};
-  }
-
-  @media (max-width: 1024px) {
-    font-size: 28px;
-    margin-bottom: 8px;
   }
 `;
 
