@@ -11,16 +11,16 @@
 | Composant | État |
 |-----------|------|
 | Serveur local (`npm run dev:all`) | ✅ opérationnel |
-| PDF Puppeteer (`npm run pdf:test`) | ✅ opérationnel (365 KB) |
-| Emails Brevo (`npm run mail:test`) | ✅ OK — client + admin envoyés |
+| PDF Puppeteer (`npm run pdf:test`) | ✅ 365 KB |
+| Emails Brevo (`npm run mail:test`) | ✅ envois OK — logo non résolu |
 | App React (`npm run dev:client`) | ✅ port 5173 |
-| Render (production) | ✅ sur `main` — `feat/email` pas encore mergée |
+| Render (production) | ✅ sur `main` — `feat/email` non pushée |
 
 ---
 
 ## Branche active
 
-`feat/email` — refonte templates email, 2 commits, non pushée
+`feat/email` — 4 commits, non pushée sur GitHub
 
 ---
 
@@ -32,33 +32,33 @@
 - [x] Migration confirmation page vers React (`SuccessView.jsx`)
 - [x] Script `dev:all` : Express + Vite en parallèle (concurrently)
 - [x] Fix 500 Render : `counter.json` absent + Puppeteer `--no-sandbox`
-- [x] Keep-alive Render (outil tiers — pas GitHub Actions)
+- [x] Keep-alive Render (outil tiers)
 - [x] Design v2 landing page : typographie, panneau éditorial, monogramme MB, stepper 4 étapes, photo cérémonie
 - [x] Refonte template PDF : Crimson Pro + Open Sans, monogramme, palette landing
-- [x] Refonte `email-client.html` : DM Sans + DM Serif Display, monogramme base64, card crème, récap CSS Grid, footer Instagram
+- [x] Refonte `email-client.html` : DM Sans + DM Serif Display, card crème, récap CSS Grid, footer Instagram
 - [x] Refonte `email-admin.html` : même charte, banner notification interne, sections coordonnées + commande
-- [x] Fix email : logo base64 inline (monogram-email.png 88×88), tagline block, SVG Instagram data URI
+- [x] Fix double bordure recap : `style="border-bottom:none;"` inline sur dernière row
 
 ---
 
 ## Tâches restantes
 
+- [ ] **BLOQUER** : logo monogramme non visible dans les emails (voir section Blocages)
+- [ ] Icône Instagram dans le footer non visible (même cause)
 - [ ] Pusher `feat/email` → remote + ouvrir PR → `main`
 - [ ] Reset compteur devis (`data/counter.json` → `{"counter":0}`) avant mise en prod
-- [ ] Valider visuellement les emails reçus (vérifier monogramme + Instagram + tagline)
 
 ---
 
 ## Notes techniques
 
-- `SMTP_PASS` dans `.env` = clé API Brevo `xkeysib-...`
+- `SMTP_PASS` dans `.env` = clé API Brevo `xkeysib-...` → **ne pas changer**
 - `ADMIN_EMAIL` dans `.env` = `edensahile28@gmail.com`
 - `SMTP_USER` = `edensahile28@gmail.com`
-- Port 3000 = API Express
-- Port 5173 = app React Vite (dev)
+- Port 3000 = API Express · Port 5173 = React Vite (dev)
 - Tuer ports : `lsof -ti:3000,5173,5174,5175,5176,5177,5178,5179,5180 | xargs kill -9`
 - Fondatrice : Mélissa Sahilé — Entrepreneur individuel, SIRET 999 382 484 00015
 - Render URL : https://maison-buna.onrender.com
-- Keep-alive : outil tiers (pas GitHub Actions, supprimé)
-- Numérotation devis : `MBE-YYYYMMDD-NNNNN` (entreprise) / `MBP-YYYYMMDD-NNNNN` (particulier) — compteur actuel : 31 (à remettre à 0 avant prod)
-- `public/images/monogram-email.png` : version 88×88 pour email (base64 inline via `mailService.js`)
+- Keep-alive : outil tiers (pas GitHub Actions)
+- Numérotation devis : compteur actuel 31 (à remettre à 0 avant prod)
+- `nodemailer` installé dans package.json mais **non utilisé** (tentative échouée — voir Blocages)
