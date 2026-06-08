@@ -38,6 +38,13 @@ async function sendViaSMTP({ from, to, subject, html, attachments, inlineImages 
   await transport.sendMail({ from: `${from.name} <${from.email}>`, to, subject, html, attachments: allAttachments });
 }
 
+function resolveImagesForREST(html) {
+  const base = (process.env.BASE_URL || 'https://maison-buna.onrender.com').replace(/\/$/, '');
+  return html
+    .replace(/cid:monogram-mb/g,   `${base}/images/monogram-email.png`)
+    .replace(/cid:instagram-icon/g, `${base}/images/instagram-icon.png`);
+}
+
 async function sendViaBrevoREST({ from, to, subject, html, attachments }) {
   const body = {
     sender:      { name: from.name, email: from.email },
@@ -93,7 +100,7 @@ export async function sendDevisEmails(devis, pdfBuffer) {
       await sendViaSMTP({ from, to, subject, html, attachments: pdfAttachments, inlineImages });
     } catch (err) {
       console.warn(`SMTP échoué (${err.message}) — bascule sur Brevo REST`);
-      await sendViaBrevoREST({ from, to, subject, html, attachments: pdfAttachments });
+      await sendViaBrevoREST({ from, to, subject, html: resolveImagesForREST(html), attachments: pdfAttachments });
     }
   }
 
