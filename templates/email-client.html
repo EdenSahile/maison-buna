@@ -62,11 +62,11 @@
     }
 
     .brand-name {
-      display: flex;
-      flex-direction: column;
+      display: block;
     }
 
     .brand-name strong {
+      display: block;
       font-family: 'DM Sans', Verdana, sans-serif;
       font-weight: 600;
       font-size: 14px;
@@ -76,6 +76,7 @@
     }
 
     .brand-name small {
+      display: block;
       font-size: 11px;
       color: #9C7E60;
       letter-spacing: 0.5px;
@@ -268,7 +269,7 @@
 
     <!-- Header -->
     <div class="email-header">
-      <div class="monogram"><img src="https://maison-buna.onrender.com/images/monogram-mb.png" alt="MB" width="44" height="44"></div>
+      <div class="monogram"><img src="data:image/png;base64,{{monogram_b64}}" alt="MB" width="44" height="44" style="border-radius:6px;display:block;"></div>
       <div class="brand-name">
         <strong>Maison Buna</strong>
         <small>Le berceau du café</small>
@@ -353,7 +354,7 @@
         <p class="footer-links">
           <a href="mailto:contact@maisonbuna.fr">contact@maisonbuna.fr</a>
           &nbsp;&nbsp;·&nbsp;&nbsp;
-          <a href="https://instagram.com/maisonbuna">@maisonbuna</a>
+          <a href="https://instagram.com/maisonbuna"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHJ4PSI1LjUiIHN0cm9rZT0iIzlDN0U2MCIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI0LjIiIHN0cm9rZT0iIzlDN0U2MCIgc3Ryb2tlLXdpZHRoPSIxLjgiLz48Y2lyY2xlIGN4PSIxNy41IiBjeT0iNi41IiByPSIxIiBmaWxsPSIjOUM3RTYwIi8+PC9zdmc+" width="13" height="13" alt="" style="vertical-align:middle;margin-right:4px;">&nbsp;@maisonbuna</a>
         </p>
       </div>
     </div>
