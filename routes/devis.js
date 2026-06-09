@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { saveDevis } from '../data/storage.js';
 import { generatePDF } from '../services/pdfService.js';
-import { sendDevisEmails } from '../services/mailService.js';
+import { sendDevisEmails, sendPdfFailureAlert } from '../services/mailService.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const counterPath = join(__dirname, '../data/counter.json');
@@ -180,7 +180,9 @@ router.post('/devis', async (req, res) => {
           }
         }
         if (!success) {
-          console.warn(`PDF échoué pour id:${devis.id} — emails envoyés sans pièce jointe`);
+          console.error(`PDF échoué id:${devis.id} — client non notifié, alerte admin envoyée`);
+          try { await sendPdfFailureAlert(devis); } catch {}
+          return;
         }
       }
       try {
