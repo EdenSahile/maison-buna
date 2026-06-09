@@ -180,8 +180,7 @@ router.post('/devis', async (req, res) => {
           }
         }
         if (!success) {
-          console.error(`Emails NON envoyés pour id:${devis.id} — PDF manquant après 3 tentatives`);
-          return;
+          console.warn(`PDF échoué pour id:${devis.id} — emails envoyés sans pièce jointe`);
         }
       }
       try {
