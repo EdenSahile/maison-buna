@@ -163,10 +163,25 @@ router.post('/devis', async (req, res) => {
     setImmediate(async () => {
       let pdfBuffer = null;
       if (!devis.sur_devis) {
-        try {
-          pdfBuffer = await generatePDF(devis);
-        } catch (err) {
-          console.error(`Erreur PDF id:${devis.id} :`, err.message);
+        const retryDelays = [0, 5000, 10000];
+        let success = false;
+        for (let i = 0; i < retryDelays.length; i++) {
+          if (retryDelays[i] > 0) await new Promise(r => setTimeout(r, retryDelays[i]));
+          try {
+            pdfBuffer = await generatePDF(devis);
+            success = true;
+            break;
+          } catch (err) {
+            if (i < retryDelays.length - 1) {
+              console.warn(`PDF tentative ${i + 1} échouée (${err.message}), nouvel essai…`);
+            } else {
+              console.error(`Erreur PDF id:${devis.id} — toutes les tentatives épuisées : ${err.message}`);
+            }
+          }
+        }
+        if (!success) {
+          console.error(`Emails NON envoyés pour id:${devis.id} — PDF manquant après 3 tentatives`);
+          return;
         }
       }
       try {

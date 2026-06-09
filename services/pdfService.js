@@ -29,7 +29,7 @@ export async function generatePDF(devis) {
   try {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: 'load', timeout: 60000 });
-    const pdf = await page.pdf({ format: 'A4', printBackground: true });
+    const pdf = await page.pdf({ format: 'A4', printBackground: true, timeout: 60000 });
     return pdf;
   } finally {
     await browser.close();
