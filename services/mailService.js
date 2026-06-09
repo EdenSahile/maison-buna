@@ -72,6 +72,26 @@ async function sendViaBrevoREST({ from, to, subject, html, attachments }) {
   }
 }
 
+export async function sendPdfFailureAlert(devis) {
+  const from = { name: 'Maison Buna', email: process.env.SMTP_USER };
+  const subject = `[ALERTE] PDF non généré — ${devis.devis_numero}`;
+  const html = `
+    <p>La génération du PDF a échoué après 3 tentatives pour le devis suivant :</p>
+    <ul>
+      <li><strong>Numéro :</strong> ${devis.devis_numero}</li>
+      <li><strong>Client :</strong> ${devis.prenom} ${devis.nom} (${devis.societe || 'Particulier'})</li>
+      <li><strong>Email client :</strong> ${devis.email}</li>
+      <li><strong>ID :</strong> ${devis.id}</li>
+    </ul>
+    <p>Le client n'a reçu aucun email. Veuillez relancer manuellement.</p>
+  `;
+  try {
+    await sendViaSMTP({ from, to: process.env.ADMIN_EMAIL, subject, html, attachments: [], inlineImages: [] });
+  } catch {
+    await sendViaBrevoREST({ from, to: process.env.ADMIN_EMAIL, subject, html, attachments: [] });
+  }
+}
+
 export async function sendDevisEmails(devis, pdfBuffer) {
   const from = { name: 'Maison Buna', email: process.env.SMTP_USER };
 
