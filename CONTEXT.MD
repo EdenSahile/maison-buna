@@ -64,16 +64,11 @@
 
 ## Notes techniques
 
-- `SMTP_PASS` = clé API Brevo REST (`xkeysib-...`) → ne pas changer
-- `BREVO_SMTP_USER` = `REDACTED_SMTP_USER`
-- `BREVO_SMTP_PASS` = `xsmtpsib-...`
-- `SMTP_USER` = `REDACTED_EMAIL` (expéditeur)
-- `ADMIN_EMAIL` = `REDACTED_EMAIL`
+- Credentials : voir `.env` uniquement — ne jamais écrire de valeurs réelles ici
 - Port 3000 = API Express · Port 5173 = React Vite (dev)
 - Tuer ports : `lsof -ti:3000,5173,5174,5175,5176,5177,5178,5179,5180 | xargs kill -9`
-- Fondatrice : Mélissa Sahilé — Entrepreneur individuel, SIRET 999 382 484 00015
 - Render URL : https://maison-buna.onrender.com
-- Keep-alive : outil tiers (pas GitHub Actions)
+- Keep-alive : UptimeRobot — https://stats.uptimerobot.com/SzyJuH3k1f
 - Compteur devis : en mémoire, initialisé depuis `COUNTER_SEED` env var (défaut 0)
 - Bandeau démo : hauteur ~35px → top de la sidebar = 35px, height = calc(100vh - 35px)
 - `nodemailer` installé et utilisé pour SMTP + CID
