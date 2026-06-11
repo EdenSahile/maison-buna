@@ -15,6 +15,8 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  max-width: 960px;
+  margin: 0 auto;
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
@@ -41,7 +43,7 @@ const Card = styled.div`
 const PhotoWrapper = styled.div`
   position: relative;
   overflow: hidden;
-  height: 240px;
+  aspect-ratio: 4 / 3;
 
   &:hover img {
     transform: scale(1.04);

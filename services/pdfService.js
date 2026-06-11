@@ -17,12 +17,19 @@ export async function generatePDF(devis) {
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--no-first-run',
+      '--no-zygote',
+    ],
   });
   try {
     const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'networkidle0', timeout: 15000 });
-    const pdf = await page.pdf({ format: 'A4', printBackground: true });
+    await page.setContent(html, { waitUntil: 'networkidle0', timeout: 30000 });
+    const pdf = await page.pdf({ format: 'A4', printBackground: true, timeout: 60000 });
     return pdf;
   } finally {
     await browser.close();

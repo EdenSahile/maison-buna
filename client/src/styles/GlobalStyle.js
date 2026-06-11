@@ -17,6 +17,10 @@ const GlobalStyle = createGlobalStyle`
     text-rendering: optimizeLegibility;
   }
 
+  @media (max-width: 1024px) {
+    input, textarea, select { font-size: 16px !important; }
+  }
+
   :focus-visible {
     outline: 2.5px solid ${theme.brown};
     outline-offset: 3px;

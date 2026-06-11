@@ -26,12 +26,13 @@ const Shell = styled.div`
   }
 `;
 
+
 const FormArea = styled.main`
   padding: 48px 64px 80px;
   background: ${theme.formBg};
 
   @media (max-width: 1024px) {
-    padding: 40px 28px 60px;
+    padding: 32px 28px 60px;
   }
   @media (max-width: 640px) {
     padding: 28px 18px 48px;

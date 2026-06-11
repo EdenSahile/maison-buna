@@ -5,24 +5,27 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { saveDevis } from '../data/storage.js';
 import { generatePDF } from '../services/pdfService.js';
-import { sendDevisEmails } from '../services/mailService.js';
+import { sendDevisEmails, sendPdfFailureAlert } from '../services/mailService.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const counterPath = join(__dirname, '../data/counter.json');
 
+let _counter = null;
+
 function nextDevisNumero(isParticulier) {
-  let data = { counter: 0 };
-  try {
-    data = JSON.parse(readFileSync(counterPath, 'utf8'));
-  } catch {
-    // fichier absent (ex: premier démarrage sur Render) — on part de 0
+  if (_counter === null) {
+    try {
+      _counter = JSON.parse(readFileSync(counterPath, 'utf8')).counter;
+    } catch {
+      _counter = parseInt(process.env.COUNTER_SEED || '0');
+    }
   }
-  data.counter += 1;
-  writeFileSync(counterPath, JSON.stringify(data));
+  _counter++;
+  try { writeFileSync(counterPath, JSON.stringify({ counter: _counter })); } catch {}
   const prefix = isParticulier ? 'MBP' : 'MBE';
   const now = new Date();
   const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
-  const seq = String(data.counter).padStart(5, '0');
+  const seq = String(_counter).padStart(5, '0');
   return `${prefix}-${date}-${seq}`;
 }
 
@@ -160,10 +163,26 @@ router.post('/devis', async (req, res) => {
     setImmediate(async () => {
       let pdfBuffer = null;
       if (!devis.sur_devis) {
-        try {
-          pdfBuffer = await generatePDF(devis);
-        } catch (err) {
-          console.error(`Erreur PDF id:${devis.id} :`, err.message);
+        const retryDelays = [0, 5000, 10000];
+        let success = false;
+        for (let i = 0; i < retryDelays.length; i++) {
+          if (retryDelays[i] > 0) await new Promise(r => setTimeout(r, retryDelays[i]));
+          try {
+            pdfBuffer = await generatePDF(devis);
+            success = true;
+            break;
+          } catch (err) {
+            if (i < retryDelays.length - 1) {
+              console.warn(`PDF tentative ${i + 1} échouée (${err.message}), nouvel essai…`);
+            } else {
+              console.error(`Erreur PDF id:${devis.id} — toutes les tentatives épuisées : ${err.message}`);
+            }
+          }
+        }
+        if (!success) {
+          console.error(`PDF échoué id:${devis.id} — client non notifié, alerte admin envoyée`);
+          try { await sendPdfFailureAlert(devis); } catch {}
+          return;
         }
       }
       try {

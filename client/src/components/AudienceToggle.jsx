@@ -21,6 +21,14 @@ const Toggle = styled.div`
   border-radius: 10px;
   overflow: hidden;
   background: ${theme.white};
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 const AudOpt = styled.button`
@@ -39,6 +47,15 @@ const AudOpt = styled.button`
 
   & + & {
     border-left: 1px solid ${theme.line};
+
+    @media (max-width: 640px) {
+      border-left: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    border: 1px solid ${theme.line};
+    border-radius: 10px;
   }
 
   &:hover {
