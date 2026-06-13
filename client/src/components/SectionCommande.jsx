@@ -41,7 +41,7 @@ const FieldLabel = styled.div`
 const QTE_OPTIONS = [
   { value: "250 g", label: "250 g" },
   { value: "500 g", label: "500 g" },
-  { value: "À estimer", label: "Sur mesure" },
+  { value: "Sur mesure", label: "Sur mesure" },
 ];
 
 const FREQUENCE = [
