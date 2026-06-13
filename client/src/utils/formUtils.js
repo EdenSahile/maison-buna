@@ -44,44 +44,6 @@ export function computeStepProgress(formData, audience) {
   ]
 }
 
-export function computeProgress(formData, audience) {
-  const isEnt = audience === 'entreprise'
-  let filled, total
-
-  if (isEnt) {
-    filled =
-      (formData.societe ? 1 : 0) +
-      (formData.collaborateurs ? 1 : 0) +
-      (formData.prenom ? 1 : 0) +
-      (formData.nom ? 1 : 0) +
-      (validateEmail(formData.email) ? 1 : 0) +
-      (formData.cafes?.length ? 1 : 0) +
-      (formData.cafes?.length && formData.cafes.every(c => formData.quantiteParCafe?.[c]) ? 1 : 0) +
-      (formData.frequence ? 0.5 : 0) +
-      (formData.secteur ? 0.3 : 0) +
-      (formData.telephone ? 0.3 : 0) +
-      (formData.ville ? 0.3 : 0) +
-      (formData.message ? 0.6 : 0)
-    total = 1+1+1+1+1+1+1+0.5+0.3+0.3+0.3+0.6
-  } else {
-    filled =
-      (formData.adresse ? 1 : 0) +
-      (validateCP(formData.codepostal) ? 1 : 0) +
-      (formData.ville ? 1 : 0) +
-      (formData.prenom ? 1 : 0) +
-      (formData.nom ? 1 : 0) +
-      (validateEmail(formData.email) ? 1 : 0) +
-      (formData.cafes?.length ? 1 : 0) +
-      (formData.cafes?.length && formData.cafes.every(c => formData.quantiteParCafe?.[c]) ? 1 : 0) +
-      (formData.frequence ? 0.5 : 0) +
-      (formData.telephone ? 0.3 : 0) +
-      (formData.message ? 0.6 : 0)
-    total = 1+1+1+1+1+1+1+1+0.5+0.3+0.6
-  }
-
-  return Math.min(100, Math.round((filled / total) * 100))
-}
-
 export function buildPayload(formData, audience) {
   const isEnt = audience === 'entreprise'
   return {

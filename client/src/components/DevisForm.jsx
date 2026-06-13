@@ -152,7 +152,7 @@ export default function DevisForm() {
       if (!res.ok)
         throw new Error("Erreur lors de l'envoi. Veuillez réessayer.");
       const hasSurDevis = formData.cafes.some(
-        (cafe) => formData.quantiteParCafe[cafe] === "À estimer",
+        (cafe) => formData.quantiteParCafe[cafe] === "Sur mesure",
       );
       setSurDevis(hasSurDevis);
       setSubmitted(true);

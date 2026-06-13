@@ -37,7 +37,7 @@ const devisTest = {
   ],
   grand_total_fmt: fmt(14.99),
   sur_devis: false,
-  is_particulier: false,
+  is_particulier: true,
 };
 
 const pdfBuffer = await generatePDF(devisTest);

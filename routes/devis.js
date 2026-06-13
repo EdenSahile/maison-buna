@@ -21,7 +21,11 @@ function nextDevisNumero(isParticulier) {
     }
   }
   _counter++;
-  try { writeFileSync(counterPath, JSON.stringify({ counter: _counter })); } catch {}
+  try {
+    writeFileSync(counterPath, JSON.stringify({ counter: _counter }));
+  } catch (err) {
+    console.error(`Compteur non persisté (${err.message}) — dérive possible entre mémoire et disque.`);
+  }
   const prefix = isParticulier ? 'MBP' : 'MBE';
   const now = new Date();
   const date = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;

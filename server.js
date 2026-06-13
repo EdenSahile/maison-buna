@@ -34,6 +34,17 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// Middleware d'erreur global — évite d'exposer la stack trace Express au client
+app.use((err, _req, res, next) => {
+  console.error('Erreur non gérée :', err);
+  if (res.headersSent) return next(err);
+  res.status(500).json({ error: 'Une erreur est survenue. Veuillez réessayer.' });
+});
+
+if (process.env.NODE_ENV === 'production' && !process.env.BASE_URL) {
+  console.warn('⚠️  BASE_URL non défini en production — les images des emails REST pointeront vers le fallback démo.');
+}
+
 app.listen(PORT, () => {
   console.log(`Maison Buna Devis — http://localhost:${PORT}`);
 });

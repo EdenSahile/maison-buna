@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validate, computeStepProgress, computeProgress, buildPayload } from './formUtils'
+import { validate, computeStepProgress, buildPayload } from './formUtils'
 
 const baseEnt = {
   societe: 'Acme', secteur: 'Tech / Startup', collaborateurs: '11 – 25',
@@ -73,18 +73,6 @@ describe('computeStepProgress', () => {
 
   it('retourne [true,true,true,true] si formulaire particulier complet', () => {
     expect(computeStepProgress(basePart, 'particulier')).toEqual([true, true, true, true])
-  })
-})
-
-describe('computeProgress', () => {
-  it('retourne 0 si rien n\'est rempli', () => {
-    const empty = { ...baseEnt, societe: '', collaborateurs: '', prenom: '', nom: '', email: '', cafes: [], quantiteParCafe: {}, ville: '', secteur: '' }
-    expect(computeProgress(empty, 'entreprise')).toBe(0)
-  })
-
-  it('retourne 100 si tout est rempli', () => {
-    const full = { ...baseEnt, frequence: 'Mensuelle', moutures: ['Grains entiers'], telephone: '0600000000', message: 'Hello' }
-    expect(computeProgress(full, 'entreprise')).toBe(100)
   })
 })
 
