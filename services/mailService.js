@@ -62,7 +62,7 @@ async function sendViaBrevoREST({ from, to, subject, html, attachments }) {
 
   const res = await fetch(BREVO_API, {
     method:  'POST',
-    headers: { 'accept': 'application/json', 'api-key': process.env.SMTP_PASS, 'content-type': 'application/json' },
+    headers: { 'accept': 'application/json', 'api-key': process.env.BREVO_API_KEY || process.env.SMTP_PASS, 'content-type': 'application/json' },
     body:    JSON.stringify(body),
   });
 
